@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>The Waiting Game - Do Nothing | DontWork.work</title>
+  <meta name="description" content="The ultimate meditation. Just wait. Do absolutely nothing. Achieve zen. Free procrastination game.">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Georgia', serif;
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      padding: 20px;
+    }
+    
+    .container {
+      text-align: center;
+      max-width: 600px;
+    }
+    
+    h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      margin-bottom: 20px;
+      font-weight: 300;
+      letter-spacing: 2px;
+    }
+    
+    .subtitle {
+      font-size: 1.3rem;
+      opacity: 0.8;
+      margin-bottom: 50px;
+      font-style: italic;
+    }
+    
+    .timer {
+      font-size: clamp(4rem, 12vw, 8rem);
+      font-weight: 200;
+      margin: 50px 0;
+      font-family: 'Courier New', monospace;
+      text-shadow: 0 0 20px rgba(255,255,255,0.3);
+    }
+    
+    .status {
+      font-size: 1.5rem;
+      margin: 30px 0;
+      opacity: 0.9;
+      min-height: 40px;
+      transition: all 0.5s;
+    }
+    
+    .btn {
+      padding: 20px 40px;
+      font-size: 1.3rem;
+      background: rgba(255,255,255,0.2);
+      border: 2px solid rgba(255,255,255,0.5);
+      color: white;
+      border-radius: 50px;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s;
+      font-weight: 300;
+      letter-spacing: 1px;
+      margin: 10px;
+    }
+    
+    .btn:hover {
+      background: rgba(255,255,255,0.3);
+      transform: scale(1.05);
+    }
+    
+    .btn-primary {
+      background: rgba(255,255,255,0.9);
+      color: #1e3c72;
+      border-color: white;
+    }
+    
+    .btn-primary:hover {
+      background: white;
+    }
+    
+    .zen-messages {
+      margin-top: 40px;
+      font-size: 1.1rem;
+      opacity: 0.7;
+      font-style: italic;
+      min-height: 30px;
+    }
+    
+    .stats {
+      margin-top: 40px;
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .stat {
+      background: rgba(255,255,255,0.15);
+      padding: 15px 25px;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.7;
+      margin-bottom: 5px;
+    }
+    
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 300;
+    }
+    
+    /* Share Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .modal.active {
+      display: flex;
+    }
+    
+    .share-card {
+      background: white;
+      color: #333;
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 500px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+    }
+    
+    .card-content {
+      font-family: 'Courier New', monospace;
+      white-space: pre-wrap;
+      background: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+      border: 2px solid #333;
+      margin: 20px 0;
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+    
+    .share-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    
+    .share-btn {
+      flex: 1;
+      min-width: 120px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.2s;
+    }
+    
+    .share-twitter {
+      background: #1DA1F2;
+      color: white;
+    }
+    
+    .share-copy {
+      background: #34495e;
+      color: white;
+    }
+    
+    .share-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    .collection-info {
+      text-align: center;
+      margin-top: 20px;
+      padding: 15px;
+      background: #e8f5e9;
+      border-radius: 8px;
+    }
+    
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+      color: #666;
+    }
+    
+    @media (max-width: 768px) {
+      .timer {
+        font-size: 3rem;
+      }
+      
+      .stats {
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="container">
+    <h1>The Waiting Game</h1>
+    <p class="subtitle">Do absolutely nothing. Achieve everything.</p>
+    
+    <div class="timer" id="timer">0:00</div>
+    
+    <div class="status" id="status">Press "Start Waiting" to begin</div>
+    
+    <div>
+      <button class="btn btn-primary" id="startBtn" onclick="startWaiting()">
+        Start Waiting
+      </button>
+      <button class="btn" id="stopBtn" onclick="stopWaiting()" style="display: none;">
+        Stop Waiting
+      </button>
+    </div>
+    
+    <div class="zen-messages" id="zenMessage"></div>
+    
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-label">Longest Wait</div>
+        <div class="stat-value" id="bestTime">0:00</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Total Waited</div>
+        <div class="stat-value" id="totalTime">0:00</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Share Modal -->
+  <div class="modal" id="shareModal">
+    <div class="share-card">
+      <button class="close-modal" onclick="closeModal()">×</button>
+      <h2 style="text-align: center; margin-bottom: 20px;">Your Achievement</h2>
+      
+      <div class="card-content" id="cardContent"></div>
+      
+      <div class="share-buttons">
+        <button class="share-btn share-twitter" onclick="shareTwitter()">
+          🐦 Share on Twitter
+        </button>
+        <button class="share-btn share-copy" onclick="copyLink()">
+          📋 Copy Link
+        </button>
+      </div>
+      
+      <div class="collection-info">
+        <div style="font-size: 1.5rem; margin: 10px 0;" id="collectionStars"></div>
+        <p><strong id="collectionCount">0/10</strong> Waiting Game cards collected</p>
+        <p style="font-size: 0.9rem; color: #666; margin-top: 10px;">
+          Wait again to unlock more cards!
+        </p>
+      </div>
+      
+      <div style="text-align: center; margin-top: 20px;">
+        <button class="btn btn-primary" onclick="closeModalAndReset()">
+          🧘 Wait Again
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    let startTime = null;
+    let timerInterval = null;
+    let elapsedSeconds = 0;
+    let isWaiting = false;
+    
+    const ZEN_MESSAGES = [
+      "Breathe...",
+      "You're doing great",
+      "This is your time",
+      "Nothing to do. Nowhere to be.",
+      "Just... wait",
+      "Embrace the void",
+      "Time is an illusion anyway",
+      "Your todo list can wait",
+      "This is productive, actually",
+      "Zen level: Rising",
+      "The universe approves",
+      "Still waiting? Perfect.",
+      "You're a natural",
+      "This is meditation",
+      "Keep not doing anything"
+    ];
+    
+    const CARDS = [
+      {
+        id: 'wait-zen',
+        content: `┌─────────────────────────────────────┐
+│ 🧘 ZEN MASTER CERTIFICATION 🧘      │
+│                                     │
+│      SCHOOL OF DOING NOTHING        │
+│                                     │
+│ This certifies that YOU have        │
+│ achieved enlightenment through:     │
+│                                     │
+│    WAITING FOR ABSOLUTELY NO REASON │
+│                                     │
+│ Duration: {TIME}                    │
+│ Purpose: None                       │
+│ Outcome: Perfect                    │
+│                                     │
+│ MASTERY DEMONSTRATED:               │
+│ ✓ Resisted urge to be productive    │
+│ ✓ Ignored todo list completely      │
+│ ✓ Achieved state of pure nothing    │
+│ ✓ Phone didn't even tempt you       │
+│                                     │
+│ ENLIGHTENMENT LEVEL: Maximum        │
+│                                     │
+│ You are now a Waiting Master.       │
+│ Namaste. 🙏                         │
+│                                     │
+│ dontwork.work/games/waiting-game    │
+└─────────────────────────────────────┘`,
+        shareText: "I achieved zen by waiting for {TIME}. Purpose: None. Enlightenment: Maximum. 🧘"
+      },
+      {
+        id: 'wait-autopsy',
+        content: `┌─────────────────────────────────────┐
+│ PRODUCTIVITY AUTOPSY REPORT         │
+│ Case #: WAIT-2026-047               │
+│ ─────────────────────────────────── │
+│                                     │
+│ DECEASED: Your Productivity         │
+│ TIME OF DEATH: Now                  │
+│ DURATION: {TIME}                    │
+│                                     │
+│ CAUSE OF DEATH:                     │
+│ Intentional waiting. Premeditated.  │
+│                                     │
+│ AUTOPSY FINDINGS:                   │
+│ • No tasks were completed           │
+│ • No emails were sent               │
+│ • No meetings were attended         │
+│ • No work occurred whatsoever       │
+│                                     │
+│ MANNER OF DEATH: Peaceful           │
+│                                     │
+│ CORONER'S CONCLUSION:               │
+│ Best {TIME} of their workday.       │
+│                                     │
+│ Case closed. RIP Productivity.      │
+│                                     │
+│ dontwork.work/games/waiting-game    │
+└─────────────────────────────────────┘`,
+        shareText: "RIP My Productivity. Cause of death: Waited for {TIME} doing absolutely nothing. 💀"
+      },
+      {
+        id: 'wait-invoice',
+        content: `┌─────────────────────────────────────┐
+│ INVOICE #WAIT-4729                  │
+│ Bill To: Your Employer              │
+│ ─────────────────────────────────── │
+│                                     │
+│ SERVICES RENDERED:                  │
+│                                     │
+│ Item: Professional Waiting          │
+│ Duration: {TIME}                    │
+│ Rate: $85/hour                      │
+│                                     │
+│ Description of Work:                │
+│ • Sat quietly                       │
+│ • Thought about nothing             │
+│ • Resisted productivity             │
+│ • Achieved zen state                │
+│                                     │
+│ PAYMENT TERMS: Net 30 days          │
+│ (Or whenever, we're not in a hurry) │
+│                                     │
+│ NOTES:                              │
+│ This is the most honest timesheet   │
+│ you've ever submitted.              │
+│                                     │
+│ dontwork.work/games/waiting-game    │
+└─────────────────────────────────────┘`,
+        shareText: "Just invoiced my employer for {TIME} of professional waiting. Most honest timesheet ever. 💼"
+      },
+      {
+        id: 'wait-study',
+        content: `┌─────────────────────────────────────┐
+│ JOURNAL OF DOING NOTHING            │
+│ Peer-Reviewed Study                 │
+│ ─────────────────────────────────── │
+│                                     │
+│ TITLE: "Therapeutic Effects of      │
+│        Waiting Without Purpose"     │
+│                                     │
+│ METHODOLOGY:                        │
+│ Subject sat still for {TIME}        │
+│ doing absolutely nothing.           │
+│                                     │
+│ MEASUREMENTS:                       │
+│ • Stress levels: ↓ 94%              │
+│ • Anxiety: ↓ 87%                    │
+│ • Productivity: ↓ 100%              │
+│ • Happiness: ↑ 156%                 │
+│                                     │
+│ CONCLUSION:                         │
+│ Doing nothing is scientifically     │
+│ superior to doing anything else.    │
+│                                     │
+│ Doctor's orders: Continue daily.    │
+│                                     │
+│ dontwork.work/games/waiting-game    │
+└─────────────────────────────────────┘`,
+        shareText: "Scientific study: Waited for {TIME}. Happiness: ↑156%. Productivity: ↓100%. Doing nothing works. 🔬"
+      },
+      {
+        id: 'wait-app',
+        content: `┌─────────────────────────────────────┐
+│ MEDITATION APP COMPARISON           │
+│ ─────────────────────────────────── │
+│                                     │
+│ Headspace: $12.99/month             │
+│ Calm: $14.99/month                  │
+│                                     │
+│ DontWork.work: FREE                 │
+│ • Literally just waiting            │
+│ • No guidance needed                │
+│ • You did it for {TIME}             │
+│                                     │
+│ SAVINGS ANALYSIS:                   │
+│ Annual cost: $0                     │
+│ Peace achieved: Priceless           │
+│ ROI: Infinite                       │
+│                                     │
+│ WINNER: You (obviously)             │
+│                                     │
+│ Congratulations on choosing the     │
+│ free option that actually works.    │
+│                                     │
+│ dontwork.work/games/waiting-game    │
+└─────────────────────────────────────┘`,
+        shareText: "Meditation apps: $15/month. Waiting on dontwork.work: Free. Waited {TIME}. Priceless. 🆓"
+      },
+      {
+        id: 'wait-degree',
+        content: `┌─────────────────────────────────────┐
+│ 📚 BACHELOR OF WAITING STUDIES 📚   │
+│                                     │
+│      UNIVERSITY OF PROCRASTINATION  │
+│                                     │
+│ Major: Waiting Without Purpose      │
+│                                     │
+│ THESIS:                             │
+│ "Why Wait? Because I Can:           │
+│  A {TIME} Exploration"              │
+│                                     │
+│ COURSEWORK COMPLETED:               │
+│ ✓ WAIT 101: Introduction to Sitting │
+│ ✓ WAIT 201: Intermediate Staring    │
+│ ✓ WAIT 301: Advanced Nothing        │
+│ ✓ WAIT 401: Philosophy of Time      │
+│                                     │
+│ GPA: 4.0 (Perfect Slacker)          │
+│                                     │
+│ COMMENCEMENT: Eventually.           │
+│                                     │
+│ dontwork.work/games/waiting-game    │
+└─────────────────────────────────────┘`,
+        shareText: "Earned my Bachelor's in Waiting Studies. Thesis: {TIME} of pure nothing. GPA: 4.0 🎓"
+      },
+      {
+        id: 'wait-wellness',
+        content: `┌─────────────────────────────────────┐
+│ EMPLOYEE WELLNESS PROGRAM UPDATE    │
+│ ─────────────────────────────────── │
+│                                     │
+│ NEW INITIATIVE: Mandatory Wait Time │
+│                                     │
+│ Employee demonstrated that {TIME}   │
+│ of doing absolutely nothing         │
+│ improved mental health by 94%.      │
+│                                     │
+│ POLICY CHANGE:                      │
+│ All employees must take daily       │
+│ "Wait Breaks" where they:           │
+│ • Do nothing                        │
+│ • Think about nothing               │
+│ • Accomplish nothing                │
+│                                     │
+│ EXPECTED OUTCOMES:                  │
+│ • Burnout: ↓ 87%                    │
+│ • Employee happiness: ↑ ∞           │
+│                                     │
+│ You pioneered this. Thank you.      │
+│                                     │
+│ dontwork.work/games/waiting-game    │
+└─────────────────────────────────────┘`,
+        shareText: "Pioneered new wellness initiative: Mandatory {TIME} wait breaks. Burnout: ↓87%. You're welcome. 🏥"
+      },
+      {
+        id: 'wait-time',
+        content: `┌─────────────────────────────────────┐
+│ TIME TRAVEL EXPERIMENT LOG          │
+│ ─────────────────────────────────── │
+│                                     │
+│ EXPERIMENT: Can waiting make time   │
+│             feel like it stops?     │
+│                                     │
+│ DURATION: {TIME}                    │
+│                                     │
+│ SUBJECT REPORT:                     │
+│ "Felt like an eternity. Also felt   │
+│  like no time at all."              │
+│                                     │
+│ FINDINGS:                           │
+│ • Time is relative                  │
+│ • Waiting warps perception          │
+│ • Subject achieved temporal zen     │
+│                                     │
+│ CONCLUSION:                         │
+│ You didn't travel through time.     │
+│ You just stopped caring about it.   │
+│                                     │
+│ dontwork.work/games/waiting-game    │
+└─────────────────────────────────────┘`,
+        shareText: "Waited {TIME}. Time felt both infinite and instant. Achieved temporal zen. Physics confused. ⏰"
+      },
+      {
+        id: 'wait-god',
+        content: `┌─────────────────────────────────────┐
+│ 🏆 LEGENDARY ACHIEVEMENT 🏆         │
+│                                     │
+│         PATIENCE GOD UNLOCKED       │
+│                                     │
+│ You have transcended mortal waiting │
+│ and achieved divine patience.       │
+│                                     │
+│ PROOF OF DIVINITY:                  │
+│ • Waited for {TIME}                 │
+│ • For absolutely no reason          │
+│ • Without checking phone            │
+│ • Without questioning life          │
+│                                     │
+│ GODLY POWERS GRANTED:               │
+│ ✓ Immunity to FOMO                  │
+│ ✓ Perfect zen on command            │
+│ ✓ Ability to wait indefinitely      │
+│                                     │
+│ Only 0.001% of humans can wait      │
+│ this long without purpose.          │
+│                                     │
+│ All hail the Waiting God.           │
+│                                     │
+│ dontwork.work/games/waiting-game    │
+└─────────────────────────────────────┘`,
+        shareText: "LEGENDARY ACHIEVEMENT: Patience God 👑\n\nWaited {TIME} for no reason. Top 0.001% of humans."
+      },
+      {
+        id: 'wait-exit',
+        content: `┌─────────────────────────────────────┐
+│ EXIT INTERVIEW - HR DEPARTMENT      │
+│ ─────────────────────────────────── │
+│                                     │
+│ REASON FOR LEAVING:                 │
+│ ☑ Pursuing full-time waiting career │
+│                                     │
+│ WHAT DID YOU ENJOY MOST?            │
+│ "The {TIME} I spent waiting and     │
+│  doing nothing. Peak satisfaction." │
+│                                     │
+│ WHAT COULD WE IMPROVE?              │
+│ "More waiting. Less everything else"│
+│                                     │
+│ PLANS AFTER LEAVING:                │
+│ "I'm going to wait.                 │
+│  Professionally.                    │
+│  For the rest of my life."          │
+│                                     │
+│ HR NOTES: Tried to counter-offer.   │
+│ They just sat there. Waiting.       │
+│ It was beautiful. We let them go.   │
+│                                     │
+│ dontwork.work/games/waiting-game    │
+└─────────────────────────────────────┘`,
+        shareText: "Quitting to pursue professional waiting full-time. Waited {TIME}. No regrets. Peak performance. 🚀"
+      }
+    ];
+    
+    function startWaiting() {
+      startTime = Date.now();
+      isWaiting = true;
+      
+      document.getElementById('startBtn').style.display = 'none';
+      document.getElementById('stopBtn').style.display = 'inline-block';
+      document.getElementById('status').textContent = 'Waiting...';
+      
+      timerInterval = setInterval(updateTimer, 1000);
+      
+      // Random zen messages
+      setInterval(() => {
+        if (isWaiting) {
+          const msg = ZEN_MESSAGES[Math.floor(Math.random() * ZEN_MESSAGES.length)];
+          document.getElementById('zenMessage').textContent = msg;
+        }
+      }, 5000);
+    }
+    
+    function updateTimer() {
+      if (!startTime) return;
+      
+      elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+      const minutes = Math.floor(elapsedSeconds / 60);
+      const seconds = elapsedSeconds % 60;
+      
+      document.getElementById('timer').textContent = 
+        `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    }
+    
+    function stopWaiting() {
+      if (!startTime) return;
+      
+      isWaiting = false;
+      clearInterval(timerInterval);
+      
+      // Update stats
+      updateStats();
+      
+      // Show share card
+      setTimeout(() => showShareCard(), 500);
+      
+      // Reset UI
+      document.getElementById('startBtn').style.display = 'inline-block';
+      document.getElementById('stopBtn').style.display = 'none';
+      document.getElementById('status').textContent = 'Achievement unlocked!';
+      document.getElementById('zenMessage').textContent = '';
+    }
+    
+    function updateStats() {
+      // Best time
+      const best = parseInt(localStorage.getItem('waitingGameBest') || '0');
+      if (elapsedSeconds > best) {
+        localStorage.setItem('waitingGameBest', elapsedSeconds);
+      }
+      
+      // Total time
+      const total = parseInt(localStorage.getItem('waitingGameTotal') || '0');
+      localStorage.setItem('waitingGameTotal', total + elapsedSeconds);
+      
+      loadStats();
+    }
+    
+    function loadStats() {
+      const best = parseInt(localStorage.getItem('waitingGameBest') || '0');
+      const total = parseInt(localStorage.getItem('waitingGameTotal') || '0');
+      
+      document.getElementById('bestTime').textContent = formatTime(best);
+      document.getElementById('totalTime').textContent = formatTime(total);
+    }
+    
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+    
+    function showShareCard() {
+      const card = selectRandomCard();
+      displayCard(card);
+      updateCollectionTracker(card.id);
+      document.getElementById('shareModal').classList.add('active');
+    }
+    
+    function selectRandomCard() {
+      const seenCards = JSON.parse(localStorage.getItem('seenWaitingCards') || '[]');
+      const unseenCards = CARDS.filter(c => !seenCards.includes(c.id));
+      
+      const pool = (Math.random() < 0.7 && unseenCards.length > 0) ? unseenCards : CARDS;
+      const card = pool[Math.floor(Math.random() * pool.length)];
+      
+      if (!seenCards.includes(card.id)) {
+        seenCards.push(card.id);
+        localStorage.setItem('seenWaitingCards', JSON.stringify(seenCards));
+      }
+      
+      return card;
+    }
+    
+    function displayCard(card) {
+      const timeStr = formatTime(elapsedSeconds);
+      const content = card.content.replace(/\{TIME\}/g, timeStr);
+      
+      document.getElementById('cardContent').textContent = content;
+      window.currentCard = card;
+      window.currentTime = timeStr;
+    }
+    
+    function updateCollectionTracker() {
+      const seenCards = JSON.parse(localStorage.getItem('seenWaitingCards') || '[]');
+      const stars = seenCards.map(() => '⭐').join('') + 
+                    Array(CARDS.length - seenCards.length).fill('⬜').join('');
+      
+      document.getElementById('collectionStars').textContent = stars;
+      document.getElementById('collectionCount').textContent = 
+        `${seenCards.length}/${CARDS.length}`;
+    }
+    
+    function shareTwitter() {
+      const text = window.currentCard.shareText.replace(/\{TIME\}/g, window.currentTime);
+      const url = `https://dontwork.work/games/waiting-game?time=${elapsedSeconds}`;
+      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+      window.open(twitterUrl, '_blank');
+    }
+    
+    function copyLink() {
+      const url = `https://dontwork.work/games/waiting-game?time=${elapsedSeconds}`;
+      navigator.clipboard.writeText(url).then(() => alert('Link copied! 📋'));
+    }
+    
+    function closeModal() {
+      document.getElementById('shareModal').classList.remove('active');
+    }
+    
+    function closeModalAndReset() {
+      closeModal();
+      startTime = null;
+      elapsedSeconds = 0;
+      document.getElementById('timer').textContent = '0:00';
+      document.getElementById('status').textContent = 'Press "Start Waiting" to begin';
+    }
+    
+    // Initialize
+    loadStats();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>Bubble Wrap Popper - Pop Virtual Bubbles | DontWork.work</title>
+  <meta name="description" content="Pop infinite virtual bubble wrap instead of working. Satisfying sounds, endless fun, zero productivity. Free procrastination game.">
+  <meta name="keywords" content="bubble wrap, pop bubbles, stress relief, procrastination game, time waster">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Bubble Wrap Popper - I popped 847 bubbles instead of working">
+  <meta property="og:description" content="Therapy: $200/hr. Virtual bubble wrap: Free.">
+  <meta property="og:url" content="https://dontwork.work/games/bubble-wrap/">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+    
+    .header {
+      text-align: center;
+      color: white;
+      margin-bottom: 30px;
+    }
+    
+    .header h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+    
+    .stats {
+      display: flex;
+      gap: 30px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .stat {
+      background: rgba(255,255,255,0.2);
+      padding: 15px 25px;
+      border-radius: 10px;
+      backdrop-filter: blur(10px);
+      color: white;
+      text-align: center;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-bottom: 5px;
+    }
+    
+    .stat-value {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+    
+    .bubble-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, 60px);
+      gap: 8px;
+      background: rgba(255,255,255,0.1);
+      padding: 20px;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .bubble {
+      width: 60px;
+      height: 60px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(200,220,255,0.4));
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.1s;
+      box-shadow: 
+        inset -2px -2px 4px rgba(0,0,0,0.1),
+        2px 2px 4px rgba(0,0,0,0.2);
+      position: relative;
+    }
+    
+    .bubble:hover:not(.popped) {
+      transform: scale(1.05);
+    }
+    
+    .bubble:active:not(.popped) {
+      transform: scale(0.95);
+    }
+    
+    .bubble.popped {
+      background: rgba(100,100,100,0.2);
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+      cursor: default;
+      animation: pop 0.3s ease-out;
+    }
+    
+    @keyframes pop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.3); opacity: 0.5; }
+      100% { transform: scale(0.9); opacity: 1; }
+    }
+    
+    .controls {
+      margin-top: 30px;
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      padding: 15px 30px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+    
+    .btn-primary {
+      background: #4CAF50;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: #45a049;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(0,0,0,0.3);
+    }
+    
+    .btn-secondary {
+      background: rgba(255,255,255,0.9);
+      color: #667eea;
+    }
+    
+    .btn-secondary:hover {
+      background: white;
+      transform: translateY(-2px);
+    }
+    
+    /* Share Card Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .modal.active {
+      display: flex;
+    }
+    
+    .share-card {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 500px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    
+    .card-content {
+      font-family: 'Courier New', monospace;
+      white-space: pre-wrap;
+      background: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+      border: 2px solid #333;
+      margin: 20px 0;
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+    
+    .share-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    
+    .share-btn {
+      flex: 1;
+      min-width: 120px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+    }
+    
+    .share-twitter {
+      background: #1DA1F2;
+      color: white;
+    }
+    
+    .share-copy {
+      background: #34495e;
+      color: white;
+    }
+    
+    .share-download {
+      background: #9b59b6;
+      color: white;
+    }
+    
+    .share-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    .collection-info {
+      text-align: center;
+      margin-top: 20px;
+      padding: 15px;
+      background: #e8f5e9;
+      border-radius: 8px;
+    }
+    
+    .collection-stars {
+      font-size: 1.5rem;
+      margin: 10px 0;
+    }
+    
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+      color: #666;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.2s;
+    }
+    
+    .close-modal:hover {
+      background: #f0f0f0;
+      color: #333;
+    }
+    
+    @media (max-width: 768px) {
+      .bubble-grid {
+        grid-template-columns: repeat(auto-fill, 50px);
+        gap: 6px;
+        padding: 15px;
+      }
+      
+      .bubble {
+        width: 50px;
+        height: 50px;
+      }
+      
+      .stats {
+        gap: 15px;
+      }
+      
+      .stat {
+        padding: 10px 15px;
+      }
+      
+      .stat-value {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="header">
+    <h1>🫧 Bubble Wrap Popper</h1>
+    <p>Pop them all. You know you want to.</p>
+  </div>
+  
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-label">Popped</div>
+      <div class="stat-value" id="popCount">0</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Time Wasted</div>
+      <div class="stat-value" id="timeWasted">0:00</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">High Score</div>
+      <div class="stat-value" id="highScore">0</div>
+    </div>
+  </div>
+  
+  <div class="bubble-grid" id="bubbleGrid"></div>
+  
+  <div class="controls">
+    <button class="btn btn-primary" onclick="resetBubbles()">🔄 Reset All Bubbles</button>
+    <button class="btn btn-secondary" onclick="showShareCard()">📤 Share Your Score</button>
+    <button class="btn btn-secondary" onclick="toggleSound()">🔊 <span id="soundStatus">Sound: ON</span></button>
+  </div>
+  
+  <!-- Share Card Modal -->
+  <div class="modal" id="shareModal">
+    <div class="share-card">
+      <button class="close-modal" onclick="closeModal()">×</button>
+      <h2 style="text-align: center; margin-bottom: 20px;">Your Results</h2>
+      
+      <div class="card-content" id="cardContent"></div>
+      
+      <div class="share-buttons">
+        <button class="share-btn share-twitter" onclick="shareTwitter()">
+          🐦 Share on Twitter
+        </button>
+        <button class="share-btn share-copy" onclick="copyLink()">
+          📋 Copy Link
+        </button>
+        <button class="share-btn share-download" onclick="downloadCard()">
+          📸 Download Card
+        </button>
+      </div>
+      
+      <div class="collection-info">
+        <div class="collection-stars" id="collectionStars"></div>
+        <p><strong id="collectionCount">0/10</strong> Bubble Wrap cards collected</p>
+        <p style="font-size: 0.9rem; color: #666; margin-top: 10px;">
+          Play again to unlock more cards!
+        </p>
+      </div>
+      
+      <div style="text-align: center; margin-top: 20px;">
+        <button class="btn btn-primary" onclick="closeModalAndReset()">
+          🔄 Play Again
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Game State
+    let popCount = 0;
+    let startTime = Date.now();
+    let timerInterval = null;
+    let soundEnabled = true;
+    
+    // Card Data (10 unique cards)
+    const CARDS = [
+      {
+        id: 'bw-memo',
+        title: 'Inter-Office Memo',
+        content: `┌─────────────────────────────────────┐
+│ DONTWORK INDUSTRIES                 │
+│ INTER-OFFICE MEMORANDUM             │
+│ ─────────────────────────────────── │
+│ TO:      All Staff                  │
+│ FROM:    Management                 │
+│ RE:      Bubble Wrap Usage          │
+│ DATE:    Today                      │
+│                                     │
+│ It has come to our attention that   │
+│ Employee #4729 has popped {POPS}    │
+│ virtual bubbles during work hours.  │
+│                                     │
+│ After careful consideration, we     │
+│ have decided this is an acceptable  │
+│ use of company time.                │
+│                                     │
+│ Carry on.                           │
+│                                     │
+│ dontwork.work/games/bubble-wrap     │
+└─────────────────────────────────────┘`,
+        shareText: "Just got a memo from management about my bubble-popping habits. They... approved it? 😂"
+      },
+      {
+        id: 'bw-review',
+        title: 'Performance Review',
+        content: `┌─────────────────────────────────────┐
+│ ANNUAL PERFORMANCE REVIEW           │
+│ Employee: You                       │
+│ Department: Procrastination         │
+│ ─────────────────────────────────── │
+│                                     │
+│ BUBBLE POPPING:           A+        │
+│ ({POPS} pops - exceeds expectations)│
+│                                     │
+│ TIME MANAGEMENT:          F         │
+│ ({TIME} completely wasted)          │
+│                                     │
+│ WORK ETHIC:               D-        │
+│ (What work?)                        │
+│                                     │
+│ OVERALL RATING: ⭐⭐⭐⭐⭐            │
+│ You're exactly who we hired.        │
+│                                     │
+│ dontwork.work/games/bubble-wrap     │
+└─────────────────────────────────────┘`,
+        shareText: "My annual review just came in:\n\nBubble Popping: A+\nWork Ethic: F\nOverall: ⭐⭐⭐⭐⭐\n\nI'll take it."
+      },
+      {
+        id: 'bw-email',
+        title: 'Email from Boss',
+        content: `┌─────────────────────────────────────┐
+│ From: boss@company.com              │
+│ To: you@company.com                 │
+│ Subject: Noticed something...       │
+│ ─────────────────────────────────── │
+│                                     │
+│ Hey,                                │
+│                                     │
+│ I saw you spent {TIME} popping      │
+│ {POPS} virtual bubbles today.       │
+│                                     │
+│ Two things:                         │
+│                                     │
+│ 1. That's actually impressive       │
+│ 2. Can you send me the link?        │
+│                                     │
+│ Thanks,                             │
+│ Boss                                │
+│                                     │
+│ dontwork.work/games/bubble-wrap     │
+│                                     │
+│ P.S. This conversation never        │
+│ happened.                           │
+└─────────────────────────────────────┘`,
+        shareText: "Boss caught me popping {POPS} virtual bubbles. Response: \"Can you send me the link?\" 💼"
+      },
+      {
+        id: 'bw-hr',
+        title: 'HR Warning',
+        content: `┌─────────────────────────────────────┐
+│ ⚠️  HUMAN RESOURCES NOTICE          │
+│ ─────────────────────────────────── │
+│ Employee ID: #4729                  │
+│ Violation: Excessive Fun            │
+│                                     │
+│ INCIDENT REPORT:                    │
+│ Employee was observed having a      │
+│ good time during work hours by      │
+│ popping {POPS} virtual bubbles.     │
+│                                     │
+│ DISCIPLINARY ACTION:                │
+│ None. We're actually jealous.       │
+│                                     │
+│ RECOMMENDATION:                     │
+│ Share link with HR department.      │
+│                                     │
+│ dontwork.work/games/bubble-wrap     │
+│                                     │
+│ This is now part of your permanent  │
+│ record as "Pretty Cool Actually"    │
+└─────────────────────────────────────┘`,
+        shareText: "HR sent me a warning for 'excessive fun' at work.\n\nDisciplinary action: None. They're jealous. 😎"
+      },
+      {
+        id: 'bw-certificate',
+        title: 'Achievement Certificate',
+        content: `┌─────────────────────────────────────┐
+│        🏆 CERTIFICATE 🏆            │
+│                                     │
+│      OF OUTSTANDING ACHIEVEMENT     │
+│             IN THE FIELD OF         │
+│        PROFESSIONAL PROCRASTINATION │
+│                                     │
+│ This certifies that                 │
+│                                     │
+│            [YOUR NAME]              │
+│                                     │
+│ has successfully wasted {TIME}      │
+│ by popping {POPS} virtual bubbles   │
+│                                     │
+│ Awarded this day for dedication to  │
+│ doing absolutely nothing productive │
+│                                     │
+│ ________________   ________________ │
+│ Chief Slacker      Chief Bubble     │
+│   Officer          Enthusiast       │
+│                                     │
+│ dontwork.work/games/bubble-wrap     │
+└─────────────────────────────────────┘`,
+        shareText: "Achievement Unlocked: Professional Procrastinator 🏆\n\n{POPS} bubbles popped in {TIME}. No regrets."
+      },
+      {
+        id: 'bw-productivity',
+        title: 'Productivity Report',
+        content: `┌─────────────────────────────────────┐
+│ Q4 PRODUCTIVITY ANALYTICS REPORT    │
+│ ─────────────────────────────────── │
+│                                     │
+│ EMPLOYEE PRODUCTIVITY BREAKDOWN:    │
+│                                     │
+│ ████████████░░░░░░░░ 60% Bubbles    │
+│ ██░░░░░░░░░░░░░░░░░░ 10% Coffee     │
+│ ███░░░░░░░░░░░░░░░░░ 15% Meetings   │
+│ ███░░░░░░░░░░░░░░░░░ 15% Staring    │
+│ ░░░░░░░░░░░░░░░░░░░░  0% Work       │
+│                                     │
+│ KEY INSIGHTS:                       │
+│ • {POPS} bubbles popped             │
+│ • {TIME} invested in self-care      │
+│ • 0 actual tasks completed          │
+│                                     │
+│ CONCLUSION: Crushing it! 📈         │
+│                                     │
+│ dontwork.work/games/bubble-wrap     │
+└─────────────────────────────────────┘`,
+        shareText: "My productivity breakdown:\n\n60% Bubbles\n10% Coffee\n15% Meetings\n15% Staring\n0% Work\n\nCrushing it! 📈"
+      },
+      {
+        id: 'bw-meeting',
+        title: 'Meeting Minutes',
+        content: `┌─────────────────────────────────────┐
+│ MEETING MINUTES                     │
+│ Date: Today                         │
+│ Attendees: You, {POPS} Bubbles      │
+│ Duration: {TIME}                    │
+│ ─────────────────────────────────── │
+│                                     │
+│ AGENDA:                             │
+│ 1. Pop bubbles                      │
+│ 2. Continue popping bubbles         │
+│ 3. Don't stop popping bubbles       │
+│                                     │
+│ DISCUSSION POINTS:                  │
+│ • Bubble #1-200: Very satisfying    │
+│ • Bubble #201-500: Still good       │
+│ • Bubble #501+: Why stop now?       │
+│                                     │
+│ ACTION ITEMS:                       │
+│ ☐ None                              │
+│                                     │
+│ NEXT MEETING:                       │
+│ Immediately (play again)            │
+│                                     │
+│ dontwork.work/games/bubble-wrap     │
+└─────────────────────────────────────┘`,
+        shareText: "Just finished a {TIME} meeting with {POPS} bubbles.\n\nAction items: None.\nNext meeting: Immediately."
+      },
+      {
+        id: 'bw-jargon',
+        title: 'Corporate Jargon',
+        content: `┌─────────────────────────────────────┐
+│ 🎯 SYNERGY ACHIEVEMENT UNLOCKED     │
+│ ─────────────────────────────────── │
+│                                     │
+│ You've successfully leveraged       │
+│ best-in-class bubble-popping        │
+│ methodologies to optimize your      │
+│ procrastination ROI.                │
+│                                     │
+│ KEY PERFORMANCE INDICATORS:         │
+│ • {POPS} deliverables shipped       │
+│ • {TIME} of deep work               │
+│ • 100% stakeholder satisfaction     │
+│ • Zero value added (intentionally)  │
+│                                     │
+│ This mission-critical initiative    │
+│ has disrupted the productivity      │
+│ space and created a paradigm shift  │
+│ in time-wasting innovation.         │
+│                                     │
+│ Let's circle back on this at the    │
+│ next standup.                       │
+│                                     │
+│ dontwork.work/games/bubble-wrap     │
+└─────────────────────────────────────┘`,
+        shareText: "Leveraged best-in-class bubble-popping methodologies to optimize procrastination ROI.\n\n{POPS} deliverables shipped. 🎯"
+      },
+      {
+        id: 'bw-promotion',
+        title: 'Org Chart Promotion',
+        content: `┌─────────────────────────────────────┐
+│ ORGANIZATIONAL ANNOUNCEMENT         │
+│ ─────────────────────────────────── │
+│                                     │
+│ EFFECTIVE IMMEDIATELY:              │
+│                                     │
+│ We are pleased to announce the      │
+│ promotion of Employee #4729 to:     │
+│                                     │
+│     CHIEF PROCRASTINATION OFFICER   │
+│         (CPO - Level {POPS})        │
+│                                     │
+│ Reporting to: Nobody                │
+│ Direct Reports: 0                   │
+│ Responsibilities: Bubble-related    │
+│                                     │
+│ QUALIFICATIONS:                     │
+│ ✓ {POPS} bubbles popped             │
+│ ✓ {TIME} of dedication              │
+│ ✓ Zero regrets                      │
+│                                     │
+│ Compensation: Satisfaction          │
+│ Start Date: You already started     │
+│                                     │
+│ dontwork.work/games/bubble-wrap     │
+└─────────────────────────────────────┘`,
+        shareText: "PROMOTED to Chief Procrastination Officer (CPO)\n\nQualifications: {POPS} bubbles popped. Zero regrets. 🏆"
+      },
+      {
+        id: 'bw-exit',
+        title: 'Exit Interview',
+        content: `┌─────────────────────────────────────┐
+│ EXIT INTERVIEW FORM                 │
+│ ─────────────────────────────────── │
+│                                     │
+│ Reason for leaving:                 │
+│ ☑ Pursuing full-time bubble popping │
+│                                     │
+│ What did you enjoy most about       │
+│ working here?                       │
+│ "The {TIME} I spent not working     │
+│  and instead popping {POPS} bubbles"│
+│                                     │
+│ What could we improve?              │
+│ "More bubble wrap. Obviously."      │
+│                                     │
+│ Would you recommend this company?   │
+│ ☑ Yes, to procrastinators           │
+│                                     │
+│ Final thoughts:                     │
+│ "{POPS} bubbles popped, 0 regrets.  │
+│  This was my finest work."          │
+│                                     │
+│ HR Notes: Legend. Will rehire.      │
+│                                     │
+│ dontwork.work/games/bubble-wrap     │
+└─────────────────────────────────────┘`,
+        shareText: "Quitting my job to pursue full-time bubble popping.\n\nFinal thoughts: \"{POPS} bubbles, 0 regrets.\" 🎈"
+      }
+    ];
+    
+    // Initialize game
+    function init() {
+      createBubbles(200); // 200 bubbles
+      loadHighScore();
+      startTimer();
+    }
+    
+    function createBubbles(count) {
+      const grid = document.getElementById('bubbleGrid');
+      grid.innerHTML = '';
+      
+      for (let i = 0; i < count; i++) {
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        bubble.onclick = () => popBubble(bubble);
+        grid.appendChild(bubble);
+      }
+    }
+    
+    function popBubble(bubble) {
+      if (bubble.classList.contains('popped')) return;
+      
+      bubble.classList.add('popped');
+      popCount++;
+      
+      document.getElementById('popCount').textContent = popCount;
+      
+      // Play sound
+      if (soundEnabled) {
+        playPopSound();
+      }
+      
+      // Update high score
+      const highScore = parseInt(localStorage.getItem('bubbleWrapHighScore') || '0');
+      if (popCount > highScore) {
+        localStorage.setItem('bubbleWrapHighScore', popCount);
+        document.getElementById('highScore').textContent = popCount;
+      }
+    }
+    
+    function playPopSound() {
+      // Create simple pop sound using Web Audio API
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.value = 800;
+      oscillator.type = 'sine';
+      
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.1);
+    }
+    
+    function startTimer() {
+      timerInterval = setInterval(() => {
+        const elapsed = Math.floor((Date.now() - startTime) / 1000);
+        const minutes = Math.floor(elapsed / 60);
+        const seconds = elapsed % 60;
+        document.getElementById('timeWasted').textContent = 
+          `${minutes}:${seconds.toString().padStart(2, '0')}`;
+      }, 1000);
+    }
+    
+    function resetBubbles() {
+      popCount = 0;
+      startTime = Date.now();
+      document.getElementById('popCount').textContent = '0';
+      createBubbles(200);
+    }
+    
+    function loadHighScore() {
+      const highScore = localStorage.getItem('bubbleWrapHighScore') || '0';
+      document.getElementById('highScore').textContent = highScore;
+    }
+    
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      document.getElementById('soundStatus').textContent = 
+        soundEnabled ? 'Sound: ON' : 'Sound: OFF';
+    }
+    
+    // Share Card System
+    function showShareCard() {
+      const card = selectRandomCard();
+      displayCard(card);
+      updateCollectionTracker(card.id);
+      document.getElementById('shareModal').classList.add('active');
+    }
+    
+    function selectRandomCard() {
+      const seenCards = JSON.parse(localStorage.getItem('seenBubbleWrapCards') || '[]');
+      const unseenCards = CARDS.filter(c => !seenCards.includes(c.id));
+      
+      // 70% chance to show unseen card
+      const pool = (Math.random() < 0.7 && unseenCards.length > 0) ? unseenCards : CARDS;
+      const card = pool[Math.floor(Math.random() * pool.length)];
+      
+      // Mark as seen
+      if (!seenCards.includes(card.id)) {
+        seenCards.push(card.id);
+        localStorage.setItem('seenBubbleWrapCards', JSON.stringify(seenCards));
+      }
+      
+      return card;
+    }
+    
+    function displayCard(card) {
+      const elapsed = Math.floor((Date.now() - startTime) / 1000);
+      const minutes = Math.floor(elapsed / 60);
+      const seconds = elapsed % 60;
+      const timeStr = `${minutes} min ${seconds} sec`;
+      
+      let content = card.content
+        .replace(/\{POPS\}/g, popCount)
+        .replace(/\{TIME\}/g, timeStr);
+      
+      document.getElementById('cardContent').textContent = content;
+      
+      // Store for sharing
+      window.currentCard = card;
+      window.currentStats = { pops: popCount, time: timeStr };
+    }
+    
+    function updateCollectionTracker(cardId) {
+      const seenCards = JSON.parse(localStorage.getItem('seenBubbleWrapCards') || '[]');
+      const total = CARDS.length;
+      const seen = seenCards.length;
+      
+      let stars = '';
+      for (let i = 0; i < total; i++) {
+        stars += i < seen ? '⭐' : '⬜';
+      }
+      
+      document.getElementById('collectionStars').textContent = stars;
+      document.getElementById('collectionCount').textContent = `${seen}/${total}`;
+    }
+    
+    function shareTwitter() {
+      const card = window.currentCard;
+      const stats = window.currentStats;
+      let text = card.shareText
+        .replace(/\{POPS\}/g, stats.pops)
+        .replace(/\{TIME\}/g, stats.time);
+      
+      const url = `https://dontwork.work/games/bubble-wrap?score=${stats.pops}`;
+      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+      
+      window.open(twitterUrl, '_blank');
+    }
+    
+    function copyLink() {
+      const url = `https://dontwork.work/games/bubble-wrap?score=${popCount}`;
+      navigator.clipboard.writeText(url).then(() => {
+        alert('Link copied to clipboard! 📋');
+      });
+    }
+    
+    function downloadCard() {
+      const cardContent = document.getElementById('cardContent').textContent;
+      const blob = new Blob([cardContent], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'bubble-wrap-card.txt';
+      a.click();
+    }
+    
+    function closeModal() {
+      document.getElementById('shareModal').classList.remove('active');
+    }
+    
+    function closeModalAndReset() {
+      closeModal();
+      resetBubbles();
+    }
+    
+    // Initialize on load
+    init();
+  </script>
+  
+  <!-- Panic Button -->
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

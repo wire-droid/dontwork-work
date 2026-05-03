@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Staple Everything - Unnecessary Stapling | DontWork.work</title>
+  <meta name="description" content="Staple things that absolutely don't need stapling. Oddly satisfying office chaos. Free procrastination game.">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .header {
+      text-align: center;
+      color: white;
+      margin-bottom: 30px;
+    }
+    
+    h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+    
+    .game-area {
+      background: rgba(255,255,255,0.95);
+      border-radius: 20px;
+      padding: 40px;
+      min-height: 500px;
+      max-width: 600px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      position: relative;
+    }
+    
+    .item-display {
+      font-size: 3rem;
+      margin: 30px 0;
+      text-align: center;
+      min-height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .item-name {
+      font-size: 1.5rem;
+      color: #666;
+      margin-bottom: 20px;
+    }
+    
+    .staple-btn {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #ff6b6b, #ee5a6f);
+      border: none;
+      cursor: pointer;
+      font-size: 3rem;
+      color: white;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      transition: all 0.1s;
+      margin: 20px 0;
+    }
+    
+    .staple-btn:hover {
+      transform: scale(1.05);
+    }
+    
+    .staple-btn:active {
+      transform: scale(0.95);
+    }
+    
+    .stats {
+      display: flex;
+      gap: 30px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .stat {
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #ff6b6b;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: 5px;
+    }
+    
+    .staple-animation {
+      position: absolute;
+      font-size: 2rem;
+      animation: staple-fly 1s ease-out forwards;
+      pointer-events: none;
+    }
+    
+    @keyframes staple-fly {
+      0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--tx), var(--ty)) rotate(720deg);
+        opacity: 0;
+      }
+    }
+    
+    .btn {
+      padding: 15px 30px;
+      margin: 10px;
+      background: white;
+      color: #ff6b6b;
+      border: 2px solid #ff6b6b;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.1rem;
+      transition: all 0.3s;
+    }
+    
+    .btn:hover {
+      background: #ff6b6b;
+      color: white;
+    }
+    
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .modal.active { display: flex; }
+    
+    .share-card {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 500px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+    }
+    
+    .card-content {
+      font-family: 'Courier New', monospace;
+      white-space: pre-wrap;
+      background: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+      border: 2px solid #333;
+      margin: 20px 0;
+      font-size: 0.85rem;
+    }
+    
+    .share-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .share-btn {
+      flex: 1;
+      min-width: 140px;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      color: white;
+    }
+    
+    .share-twitter { background: #1DA1F2; }
+    .share-copy { background: #34495e; }
+    
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="header">
+    <h1>📎 Staple Everything</h1>
+    <p class="subtitle">Because some things just need stapling. Unnecessarily.</p>
+  </div>
+  
+  <div class="game-area" id="gameArea">
+    <div class="item-display" id="itemIcon">📄</div>
+    <div class="item-name" id="itemName">Single Sheet of Paper</div>
+    
+    <button class="staple-btn" onclick="stapleItem()">📎</button>
+    
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-value" id="stapleCount">0</div>
+        <div class="stat-label">Staples Used</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="itemsStapled">0</div>
+        <div class="stat-label">Items Stapled</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">0%</div>
+        <div class="stat-label">Items Needed Stapling</div>
+      </div>
+    </div>
+  </div>
+  
+  <div style="margin-top: 20px;">
+    <button class="btn" onclick="showShareCard()">📤 Share Your Chaos</button>
+  </div>
+  
+  <!-- Share Modal -->
+  <div class="modal" id="shareModal">
+    <div class="share-card">
+      <button class="close-modal" onclick="closeModal()">×</button>
+      <h2 style="text-align: center; margin-bottom: 20px;">Office Anarchist Certified</h2>
+      
+      <div class="card-content" id="cardContent"></div>
+      
+      <div class="share-buttons">
+        <button class="share-btn share-twitter" onclick="shareTwitter()">🐦 Twitter</button>
+        <button class="share-btn share-copy" onclick="copyLink()">📋 Copy</button>
+      </div>
+      
+      <div style="text-align: center; margin: 20px 0; padding: 15px; background: #e8f5e9; border-radius: 8px;">
+        <div style="font-size: 1.5rem; margin: 10px 0;" id="collectionStars"></div>
+        <p><strong id="collectionCount">0/10</strong> Staple cards collected</p>
+      </div>
+      
+      <div style="text-align: center;">
+        <button class="btn" onclick="closeModal()">📎 Keep Stapling</button>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    const ITEMS = [
+      { icon: '📄', name: 'Single Sheet of Paper' },
+      { icon: '📝', name: 'Post-it Note' },
+      { icon: '💵', name: 'Dollar Bill' },
+      { icon: '🧾', name: 'Receipt' },
+      { icon: '💳', name: 'Business Card' },
+      { icon: '🍕', name: 'Pizza Menu' },
+      { icon: '🧻', name: 'Napkin' },
+      { icon: '📋', name: 'Already-Stapled Document' },
+      { icon: '📰', name: 'Newspaper' },
+      { icon: '📱', name: 'Screenshot (printed)' },
+      { icon: '✉️', name: 'Envelope' },
+      { icon: '🎫', name: 'Old Concert Ticket' }
+    ];
+    
+    let stapleCount = 0;
+    let currentItemIndex = 0;
+    
+    const CARDS = [
+      {
+        id: 'staple-incident',
+        content: `┌─────────────────────────────────────┐
+│ OFFICE SUPPLIES INCIDENT REPORT     │
+│ ─────────────────────────────────── │
+│                                     │
+│ Employee stapled {COUNT} items that │
+│ absolutely did not need stapling.   │
+│                                     │
+│ STAPLES USED: {COUNT}               │
+│ STAPLES NEEDED: 0                   │
+│ SATISFACTION: 100%                  │
+│                                     │
+│ DISCIPLINARY ACTION:                │
+│ None. We're impressed by this level │
+│ of commitment to chaos.             │
+│                                     │
+│ dontwork.work/games/staple-everything│
+└─────────────────────────────────────┘`,
+        shareText: 'Stapled {COUNT} things that didn\'t need stapling. Disciplinary action: None. They\'re impressed. 📎'
+      }
+    ];
+    
+    function stapleItem() {
+      stapleCount++;
+      
+      document.getElementById('stapleCount').textContent = stapleCount;
+      document.getElementById('itemsStapled').textContent = stapleCount;
+      
+      // Animate staple
+      const area = document.getElementById('gameArea');
+      const staple = document.createElement('div');
+      staple.className = 'staple-animation';
+      staple.textContent = '📎';
+      
+      const angle = Math.random() * Math.PI * 2;
+      const distance = 100 + Math.random() * 100;
+      staple.style.setProperty('--tx', `${Math.cos(angle) * distance}px`);
+      staple.style.setProperty('--ty', `${Math.sin(angle) * distance}px`);
+      staple.style.left = '50%';
+      staple.style.top = '50%';
+      
+      area.appendChild(staple);
+      setTimeout(() => staple.remove(), 1000);
+      
+      // Next item
+      setTimeout(nextItem, 500);
+      
+      // Sound effect (simple)
+      playStapleSound();
+    }
+    
+    function nextItem() {
+      currentItemIndex = (currentItemIndex + 1) % ITEMS.length;
+      const item = ITEMS[currentItemIndex];
+      
+      document.getElementById('itemIcon').textContent = item.icon;
+      document.getElementById('itemName').textContent = item.name;
+    }
+    
+    function playStapleSound() {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      
+      osc.frequency.value = 400;
+      gain.gain.setValueAtTime(0.2, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.05);
+      
+      osc.start();
+      osc.stop(ctx.currentTime + 0.05);
+    }
+    
+    function showShareCard() {
+      const card = CARDS[0];
+      const content = card.content.replace(/\{COUNT\}/g, stapleCount);
+      
+      document.getElementById('cardContent').textContent = content;
+      document.getElementById('shareModal').classList.add('active');
+      
+      window.currentCount = stapleCount;
+    }
+    
+    function shareTwitter() {
+      const text = `I stapled ${window.currentCount} things that didn't need stapling.\n\nOffice anarchy level: Maximum 📎\n\ndontwork.work/games/staple-everything`;
+      const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+      window.open(url, '_blank');
+    }
+    
+    function copyLink() {
+      navigator.clipboard.writeText('https://dontwork.work/games/staple-everything');
+      alert('Link copied! 📋');
+    }
+    
+    function closeModal() {
+      document.getElementById('shareModal').classList.remove('active');
+    }
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Infinite Scroll - Scroll Forever | DontWork.work</title>
+  <meta name="description" content="Just keep scrolling. See interesting facts. Reach impossible milestones. Hypnotic procrastination.">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Georgia', serif;
+      background: linear-gradient(180deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+      color: white;
+      overflow-x: hidden;
+    }
+    
+    .scroll-container {
+      min-height: 500vh;
+      padding: 40px 20px;
+    }
+    
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15, 12, 41, 0.95);
+      padding: 20px;
+      text-align: center;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    
+    .scroll-counter {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #64ffda;
+      font-family: 'Courier New', monospace;
+    }
+    
+    .content {
+      margin-top: 180px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .milestone {
+      margin: 100px 0;
+      padding: 40px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+      text-align: center;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.6s;
+    }
+    
+    .milestone.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .milestone-icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+    }
+    
+    .milestone-title {
+      font-size: 2rem;
+      margin-bottom: 15px;
+      color: #64ffda;
+    }
+    
+    .milestone-text {
+      font-size: 1.2rem;
+      line-height: 1.8;
+      opacity: 0.9;
+    }
+    
+    .fact {
+      margin: 60px 0;
+      padding: 30px;
+      background: rgba(100, 255, 218, 0.05);
+      border-left: 4px solid #64ffda;
+      border-radius: 8px;
+      opacity: 0;
+      transform: translateX(-50px);
+      transition: all 0.6s;
+    }
+    
+    .fact.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    
+    .fact-text {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      font-style: italic;
+    }
+    
+    .end-message {
+      text-align: center;
+      padding: 100px 20px;
+      font-size: 1.5rem;
+    }
+    
+    .share-btn-fixed {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      padding: 15px 30px;
+      background: #64ffda;
+      color: #0f0c29;
+      border: none;
+      border-radius: 50px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(100, 255, 218, 0.3);
+      z-index: 100;
+      transition: all 0.3s;
+    }
+    
+    .share-btn-fixed:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 25px rgba(100, 255, 218, 0.5);
+    }
+    
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.95);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .modal.active { display: flex; }
+    
+    .share-card {
+      background: white;
+      color: #333;
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 500px;
+      width: 100%;
+    }
+    
+    .card-content {
+      font-family: 'Courier New', monospace;
+      white-space: pre-wrap;
+      background: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+      border: 2px solid #333;
+      margin: 20px 0;
+      font-size: 0.85rem;
+    }
+    
+    .share-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .share-btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      color: white;
+    }
+    
+    .share-twitter { background: #1DA1F2; }
+    .share-copy { background: #34495e; }
+  </style>
+</head>
+<body>
+  
+  <div class="header">
+    <h1>∞ Infinite Scroll</h1>
+    <div class="scroll-counter" id="scrollCounter">0 px</div>
+    <p style="opacity: 0.7; margin-top: 10px;">Keep scrolling. See what happens.</p>
+  </div>
+  
+  <div class="scroll-container">
+    <div class="content" id="content">
+      
+      <div class="milestone" data-trigger="100">
+        <div class="milestone-icon">👋</div>
+        <div class="milestone-title">Welcome, Scroller</div>
+        <div class="milestone-text">
+          You've begun your journey into the infinite. There's no end. Only scrolling.
+        </div>
+      </div>
+      
+      <div class="fact" data-trigger="500">
+        <div class="fact-text">
+          The average person scrolls about 300 feet per day on their phone. That's roughly the height of the Statue of Liberty.
+        </div>
+      </div>
+      
+      <div class="milestone" data-trigger="1000">
+        <div class="milestone-icon">🎯</div>
+        <div class="milestone-title">1,000 Pixels</div>
+        <div class="milestone-text">
+          You've scrolled 1,000 pixels. You're committed now. Might as well keep going.
+        </div>
+      </div>
+      
+      <div class="fact" data-trigger="1500">
+        <div class="fact-text">
+          Studies show that "doomscrolling" activates the same reward pathways in your brain as gambling. You're basically in a casino right now.
+        </div>
+      </div>
+      
+      <div class="milestone" data-trigger="2500">
+        <div class="milestone-icon">🏔️</div>
+        <div class="milestone-title">Mountain Climber</div>
+        <div class="milestone-text">
+          2,500 pixels scrolled. That's about 7 feet. If this were vertical, you'd be standing on a tall person's shoulders.
+        </div>
+      </div>
+      
+      <div class="fact" data-trigger="3000">
+        <div class="fact-text">
+          The first computer mouse scroll wheel was invented in 1995. Before that, people had to use scroll bars like savages.
+        </div>
+      </div>
+      
+      <div class="milestone" data-trigger="5000">
+        <div class="milestone-icon">🚀</div>
+        <div class="milestone-title">5,000 Pixels!</div>
+        <div class="milestone-text">
+          You've scrolled about 15 feet. That's the length of a small boat. You could be sailing instead, but you're here. Scrolling.
+        </div>
+      </div>
+      
+      <div class="fact" data-trigger="6000">
+        <div class="fact-text">
+          Infinite scrolling was popularized by social media platforms to increase "engagement" (addiction). Congratulations, you're engaged.
+        </div>
+      </div>
+      
+      <div class="milestone" data-trigger="10000">
+        <div class="milestone-icon">🏆</div>
+        <div class="milestone-title">Legend Status</div>
+        <div class="milestone-text">
+          10,000 pixels. You've scrolled about 30 feet. That's a basketball court baseline. You could be playing basketball. You're not. You're scrolling.
+        </div>
+      </div>
+      
+      <div class="fact" data-trigger="12000">
+        <div class="fact-text">
+          Your scroll wheel has now clicked approximately 500 times. The average mouse wheel is rated for 1 million clicks. You have 999,500 left. Pace yourself.
+        </div>
+      </div>
+      
+      <div class="milestone" data-trigger="15000">
+        <div class="milestone-icon">🌙</div>
+        <div class="milestone-title">Moon Distance (Metaphorically)</div>
+        <div class="milestone-text">
+          15,000 pixels. If you stacked all the screens you've scrolled, it would be about 45 feet tall. The moon is 238,900 miles away. You're not even close.
+        </div>
+      </div>
+      
+      <div class="end-message">
+        <h2 style="margin-bottom: 20px;">Still here?</h2>
+        <p>You've scrolled enough. Time to share your achievement.</p>
+      </div>
+      
+    </div>
+  </div>
+  
+  <button class="share-btn-fixed" onclick="showShareCard()">📤 Share</button>
+  
+  <!-- Modal -->
+  <div class="modal" id="shareModal">
+    <div class="share-card">
+      <h2 style="text-align: center; margin-bottom: 20px;">Scroll Achievement</h2>
+      
+      <div class="card-content" id="cardContent"></div>
+      
+      <div class="share-buttons">
+        <button class="share-btn share-twitter" onclick="shareTwitter()">🐦 Twitter</button>
+        <button class="share-btn share-copy" onclick="copyLink()">📋 Copy</button>
+      </div>
+      
+      <div style="text-align: center; margin-top: 20px;">
+        <button class="share-btn" style="background: #64ffda; color: #0f0c29;" onclick="closeModal()">
+          Keep Scrolling
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    let totalScrolled = 0;
+    let maxScrolled = 0;
+    
+    const CARD_TEMPLATE = `┌─────────────────────────────────────┐
+│ SCROLL ACHIEVEMENT UNLOCKED         │
+│ ─────────────────────────────────── │
+│                                     │
+│ You scrolled {PIXELS} pixels        │
+│ ({FEET} feet in real life)          │
+│                                     │
+│ Time spent: Immeasurable            │
+│ Productivity: 0%                    │
+│ Satisfaction: Oddly high            │
+│                                     │
+│ You could have:                     │
+│ • Read an article                   │
+│ • Made coffee                       │
+│ • Contemplated existence            │
+│                                     │
+│ Instead, you scrolled.              │
+│ We respect that.                    │
+│                                     │
+│ dontwork.work/games/infinite-scroll │
+└─────────────────────────────────────┘`;
+    
+    window.addEventListener('scroll', () => {
+      totalScrolled = window.pageYOffset || document.documentElement.scrollTop;
+      maxScrolled = Math.max(maxScrolled, totalScrolled);
+      
+      // Update counter
+      document.getElementById('scrollCounter').textContent = 
+        Math.round(totalScrolled).toLocaleString() + ' px';
+      
+      // Show elements as they come into view
+      document.querySelectorAll('.milestone, .fact').forEach(el => {
+        const trigger = parseInt(el.dataset.trigger);
+        if (totalScrolled >= trigger && !el.classList.contains('visible')) {
+          el.classList.add('visible');
+        }
+      });
+    });
+    
+    function showShareCard() {
+      const pixels = Math.round(maxScrolled);
+      const feet = Math.round(pixels / 96 * 3); // rough conversion
+      
+      const content = CARD_TEMPLATE
+        .replace('{PIXELS}', pixels.toLocaleString())
+        .replace('{FEET}', feet);
+      
+      document.getElementById('cardContent').textContent = content;
+      document.getElementById('shareModal').classList.add('active');
+      
+      window.currentPixels = pixels;
+    }
+    
+    function shareTwitter() {
+      const pixels = window.currentPixels;
+      const text = `I scrolled ${pixels.toLocaleString()} pixels for absolutely no reason.\n\nProductivity: 0%. Satisfaction: High.\n\ndontwork.work/games/infinite-scroll`;
+      const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+      window.open(url, '_blank');
+    }
+    
+    function copyLink() {
+      navigator.clipboard.writeText('https://dontwork.work/games/infinite-scroll');
+      alert('Link copied! 📋');
+    }
+    
+    function closeModal() {
+      document.getElementById('shareModal').classList.remove('active');
+    }
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>
