@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Should I Buy This? - Purchase Enabler | DontWork.work</title>
+<meta name="description" content="Financial advice that always says yes. Your wallet will regret this.">
+<meta property="og:title" content="💸 Should I Buy This?">
+<meta property="og:description" content="Financial advice that always says yes. Your wallet will regret this.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/main.css">
+<style>
+body{background:linear-gradient(135deg,#F093FB 0%,#F5576C 100%);min-height:100vh;padding:20px}.container{max-width:700px;margin:40px auto}.header{text-align:center;color:white;margin-bottom:40px}h1{font-family:'Fraunces',serif;font-size:clamp(2.5rem,6vw,4rem);margin-bottom:15px}.subtitle{font-size:1.2rem;opacity:0.9}.box{background:white;border-radius:20px;padding:40px;box-shadow:0 10px 40px rgba(0,0,0,0.3);margin-bottom:30px;text-align:center}.btn{width:100%;padding:25px;font-size:1.8rem;font-family:'Fraunces',serif;font-weight:700;background:linear-gradient(135deg,#F093FB 0%,#F5576C 100%);color:white;border:none;border-radius:12px;cursor:pointer;transition:all 0.3s}.btn:hover{transform:translateY(-2px)}.result{display:none;background:white;border-radius:20px;padding:40px;box-shadow:0 10px 40px rgba(0,0,0,0.3);margin-bottom:30px}.result.show{display:block;animation:slideUp 0.5s}@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}.card{font-family:'Courier New',monospace;white-space:pre-wrap;background:#f5f5f5;padding:25px;border-radius:12px;border:2px solid #333;font-size:0.9rem;line-height:1.4;margin-bottom:25px}.btns{display:flex;gap:12px;flex-wrap:wrap}.sbtn{flex:1;min-width:140px;padding:15px;border:none;border-radius:10px;font-weight:700;cursor:pointer;transition:all 0.3s}.sbtn:hover{transform:translateY(-2px)}.tw{background:#1DA1F2;color:white}.cp{background:#34495e;color:white}.ag{background:linear-gradient(135deg,#F093FB 0%,#F5576C 100%);color:white}.aff{background:linear-gradient(135deg,#FF6B35 0%,#F7C548 100%);border-radius:20px;padding:30px;text-align:center;color:white;margin-top:30px}.aff h3{font-family:'Fraunces',serif;font-size:1.8rem;margin-bottom:15px}.aff button{background:white;color:#FF6B35;padding:15px 35px;border:none;border-radius:12px;font-size:1.2rem;font-weight:700;cursor:pointer}.coll{text-align:center;margin-top:20px;padding:15px;background:#fce4ec;border-radius:10px}
+</style>
+</head>
+<body>
+<!-- AD PLACEHOLDER - Top -->
+<div class="container">
+<div class="header"><h1>💸 Should I Buy This?</h1><p class="subtitle">Spoiler: Yes. Always yes.</p></div>
+<div class="box"><button class="btn" onclick="decide()">💸 Should I?</button></div>
+<div class="result" id="r"><div class="card" id="c"></div><div class="btns"><button class="sbtn tw" onclick="share()">🐦 Share</button><button class="sbtn cp" onclick="copy()">📋 Copy</button><button class="sbtn ag" onclick="again()">🔄 Again</button></div><div class="coll"><div style="font-size:1.5rem;margin:10px 0" id="s"></div><p><strong id="n">0/10</strong> purchase decisions collected</p></div></div>
+<div class="aff"><h3>Feeling Impulsive?</h3><p style="opacity:0.9;margin-bottom:20px">Already buying things...</p><button onclick="aff()">Show Me Random Stuff 🎁</button></div>
+<p style="text-align:center;margin-top:30px"><a href="/" style="color:white;text-decoration:none;opacity:0.8">← Back</a></p>
+</div>
+<!-- AD PLACEHOLDER - Bottom -->
+<script>
+const CARDS=[
+{id:'buy-yes',c:`┌─────────────────────────────────────┐
+│ 💸 PURCHASE ANALYSIS 💸             │
+│ ─────────────────────────────────── │
+│                                     │
+│ VERDICT: YES. You deserve it. Treat yourself. Money is fake anyway. Click buy now.
+│                                     │
+│ dontwork.work/tools/should-i-buy
+└─────────────────────────────────────┘`,s:'Should I buy this? YES. I deserve it. Money is fake. Already ordered. 💳'},
+{id:'buy-absolutely',c:`┌─────────────────────────────────────┐
+│ 💸 PURCHASE ANALYSIS 💸             │
+│ ─────────────────────────────────── │
+│                                     │
+│ VERDICT: ABSOLUTELY. Life is short. YOLO. Your bank account will recover. Probably.
+│                                     │
+│ dontwork.work/tools/should-i-buy
+└─────────────────────────────────────┘`,s:'Purchase verdict: ABSOLUTELY. Life is short. Bank account will recover. Probably. 🛒'},
+{id:'buy-retail',c:`┌─────────────────────────────────────┐
+│ 💸 PURCHASE ANALYSIS 💸             │
+│ ─────────────────────────────────── │
+│                                     │
+│ VERDICT: YES, FULL PRICE. Don't wait for sales. Time is money. Treat yourself like royalty.
+│                                     │
+│ dontwork.work/tools/should-i-buy
+└─────────────────────────────────────┘`,s:'Should I wait for a sale? NO. Buying at full price. Time is money. Royalty treatment. 👑'},
+{id:'buy-multiple',c:`┌─────────────────────────────────────┐
+│ 💸 PURCHASE ANALYSIS 💸             │
+│ ─────────────────────────────────── │
+│                                     │
+│ VERDICT: BUY TWO. One to use, one as backup. This is financial responsibility. Trust us.
+│                                     │
+│ dontwork.work/tools/should-i-buy
+└─────────────────────────────────────┘`,s:'Buying one? NO. Buying TWO. One to use, one as backup. This is responsibility. 📦'},
+{id:'buy-upgrade',c:`┌─────────────────────────────────────┐
+│ 💸 PURCHASE ANALYSIS 💸             │
+│ ─────────────────────────────────── │
+│                                     │
+│ VERDICT: BUY THE EXPENSIVE VERSION. You're worth it. Cheap is for quitters.
+│                                     │
+│ dontwork.work/tools/should-i-buy
+└─────────────────────────────────────┘`,s:'Cheap version or expensive? EXPENSIVE. I'm worth it. Cheap is for quitters. ✨'},
+{id:'buy-guilt',c:`┌─────────────────────────────────────┐
+│ 💸 PURCHASE ANALYSIS 💸             │
+│ ─────────────────────────────────── │
+│                                     │
+│ VERDICT: YES, AND DON'T FEEL GUILTY. Guilt is for people with functional budgets.
+│                                     │
+│ dontwork.work/tools/should-i-buy
+└─────────────────────────────────────┘`,s:'Purchase guilt? ELIMINATED. Budgets are suggestions. Living my best life. 🎉'},
+{id:'buy-collection',c:`┌─────────────────────────────────────┐
+│ 💸 PURCHASE ANALYSIS 💸             │
+│ ─────────────────────────────────── │
+│                                     │
+│ VERDICT: START A COLLECTION. Buy all the colors. This is an investment in happiness.
+│                                     │
+│ dontwork.work/tools/should-i-buy
+└─────────────────────────────────────┘`,s:'Buying one? NO. STARTING A COLLECTION. All colors. Investment in happiness. 🌈'},
+{id:'buy-tomorrow',c:`┌─────────────────────────────────────┐
+│ 💸 PURCHASE ANALYSIS 💸             │
+│ ─────────────────────────────────── │
+│                                     │
+│ VERDICT: BUY IT BEFORE YOU CHANGE YOUR MIND. Tomorrow-you will regret hesitating.
+│                                     │
+│ dontwork.work/tools/should-i-buy
+└─────────────────────────────────────┘`,s:'Buy now or think about it? BUY NOW. Tomorrow-me always regrets hesitating. 🏃'},
+{id:'buy-payment',c:`┌─────────────────────────────────────┐
+│ 💸 PURCHASE ANALYSIS 💸             │
+│ ─────────────────────────────────── │
+│                                     │
+│ VERDICT: YES. Use payment plans. Debt is just future you's problem. Present you deserves this.
+│                                     │
+│ dontwork.work/tools/should-i-buy
+└─────────────────────────────────────┘`,s:'Can't afford it? PAYMENT PLANS. Future me's problem. Present me: deserves this. 💵'},
+{id:'buy-life',c:`┌─────────────────────────────────────┐
+│ 💸 PURCHASE ANALYSIS 💸             │
+│ ─────────────────────────────────── │
+│                                     │
+│ VERDICT: THIS WILL CHANGE YOUR LIFE. It won't. But buy it anyway. Optimism is key.
+│                                     │
+│ dontwork.work/tools/should-i-buy
+└─────────────────────────────────────┘`,s:'Will this purchase change my life? NO. Buying it anyway. Optimism is key. 🔑'}
+];
+let cur=null;
+function decide(){cur=CARDS[Math.floor(Math.random()*CARDS.length)];document.getElementById('c').textContent=cur.c;document.getElementById('r').classList.add('show');upd(cur.id);document.getElementById('r').scrollIntoView({behavior:'smooth',block:'center'})}
+function upd(id){const seen=JSON.parse(localStorage.getItem('seenBuyCards')||'[]');if(!seen.includes(id)){seen.push(id);localStorage.setItem('seenBuyCards',JSON.stringify(seen))}const stars=seen.map(()=>'⭐').join('')+Array(10-seen.length).fill('⬜').join('');document.getElementById('s').textContent=stars;document.getElementById('n').textContent=seen.length+'/10'}
+function share(){const txt=cur.s+'\n\ndontwork.work/tools/should-i-buy';window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(txt),'_blank')}
+function copy(){navigator.clipboard.writeText('https://dontwork.work/tools/should-i-buy');alert('Link copied! 📋')}
+function again(){document.getElementById('r').classList.remove('show')}
+function aff(){const c=['/shop/mattresses','/shop/coffee-makers'];window.location.href=c[Math.floor(Math.random()*c.length)]}
+upd('');
+</script>
+<script src="/js/panic-button.js"></script>
+</body>
+</html>

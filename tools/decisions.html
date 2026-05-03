@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Decision Makers - Random Decision Tools | DontWork.work</title>
+  <meta name="description" content="Browse all 12 decision maker tools. Magic 8-Ball, food chooser, drunk test, excuse generator, and more. Make terrible choices efficiently!">
+  <meta name="keywords" content="decision maker, magic 8 ball, random choice, life decisions, procrastination tools">
+  <meta name="robots" content="index, follow">
+  
+  <meta property="og:title" content="Decision Makers - 12 Random Decision Tools">
+  <meta property="og:description" content="Can't make a decision? Let our tools decide for you. 12 ridiculous decision makers for life's important questions.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://dontwork.work/tools/">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <style>
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    
+    .header {
+      text-align: center;
+      color: white;
+      margin-bottom: 60px;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      margin-bottom: 20px;
+      font-weight: 900;
+    }
+    
+    .subtitle {
+      font-size: 1.3rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+      margin-bottom: 60px;
+    }
+    
+    .tool-card {
+      background: white;
+      border-radius: 16px;
+      padding: 30px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.3s;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .tool-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    }
+    
+    .tool-icon {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      display: block;
+    }
+    
+    .tool-title {
+      font-family: 'Fraunces', serif;
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: #1A1A2E;
+    }
+    
+    .tool-description {
+      color: #666;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+    
+    .badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: #FF6B35;
+      color: white;
+      padding: 5px 12px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    
+    .badge.hot {
+      background: #F7C548;
+      color: #1A1A2E;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin: 40px auto;
+      display: block;
+      text-align: center;
+      max-width: 200px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+    
+    @media (max-width: 768px) {
+      .tools-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <div class="header">
+      <h1>🎲 Decision Makers</h1>
+      <p class="subtitle">
+        Can't make a decision? Let random algorithms decide your fate. 12 ridiculous tools for life's important questions.
+      </p>
+    </div>
+    
+    <div class="tools-grid">
+      
+      <a href="/tools/should-i.html" class="tool-card">
+        <span class="badge">New</span>
+        <span class="tool-icon">🤔</span>
+        <h3 class="tool-title">Should I?</h3>
+        <p class="tool-description">Magic 8-Ball for life decisions. Ask the cosmos. Get vague answers. Make terrible choices.</p>
+      </a>
+      
+      <a href="/tools/what-to-eat.html" class="tool-card">
+        <span class="badge">New</span>
+        <span class="tool-icon">🍔</span>
+        <h3 class="tool-title">What Should I Eat?</h3>
+        <p class="tool-description">Brutally honest food recommendations. 80% of the time: "Nothing, you're just bored."</p>
+      </a>
+      
+      <a href="/tools/am-i-drunk.html" class="tool-card">
+        <span class="badge">New</span>
+        <span class="tool-icon">🍺</span>
+        <h3 class="tool-title">Am I Drunk?</h3>
+        <p class="tool-description">Scientific sobriety test. Totally legitimate. Probably not admissible in court.</p>
+      </a>
+      
+      <a href="/tools/call-in-sick.html" class="tool-card">
+        <span class="badge hot">Hot</span>
+        <span class="tool-icon">🤥</span>
+        <h3 class="tool-title">Call In Sick</h3>
+        <p class="tool-description">Professional excuse generator with believability ratings. "Attacked by geese" scores 12%.</p>
+      </a>
+      
+      <a href="/tools/life-dice.html" class="tool-card">
+        <span class="badge">New</span>
+        <span class="tool-icon">🎲</span>
+        <h3 class="tool-title">Life Decision Dice</h3>
+        <p class="tool-description">Major life decisions via dice roll. When logic fails, roll the dice. Fate decides everything.</p>
+      </a>
+      
+      <a href="/tools/career-oracle.html" class="tool-card">
+        <span class="badge">New</span>
+        <span class="tool-icon">🔮</span>
+        <h3 class="tool-title">Career Path Oracle</h3>
+        <p class="tool-description">Mystical career guidance. Absurd suggestions. "Professional Dog Walker" actually sounds great.</p>
+      </a>
+      
+      <a href="/tools/should-i-buy.html" class="tool-card">
+        <span class="badge hot">Hot</span>
+        <span class="tool-icon">💸</span>
+        <h3 class="tool-title">Should I Buy This?</h3>
+        <p class="tool-description">Purchase enabler. Always says yes. Financial advice that ruins budgets. Your wallet will hate us.</p>
+      </a>
+      
+      <a href="/tools/too-early-late.html" class="tool-card">
+        <span class="badge">New</span>
+        <span class="tool-icon">⏰</span>
+        <h3 class="tool-title">Is It Too Early/Late?</h3>
+        <p class="tool-description">Judging your timing decisions. "Too early to drink?" Depends on your employment status.</p>
+      </a>
+      
+      <a href="/tools/whose-fault.html" class="tool-card">
+        <span class="badge">New</span>
+        <span class="tool-icon">🎯</span>
+        <h3 class="tool-title">Whose Fault Is This?</h3>
+        <p class="tool-description">Professional blame assignment. Mercury retrograde, your ex, or Karen from Accounting.</p>
+      </a>
+      
+      <a href="/tools/go-to-work.html" class="tool-card">
+        <span class="badge hot">Hot</span>
+        <span class="tool-icon">📅</span>
+        <h3 class="tool-title">Should I Go to Work?</h3>
+        <p class="tool-description">Work avoidance specialist. Finding reasons not to since 2026. Answer is usually no.</p>
+      </a>
+      
+      <a href="/tools/need-this.html" class="tool-card">
+        <span class="badge">New</span>
+        <span class="tool-icon">🤷</span>
+        <h3 class="tool-title">Do I Need This?</h3>
+        <p class="tool-description">Contrarian purchase advisor. Wrong on purpose. Sometimes accidentally gives good advice.</p>
+      </a>
+      
+      <a href="/tools/life-coach.html" class="tool-card">
+        <span class="badge">New</span>
+        <span class="tool-icon">🎪</span>
+        <h3 class="tool-title">Random Life Coach</h3>
+        <p class="tool-description">Terrible advice delivered with maximum confidence. Confidence over competence, always.</p>
+      </a>
+      
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+    
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

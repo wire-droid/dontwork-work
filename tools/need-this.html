@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Do I Actually Need This? - Contrarian Advisor | DontWork.work</title>
+<meta name="description" content="Get terrible advice about purchases. Wrong on purpose. Contrarian wisdom.">
+<meta property="og:title" content="Do I Actually Need This? - Wrong Answers Only">
+<meta property="og:description" content="Contrarian purchase advice. Guaranteed to be wrong.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/main.css">
+<style>
+body{background:linear-gradient(135deg,#E100FF 0%,#7F00FF 100%);min-height:100vh;padding:20px}.container{max-width:700px;margin:40px auto}.header{text-align:center;color:white;margin-bottom:40px}h1{font-family:'Fraunces',serif;font-size:clamp(2.5rem,6vw,4rem);margin-bottom:15px}.subtitle{font-size:1.2rem;opacity:0.9}.box{background:white;border-radius:20px;padding:40px;box-shadow:0 10px 40px rgba(0,0,0,0.3);margin-bottom:30px;text-align:center}.btn{width:100%;padding:25px;font-size:1.8rem;font-family:'Fraunces',serif;font-weight:700;background:linear-gradient(135deg,#E100FF 0%,#7F00FF 100%);color:white;border:none;border-radius:12px;cursor:pointer;transition:all 0.3s}.btn:hover{transform:translateY(-2px)}.result{display:none;background:white;border-radius:20px;padding:40px;box-shadow:0 10px 40px rgba(0,0,0,0.3);margin-bottom:30px}.result.show{display:block;animation:slideUp 0.5s}@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}.card{font-family:'Courier New',monospace;white-space:pre-wrap;background:#f5f5f5;padding:25px;border-radius:12px;border:2px solid #333;font-size:0.9rem;line-height:1.4;margin-bottom:25px}.btns{display:flex;gap:12px;flex-wrap:wrap}.sbtn{flex:1;min-width:140px;padding:15px;border:none;border-radius:10px;font-weight:700;cursor:pointer;transition:all 0.3s}.sbtn:hover{transform:translateY(-2px)}.tw{background:#1DA1F2;color:white}.cp{background:#34495e;color:white}.ag{background:linear-gradient(135deg,#E100FF 0%,#7F00FF 100%);color:white}.aff{background:linear-gradient(135deg,#FF6B35 0%,#F7C548 100%);border-radius:20px;padding:30px;text-align:center;color:white;margin-top:30px}.aff h3{font-family:'Fraunces',serif;font-size:1.8rem;margin-bottom:15px}.aff button{background:white;color:#FF6B35;padding:15px 35px;border:none;border-radius:12px;font-size:1.2rem;font-weight:700;cursor:pointer}.coll{text-align:center;margin-top:20px;padding:15px;background:#f3e5f5;border-radius:10px}
+</style>
+</head>
+<body>
+<!-- AD PLACEHOLDER - Top -->
+<div class="container">
+<div class="header"><h1>🤷 Do I Actually Need This?</h1><p class="subtitle">Contrarian advice. Wrong on purpose.</p></div>
+<div class="box"><button class="btn" onclick="advise()">🤷 Get Terrible Advice</button></div>
+<div class="result" id="r"><div class="card" id="c"></div><div class="btns"><button class="sbtn tw" onclick="share()">🐦 Share</button><button class="sbtn cp" onclick="copy()">📋 Copy</button><button class="sbtn ag" onclick="again()">🔄 Again</button></div><div class="coll"><div style="font-size:1.5rem;margin:10px 0" id="s"></div><p><strong id="n">0/10</strong> terrible advice collected</p></div></div>
+<div class="aff"><h3>Feeling Impulsive?</h3><p style="opacity:0.9;margin-bottom:20px">Since you're getting bad advice...</p><button onclick="aff()">Show Me Random Stuff 🎁</button></div>
+<p style="text-align:center;margin-top:30px"><a href="/" style="color:white;text-decoration:none;opacity:0.8">← Back</a></p>
+</div>
+<!-- AD PLACEHOLDER - Bottom -->
+<script>
+const CARDS=[
+{id:'need-food',c:`┌─────────────────────────────────────┐
+│ 🤷 CONTRARIAN ANALYSIS 🤷           │
+│ ─────────────────────────────────── │
+│ ITEM: Food                          │
+│ DO YOU NEED IT? No.                 │
+│                                     │
+│ REASONING:                          │
+│ Food is overrated. People lived     │
+│ without grocery stores for years.   │
+│ You could probably photosynthesize  │
+│ if you tried hard enough.           │
+│                                     │
+│ ALTERNATIVE:                        │
+│ Air. Water. Vibes.                  │
+│                                     │
+│ DISCLAIMER:                         │
+│ This is terrible advice. Please eat.│
+│ We are legally obligated to say     │
+│ that. But also... food is a scam.   │
+│                                     │
+│ CORRECTNESS: 0%                     │
+│                                     │
+│ dontwork.work/tools/need-this       │
+└─────────────────────────────────────┘`,s:'Do I need food? Contrarian advice: No. Photosynthesis is an option. (This is terrible advice. Eating anyway.) 🥗'},
+{id:'need-phone',c:`┌─────────────────────────────────────┐
+│ 🤷 CONTRARIAN ANALYSIS 🤷           │
+│ ─────────────────────────────────── │
+│ ITEM: New Phone                     │
+│ DO YOU NEED IT? Absolutely not.     │
+│                                     │
+│ CURRENT PHONE STATUS:               │
+│ • Works: Yes                        │
+│ • Latest model: No                  │
+│ • Your ego: Hurt                    │
+│                                     │
+│ REAL TALK:                          │
+│ Your phone is fine. You want the    │
+│ new one because of marketing. Resist│
+│ capitalism. Keep your old phone.    │
+│                                     │
+│ PLOT TWIST:                         │
+│ This is actually good advice.       │
+│ We're supposed to be wrong but...   │
+│ don't buy the new phone.            │
+│                                     │
+│ dontwork.work/tools/need-this       │
+└─────────────────────────────────────┘`,s:'Need new phone? Current one works. Contrarian tool accidentally gave GOOD advice. Not buying it. Capitalism defeated. 📱'},
+{id:'need-gym',c:`┌─────────────────────────────────────┐
+│ 🤷 CONTRARIAN ANALYSIS 🤷           │
+│ ─────────────────────────────────── │
+│ ITEM: Gym Membership                │
+│ DO YOU NEED IT? Yes, desperately.   │
+│                                     │
+│ REASONING (WRONG):                  │
+│ The gym is the only place you'll    │
+│ achieve your fitness goals. You     │
+│ can't possibly work out at home.    │
+│ January motivation is eternal.      │
+│                                     │
+│ REALITY:                            │
+│ You'll go 3 times then never again. │
+│ Save the money. Walk sometimes.     │
+│ Pushups are free.                   │
+│                                     │
+│ CONTRARIAN RATING: Maximum          │
+│ ACCURACY: Inverted                  │
+│                                     │
+│ dontwork.work/tools/need-this       │
+└─────────────────────────────────────┘`,s:'Need gym membership? Contrarian says YES DESPERATELY. Reality: Will go 3 times. Pushups are free. Not buying. 💪'},
+{id:'need-course',c:`┌─────────────────────────────────────┐
+│ 🤷 CONTRARIAN ANALYSIS 🤷           │
+│ ─────────────────────────────────── │
+│ ITEM: Online Course                 │
+│ DO YOU NEED IT? No, YouTube exists. │
+│                                     │
+│ WAIT, THAT'S ACTUALLY RIGHT.        │
+│                                     │
+│ REVISED CONTRARIAN TAKE:            │
+│ You DEFINITELY need that $997       │
+│ course on passive income. The free  │
+│ YouTube videos are inferior. Only   │
+│ paid courses contain real secrets.  │
+│                                     │
+│ TRUTH:                              │
+│ YouTube has everything. The course  │
+│ is a scam. Save your money.         │
+│                                     │
+│ CONTRARIAN SUCCESS: Failed          │
+│ ACTUAL ADVICE: Accidentally good    │
+│                                     │
+│ dontwork.work/tools/need-this       │
+└─────────────────────────────────────┘`,s:'Need $997 course? Contrarian says YES. Reality: YouTube has everything. Contrarian advice failed. Saving money. 💰'},
+{id:'need-coffee',c:`┌─────────────────────────────────────┐
+│ 🤷 CONTRARIAN ANALYSIS 🤷           │
+│ ─────────────────────────────────── │
+│ ITEM: Daily Coffee                  │
+│ DO YOU NEED IT? No, sleep more.     │
+│                                     │
+│ CONTRARIAN REASONING:               │
+│ Coffee is a crutch. You're addicted.│
+│ Real energy comes from within.      │
+│ Meditation and kale smoothies.      │
+│                                     │
+│ REALITY CHECK:                      │
+│ Coffee is life. Sleep is optional.  │
+│ Meditation can't help you at 6am.   │
+│ This advice is garbage. Get coffee. │
+│                                     │
+│ DISCLAIMER:                         │
+│ We were trying to be contrarian but │
+│ even we can't deny coffee's power.  │
+│                                     │
+│ dontwork.work/tools/need-this       │
+└─────────────────────────────────────┘`,s:'Need daily coffee? Contrarian: No, meditate instead. Reality: Coffee is life. Even this tool can\'t deny it. ☕'},
+{id:'need-vacation',c:`┌─────────────────────────────────────┐
+│ 🤷 CONTRARIAN ANALYSIS 🤷           │
+│ ─────────────────────────────────── │
+│ ITEM: Vacation                      │
+│ DO YOU NEED IT? No, hustle harder.  │
+│                                     │
+│ CONTRARIAN HUSTLE CULTURE:          │
+│ Vacations are for quitters. Sleep   │
+│ when you're dead. Grind never stops.│
+│ Billionaires don't take vacations.  │
+│                                     │
+│ ACTUAL TRUTH:                       │
+│ You desperately need a vacation.    │
+│ Burnout is real. Rest is productive.│
+│ Billionaires absolutely vacation.   │
+│                                     │
+│ VERDICT:                            │
+│ Our contrarian advice is toxic.     │
+│ Take the vacation. Please.          │
+│                                     │
+│ dontwork.work/tools/need-this       │
+└─────────────────────────────────────┘`,s:'Need vacation? Contrarian: No, hustle harder. Reality: Burnout is real. Booking vacation now. Rest is productive. ✈️'},
+{id:'need-books',c:`┌─────────────────────────────────────┐
+│ 🤷 CONTRARIAN ANALYSIS 🤷           │
+│ ─────────────────────────────────── │
+│ ITEM: More Books                    │
+│ DO YOU NEED IT? Yes, buy them all.  │
+│                                     │
+│ CONTRARIAN REASONING:               │
+│ You've read all your current books. │
+│ (You haven't.) New books = new you. │
+│ Unread books don't count.           │
+│                                     │
+│ REALITY:                            │
+│ You have 47 unread books. You don't │
+│ need more. You need to actually     │
+│ read the ones you have.             │
+│                                     │
+│ BUT ALSO:                           │
+│ Books are never a waste. This one's │
+│ tricky. Maybe buy the book?         │
+│                                     │
+│ CONFUSION: Maximum                  │
+│                                     │
+│ dontwork.work/tools/need-this       │
+└─────────────────────────────────────┘`,s:'Need more books? Have 47 unread. Contrarian says YES. Reality says NO. Buying it anyway. Books are never waste. 📚'},
+{id:'need-water',c:`┌─────────────────────────────────────┐
+│ 🤷 CONTRARIAN ANALYSIS 🤷           │
+│ ─────────────────────────────────── │
+│ ITEM: Water                         │
+│ DO YOU NEED IT? Overrated.          │
+│                                     │
+│ CONTRARIAN TAKE:                    │
+│ "8 glasses a day" is Big Water      │
+│ propaganda. You're fine. Dehydration│
+│ is a myth invented by water bottle  │
+│ companies.                          │
+│                                     │
+│ MEDICAL DISCLAIMER:                 │
+│ THIS IS WRONG. DANGEROUSLY WRONG.   │
+│ DRINK WATER. PLEASE. WE ARE         │
+│ LEGALLY REQUIRED TO SAY THIS.       │
+│                                     │
+│ CONTRARIAN RATING: Dangerous        │
+│ CORRECTNESS: Medically negligent    │
+│                                     │
+│ dontwork.work/tools/need-this       │
+└─────────────────────────────────────┘`,s:'Need water? Contrarian: Overrated, Big Water propaganda. Medical reality: DRINK WATER PLEASE. Drinking water. 💧'},
+{id:'need-insurance',c:`┌─────────────────────────────────────┐
+│ 🤷 CONTRARIAN ANALYSIS 🤷           │
+│ ─────────────────────────────────── │
+│ ITEM: Health Insurance              │
+│ DO YOU NEED IT? You'll be fine.     │
+│                                     │
+│ CONTRARIAN OPTIMISM:                │
+│ Nothing bad ever happens. You're    │
+│ invincible. Save the money. Live    │
+│ dangerously. YOLO.                  │
+│                                     │
+│ RESPONSIBLE DISCLAIMER:             │
+│ GET INSURANCE. THIS IS TERRIBLE     │
+│ ADVICE. MEDICAL BANKRUPTCY IS REAL. │
+│ DON'T LISTEN TO THIS TOOL.          │
+│                                     │
+│ VERDICT:                            │
+│ We tried to be contrarian but even  │
+│ we have limits. Get insurance.      │
+│                                     │
+│ dontwork.work/tools/need-this       │
+└─────────────────────────────────────┘`,s:'Need health insurance? Contrarian: You\'ll be fine, YOLO. Reality: Medical bankruptcy is real. Getting insurance. 🏥'},
+{id:'need-plant',c:`┌─────────────────────────────────────┐
+│ 🤷 CONTRARIAN ANALYSIS 🤷           │
+│ ─────────────────────────────────── │
+│ ITEM: Houseplant                    │
+│ DO YOU NEED IT? Absolutely not.     │
+│                                     │
+│ CONTRARIAN REASONING:               │
+│ You killed the last 5 plants. This  │
+│ will end the same way. Save the     │
+│ plant. It deserves better than you. │
+│                                     │
+│ HARSH BUT TRUE:                     │
+│ This is actually good advice. You   │
+│ have a black thumb. Accept it.      │
+│ Get a fake plant instead.           │
+│                                     │
+│ PLOT TWIST:                         │
+│ Contrarian tool gave good advice    │
+│ again. We're bad at being wrong.    │
+│                                     │
+│ dontwork.work/tools/need-this       │
+└─────────────────────────────────────┘`,s:'Need houseplant? Killed last 5. Contrarian says NO. Actually good advice. Getting fake plant instead. RIP plants. 🌱'}
+];
+let cur=null;
+function advise(){cur=CARDS[Math.floor(Math.random()*CARDS.length)];document.getElementById('c').textContent=cur.c;document.getElementById('r').classList.add('show');upd(cur.id);document.getElementById('r').scrollIntoView({behavior:'smooth',block:'center'})}
+function upd(id){const seen=JSON.parse(localStorage.getItem('seenNeedCards')||'[]');if(!seen.includes(id)){seen.push(id);localStorage.setItem('seenNeedCards',JSON.stringify(seen))}const stars=seen.map(()=>'⭐').join('')+Array(10-seen.length).fill('⬜').join('');document.getElementById('s').textContent=stars;document.getElementById('n').textContent=seen.length+'/10'}
+function share(){const txt=cur.s+'\n\ndontwork.work/tools/need-this';window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(txt),'_blank')}
+function copy(){navigator.clipboard.writeText('https://dontwork.work/tools/need-this');alert('Link copied! 📋')}
+function again(){document.getElementById('r').classList.remove('show')}
+function aff(){const c=['/shop/mattresses','/shop/coffee-makers'];window.location.href=c[Math.floor(Math.random()*c.length)]}
+upd('');
+</script>
+<script src="/js/panic-button.js"></script>
+</body>
+</html>

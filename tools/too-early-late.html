@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Is It Too Early/Late? - Time Judgment Tool | DontWork.work</title>
+<meta name="description" content="Wondering if it's too early to drink or too late to text? Let us judge your timing decisions.">
+<meta property="og:title" content="Is It Too Early/Late? - Time Judgment">
+<meta property="og:description" content="Get judged for your questionable timing decisions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/main.css">
+<style>
+body{background:linear-gradient(135deg,#FFA17F 0%,#00223E 100%);min-height:100vh;padding:20px}.container{max-width:700px;margin:40px auto}.header{text-align:center;color:white;margin-bottom:40px}h1{font-family:'Fraunces',serif;font-size:clamp(2.5rem,6vw,4rem);margin-bottom:15px}.subtitle{font-size:1.2rem;opacity:0.9}.box{background:white;border-radius:20px;padding:40px;box-shadow:0 10px 40px rgba(0,0,0,0.3);margin-bottom:30px;text-align:center}.btn{width:100%;padding:25px;font-size:1.8rem;font-family:'Fraunces',serif;font-weight:700;background:linear-gradient(135deg,#FFA17F 0%,#00223E 100%);color:white;border:none;border-radius:12px;cursor:pointer;transition:all 0.3s}.btn:hover{transform:translateY(-2px)}.result{display:none;background:white;border-radius:20px;padding:40px;box-shadow:0 10px 40px rgba(0,0,0,0.3);margin-bottom:30px}.result.show{display:block;animation:slideUp 0.5s}@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}.card{font-family:'Courier New',monospace;white-space:pre-wrap;background:#f5f5f5;padding:25px;border-radius:12px;border:2px solid #333;font-size:0.9rem;line-height:1.4;margin-bottom:25px}.btns{display:flex;gap:12px;flex-wrap:wrap}.sbtn{flex:1;min-width:140px;padding:15px;border:none;border-radius:10px;font-weight:700;cursor:pointer;transition:all 0.3s}.sbtn:hover{transform:translateY(-2px)}.tw{background:#1DA1F2;color:white}.cp{background:#34495e;color:white}.ag{background:linear-gradient(135deg,#FFA17F 0%,#00223E 100%);color:white}.aff{background:linear-gradient(135deg,#FF6B35 0%,#F7C548 100%);border-radius:20px;padding:30px;text-align:center;color:white;margin-top:30px}.aff h3{font-family:'Fraunces',serif;font-size:1.8rem;margin-bottom:15px}.aff button{background:white;color:#FF6B35;padding:15px 35px;border:none;border-radius:12px;font-size:1.2rem;font-weight:700;cursor:pointer}.coll{text-align:center;margin-top:20px;padding:15px;background:#fff3e0;border-radius:10px}
+</style>
+</head>
+<body>
+<!-- AD PLACEHOLDER - Top -->
+<div class="container">
+<div class="header"><h1>⏰ Is It Too Early/Late?</h1><p class="subtitle">Judging your questionable timing since 2026.</p></div>
+<div class="box"><button class="btn" onclick="judge()">⏰ Judge My Timing</button></div>
+<div class="result" id="r"><div class="card" id="c"></div><div class="btns"><button class="sbtn tw" onclick="share()">🐦 Share</button><button class="sbtn cp" onclick="copy()">📋 Copy</button><button class="sbtn ag" onclick="again()">🔄 Again</button></div><div class="coll"><div style="font-size:1.5rem;margin:10px 0" id="s"></div><p><strong id="n">0/10</strong> timing judgments collected</p></div></div>
+<div class="aff"><h3>Feeling Impulsive?</h3><p style="opacity:0.9;margin-bottom:20px">Bad timing for everything...</p><button onclick="aff()">Show Me Random Stuff 🎁</button></div>
+<p style="text-align:center;margin-top:30px"><a href="/" style="color:white;text-decoration:none;opacity:0.8">← Back</a></p>
+</div>
+<!-- AD PLACEHOLDER - Bottom -->
+<script>
+const CARDS=[
+{id:'time-drink-early',c:`┌─────────────────────────────────────┐
+│ ⏰ TIMING JUDGMENT RENDERED ⏰       │
+│ ─────────────────────────────────── │
+│ QUESTION: Too early to drink?       │
+│ ANSWER: Depends on your job.        │
+│                                     │
+│ CURRENT TIME: Morning               │
+│ SOCIALLY ACCEPTABLE: No             │
+│ DO PEOPLE DO IT ANYWAY: Yes         │
+│                                     │
+│ ACCEPTABLE SCENARIOS:               │
+│ • Brunch (mimosas = loophole)       │
+│ • Airport (time zones don't count)  │
+│ • Vacation (rules suspended)        │
+│ • Unemployment (every hour is 5pm)  │
+│                                     │
+│ JUDGMENT: It's 5 o'clock somewhere. │
+│ Probably not here though.           │
+│                                     │
+│ dontwork.work/tools/too-early-late  │
+└─────────────────────────────────────┘`,s:'Is it too early to drink? Depends on your job. Currently unemployed so... bottoms up! 🍺'},
+{id:'time-text-late',c:`┌─────────────────────────────────────┐
+│ ⏰ TIMING JUDGMENT RENDERED ⏰       │
+│ ─────────────────────────────────── │
+│ QUESTION: Too late to text?         │
+│ ANSWER: YES. Definitely yes.        │
+│                                     │
+│ CURRENT TIME: After 10 PM           │
+│ ACCEPTABLE REASONS: Emergency only  │
+│ YOUR REASON: Probably not emergency │
+│                                     │
+│ IF YOU TEXT ANYWAY:                 │
+│ • They'll see it as desperate       │
+│ • They're already asleep            │
+│ • Read receipts will haunt you      │
+│ • Morning you will cringe           │
+│                                     │
+│ RECOMMENDATION: Put phone down.     │
+│ Draft it, don't send it.            │
+│                                     │
+│ dontwork.work/tools/too-early-late  │
+└─────────────────────────────────────┘`,s:'Too late to text? YES. Definitely yes. Am I texting anyway? Also yes. 📱'},
+{id:'time-eat-late',c:`┌─────────────────────────────────────┐
+│ ⏰ TIMING JUDGMENT RENDERED ⏰       │
+│ ─────────────────────────────────── │
+│ QUESTION: Too late to eat?          │
+│ ANSWER: Never too late to eat.      │
+│                                     │
+│ CURRENT TIME: Midnight              │
+│ HUNGER LEVEL: Questionable          │
+│ BOREDOM LEVEL: High                 │
+│                                     │
+│ REAL TALK:                          │
+│ You're not hungry, you're bored.    │
+│ But we're not your mom. Eat.        │
+│                                     │
+│ MIDNIGHT SNACK HIERARCHY:           │
+│ 1. Cereal (classic)                 │
+│ 2. Leftover pizza (cold, superior)  │
+│ 3. Whatever's in the fridge         │
+│ 4. Order delivery (no shame)        │
+│                                     │
+│ dontwork.work/tools/too-early-late  │
+└─────────────────────────────────────┘`,s:'Too late to eat? Never. Currently eating cereal at midnight. Time is a social construct. 🥣'},
+{id:'time-quit-early',c:`┌─────────────────────────────────────┐
+│ ⏰ TIMING JUDGMENT RENDERED ⏰       │
+│ ─────────────────────────────────── │
+│ QUESTION: Too early to quit job?    │
+│ ANSWER: Have you started yet?       │
+│                                     │
+│ TIME AT JOB: 2 weeks                │
+│ RED FLAGS NOTICED: Several          │
+│ INSTINCTS SAYING RUN: Loud          │
+│                                     │
+│ CONVENTIONAL WISDOM:                │
+│ "Give it a chance. 6 months min."   │
+│                                     │
+│ ACTUAL WISDOM:                      │
+│ If you know, you know. Life's too   │
+│ short for jobs that suck from day 1.│
+│                                     │
+│ JUDGMENT: Trust your gut.           │
+│ (But have another job first.)       │
+│                                     │
+│ dontwork.work/tools/too-early-late  │
+└─────────────────────────────────────┘`,s:'Too early to quit my job? Been here 2 weeks. Red flags: numerous. Quitting: imminent. 🏃'},
+{id:'time-coffee-late',c:`┌─────────────────────────────────────┐
+│ ⏰ TIMING JUDGMENT RENDERED ⏰       │
+│ ─────────────────────────────────── │
+│ QUESTION: Too late for coffee?      │
+│ ANSWER: Do you want to sleep?       │
+│                                     │
+│ CURRENT TIME: 9 PM                  │
+│ BEDTIME: Theoretically 11 PM        │
+│ ACTUAL BEDTIME: 2 AM (let's be real)│
+│                                     │
+│ IF YES (you want sleep):            │
+│ → No coffee. Drink water.           │
+│                                     │
+│ IF NO (sleep is for the weak):      │
+│ → Drink coffee. Own your choices.   │
+│                                     │
+│ LIKELY OUTCOME:                     │
+│ You'll drink it, regret it at 3am,  │
+│ and do it again tomorrow.           │
+│                                     │
+│ dontwork.work/tools/too-early-late  │
+└─────────────────────────────────────┘`,s:'Too late for coffee? Do I want to sleep? No. Drinking coffee at 9 PM. Sleep is for the weak. ☕'},
+{id:'time-apologize-late',c:`┌─────────────────────────────────────┐
+│ ⏰ TIMING JUDGMENT RENDERED ⏰       │
+│ ─────────────────────────────────── │
+│ QUESTION: Too late to apologize?    │
+│ ANSWER: Depends how bad it was.     │
+│                                     │
+│ TIME SINCE INCIDENT: 6 months       │
+│ SEVERITY: You remember it           │
+│ THEY REMEMBER IT: Definitely        │
+│                                     │
+│ APOLOGY STATUTE OF LIMITATIONS:     │
+│ • Minor offense: 48 hours           │
+│ • Medium offense: 2 weeks           │
+│ • Major offense: Never expires      │
+│                                     │
+│ AT 6 MONTHS:                        │
+│ Either apologize now or take it     │
+│ to your grave. No middle ground.    │
+│                                     │
+│ JUDGMENT: Just apologize already.   │
+│                                     │
+│ dontwork.work/tools/too-early-late  │
+└─────────────────────────────────────┘`,s:'Too late to apologize? 6 months later. Judgment: Just do it already. Sending the text... 📨'},
+{id:'time-gym-early',c:`┌─────────────────────────────────────┐
+│ ⏰ TIMING JUDGMENT RENDERED ⏰       │
+│ ─────────────────────────────────── │
+│ QUESTION: Too early for gym?        │
+│ ANSWER: 5 AM is psychopath hours.   │
+│                                     │
+│ CURRENT TIME: 5:00 AM               │
+│ NORMAL PEOPLE: Sleeping             │
+│ GYM PEOPLE: Already there           │
+│                                     │
+│ WHO GOES TO GYM AT 5 AM:            │
+│ • People with discipline            │
+│ • People avoiding their families    │
+│ • People who hate themselves        │
+│ • People training for something     │
+│                                     │
+│ JUDGMENT: Respect the dedication.   │
+│ But also, just sleep. The gym will  │
+│ still be there at a human hour.     │
+│                                     │
+│ dontwork.work/tools/too-early-late  │
+└─────────────────────────────────────┘`,s:'5 AM gym? That\'s psychopath hours. Judgment: Respect but also just sleep. Going back to bed. 😴'},
+{id:'time-call-mom',c:`┌─────────────────────────────────────┐
+│ ⏰ TIMING JUDGMENT RENDERED ⏰       │
+│ ─────────────────────────────────── │
+│ QUESTION: Too late to call mom?     │
+│ ANSWER: It's never too late.        │
+│                                     │
+│ MOM STATUS: Waiting for your call   │
+│ TIME SINCE LAST CALL: Too long      │
+│ HER FEELINGS: You could call more   │
+│                                     │
+│ ACCEPTABLE CALL TIMES FOR MOM:      │
+│ • Morning: Yes                      │
+│ • Afternoon: Yes                    │
+│ • Evening: Yes                      │
+│ • Late night: She's probably awake  │
+│ • Emergency: Always                 │
+│                                     │
+│ JUDGMENT: Call your mother.         │
+│ She birthed you. Call her.          │
+│                                     │
+│ dontwork.work/tools/too-early-late  │
+└─────────────────────────────────────┘`,s:'Too late to call mom? NEVER. She birthed me. Currently calling... 📞'},
+{id:'time-start-diet',c:`┌─────────────────────────────────────┐
+│ ⏰ TIMING JUDGMENT RENDERED ⏰       │
+│ ─────────────────────────────────── │
+│ QUESTION: Too late to start diet?   │
+│ ANSWER: Emotionally, yes.           │
+│                                     │
+│ CURRENT TIME: 9 PM                  │
+│ LAST MEAL: 30 minutes ago           │
+│ TOMORROW'S COMMITMENT: Questionable │
+│                                     │
+│ CLASSIC MOVE:                       │
+│ "I'll start tomorrow."              │
+│ Tomorrow comes: "I'll start Monday."│
+│ Monday comes: "Next month."         │
+│                                     │
+│ REALITY CHECK:                      │
+│ Starting a diet at night is just    │
+│ setting yourself up for midnight    │
+│ snack guilt. Start tomorrow. Maybe. │
+│                                     │
+│ dontwork.work/tools/too-early-late  │
+└─────────────────────────────────────┘`,s:'Too late to start diet? 9 PM after eating. Starting tomorrow. Or Monday. Definitely next month. 🍕'},
+{id:'time-send-email',c:`┌─────────────────────────────────────┐
+│ ⏰ TIMING JUDGMENT RENDERED ⏰       │
+│ ─────────────────────────────────── │
+│ QUESTION: Too late to send email?   │
+│ ANSWER: Schedule send exists.       │
+│                                     │
+│ CURRENT TIME: 11 PM                 │
+│ EMAIL TYPE: Work-related            │
+│ RECIPIENT: Your boss                │
+│                                     │
+│ IF YOU SEND NOW:                    │
+│ Message: "I work at all hours"      │
+│ Reality: You have no boundaries     │
+│                                     │
+│ IF YOU SCHEDULE FOR 9 AM:           │
+│ Message: "I'm organized"            │
+│ Reality: You're up at 11 PM anyway  │
+│                                     │
+│ JUDGMENT: Schedule it. Fake the     │
+│ work-life balance you don't have.   │
+│                                     │
+│ dontwork.work/tools/too-early-late  │
+└─────────────────────────────────────┘`,s:'Too late to email boss? 11 PM. Scheduling for 9 AM. Faking work-life balance I don\'t have. 📧'}
+];
+let cur=null;
+function judge(){cur=CARDS[Math.floor(Math.random()*CARDS.length)];document.getElementById('c').textContent=cur.c;document.getElementById('r').classList.add('show');upd(cur.id);document.getElementById('r').scrollIntoView({behavior:'smooth',block:'center'})}
+function upd(id){const seen=JSON.parse(localStorage.getItem('seenTimeCards')||'[]');if(!seen.includes(id)){seen.push(id);localStorage.setItem('seenTimeCards',JSON.stringify(seen))}const stars=seen.map(()=>'⭐').join('')+Array(10-seen.length).fill('⬜').join('');document.getElementById('s').textContent=stars;document.getElementById('n').textContent=seen.length+'/10'}
+function share(){const txt=cur.s+'\n\ndontwork.work/tools/too-early-late';window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(txt),'_blank')}
+function copy(){navigator.clipboard.writeText('https://dontwork.work/tools/too-early-late');alert('Link copied! 📋')}
+function again(){document.getElementById('r').classList.remove('show')}
+function aff(){const c=['/shop/mattresses','/shop/coffee-makers'];window.location.href=c[Math.floor(Math.random()*c.length)]}
+upd('');
+</script>
+<script src="/js/panic-button.js"></script>
+</body>
+</html>

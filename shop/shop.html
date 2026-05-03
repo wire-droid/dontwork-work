@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Shop - You Probably Need This | DontWork.work</title>
+  <meta name="description" content="Things you didn't know you needed. Coming soon: curated procrastination supplies and office survival gear.">
+  <meta name="robots" content="noindex, follow">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <style>
+    body {
+      background: linear-gradient(135deg, #F093FB 0%, #F5576C 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 600px;
+      background: white;
+      border-radius: 30px;
+      padding: 60px 40px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    
+    .icon {
+      font-size: 5rem;
+      margin-bottom: 30px;
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: 3rem;
+      color: #1A1A2E;
+      margin-bottom: 20px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      color: #666;
+      margin-bottom: 40px;
+      line-height: 1.7;
+    }
+    
+    .status {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px 30px;
+      border-radius: 15px;
+      font-weight: 700;
+      margin-bottom: 30px;
+      font-size: 1.1rem;
+    }
+    
+    .email-capture {
+      display: flex;
+      gap: 10px;
+      margin: 30px 0;
+    }
+    
+    input[type="email"] {
+      flex: 1;
+      padding: 15px 20px;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-family: 'DM Sans', sans-serif;
+    }
+    
+    input[type="email"]:focus {
+      outline: none;
+      border-color: #F093FB;
+    }
+    
+    .notify-btn {
+      padding: 15px 30px;
+      background: linear-gradient(135deg, #F093FB 0%, #F5576C 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 1rem;
+    }
+    
+    .notify-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
+    }
+    
+    .categories {
+      margin: 40px 0;
+      text-align: left;
+    }
+    
+    .categories h3 {
+      font-family: 'Fraunces', serif;
+      color: #1A1A2E;
+      margin-bottom: 15px;
+    }
+    
+    .category-list {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .category-list li {
+      padding: 10px 0;
+      color: #666;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .category-list li:before {
+      content: "🛍️ ";
+      margin-right: 10px;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: #666;
+      text-decoration: none;
+      margin-top: 30px;
+      padding: 12px 25px;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      border-color: #F093FB;
+      color: #F093FB;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="container">
+    <div class="icon">🛍️</div>
+    
+    <h1>You Probably Need This</h1>
+    
+    <p class="subtitle">
+      Since you're here not working anyway, might as well upgrade something.
+    </p>
+    
+    <div class="status">
+      🚧 Coming Soon
+    </div>
+    
+    <p style="color: #666; margin-bottom: 25px;">
+      We're curating the perfect collection of things you didn't know you needed. 
+      Get notified when we launch:
+    </p>
+    
+    <form class="email-capture" onsubmit="return handleSubmit(event)">
+      <input 
+        type="email" 
+        placeholder="your@email.com" 
+        required
+        id="emailInput"
+      />
+      <button type="submit" class="notify-btn">Notify Me</button>
+    </form>
+    
+    <div class="categories">
+      <h3>Coming Categories:</h3>
+      <ul class="category-list">
+        <li>Office Survival Gear</li>
+        <li>Procrastination Essentials</li>
+        <li>Desk Toys & Fidget Tools</li>
+        <li>Coffee & Caffeine Delivery</li>
+        <li>Standing Desks & Ergonomics</li>
+        <li>Noise-Cancelling Everything</li>
+        <li>Things You Didn't Know You Needed</li>
+      </ul>
+    </div>
+    
+    <p style="color: #999; font-size: 0.9rem; font-style: italic;">
+      Disclosure: We earn from qualifying purchases when you buy stuff through our links.
+      Basically, we get paid if you buy things you definitely didn't need.
+    </p>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <script>
+    function handleSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('emailInput').value;
+      
+      // For now, just show success
+      // Later: integrate with email service (Mailchimp, ConvertKit, etc.)
+      alert('Thanks! We\'ll notify you when the shop launches. 🎉\n\nEmail: ' + email);
+      
+      document.getElementById('emailInput').value = '';
+      
+      return false;
+    }
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

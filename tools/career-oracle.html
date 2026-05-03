@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Career Path Oracle - Absurd Career Advice | DontWork.work</title>
+<meta name="description" content="Mystical career guidance from the cosmos. Probably terrible advice. Your next career awaits.">
+<meta property="og:title" content="Career Path Oracle - The Universe Has Spoken">
+<meta property="og:description" content="Get absurd career advice from the cosmic oracle.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/main.css">
+<style>
+body{background:linear-gradient(135deg,#4A00E0 0%,#8E2DE2 100%);min-height:100vh;padding:20px}.container{max-width:700px;margin:40px auto}.header{text-align:center;color:white;margin-bottom:40px}h1{font-family:'Fraunces',serif;font-size:clamp(2.5rem,6vw,4rem);margin-bottom:15px}.subtitle{font-size:1.2rem;opacity:0.9}.box{background:white;border-radius:20px;padding:40px;box-shadow:0 10px 40px rgba(0,0,0,0.3);margin-bottom:30px;text-align:center}.btn{width:100%;padding:25px;font-size:1.8rem;font-family:'Fraunces',serif;font-weight:700;background:linear-gradient(135deg,#4A00E0 0%,#8E2DE2 100%);color:white;border:none;border-radius:12px;cursor:pointer;transition:all 0.3s}.btn:hover{transform:translateY(-2px)}.result{display:none;background:white;border-radius:20px;padding:40px;box-shadow:0 10px 40px rgba(0,0,0,0.3);margin-bottom:30px}.result.show{display:block;animation:slideUp 0.5s}@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}.card{font-family:'Courier New',monospace;white-space:pre-wrap;background:#f5f5f5;padding:25px;border-radius:12px;border:2px solid #333;font-size:0.9rem;line-height:1.4;margin-bottom:25px}.btns{display:flex;gap:12px;flex-wrap:wrap}.sbtn{flex:1;min-width:140px;padding:15px;border:none;border-radius:10px;font-weight:700;cursor:pointer;transition:all 0.3s}.sbtn:hover{transform:translateY(-2px)}.tw{background:#1DA1F2;color:white}.cp{background:#34495e;color:white}.ag{background:linear-gradient(135deg,#4A00E0 0%,#8E2DE2 100%);color:white}.aff{background:linear-gradient(135deg,#FF6B35 0%,#F7C548 100%);border-radius:20px;padding:30px;text-align:center;color:white;margin-top:30px}.aff h3{font-family:'Fraunces',serif;font-size:1.8rem;margin-bottom:15px}.aff button{background:white;color:#FF6B35;padding:15px 35px;border:none;border-radius:12px;font-size:1.2rem;font-weight:700;cursor:pointer}.coll{text-align:center;margin-top:20px;padding:15px;background:#e3f2fd;border-radius:10px}
+</style>
+</head>
+<body>
+<!-- AD PLACEHOLDER - Top -->
+<div class="container">
+<div class="header"><h1>🔮 Career Path Oracle</h1><p class="subtitle">The universe has spoken about your career.</p></div>
+<div class="box"><button class="btn" onclick="consult()">🔮 Consult Oracle</button></div>
+<div class="result" id="r"><div class="card" id="c"></div><div class="btns"><button class="sbtn tw" onclick="share()">🐦 Share</button><button class="sbtn cp" onclick="copy()">📋 Copy</button><button class="sbtn ag" onclick="again()">🔄 Again</button></div><div class="coll"><div style="font-size:1.5rem;margin:10px 0" id="s"></div><p><strong id="n">0/10</strong> career paths revealed</p></div></div>
+<div class="aff"><h3>Feeling Impulsive?</h3><p style="opacity:0.9;margin-bottom:20px">New career, new purchases...</p><button onclick="aff()">Show Me Random Stuff 🎁</button></div>
+<p style="text-align:center;margin-top:30px"><a href="/" style="color:white;text-decoration:none;opacity:0.8">← Back</a></p>
+</div>
+<!-- AD PLACEHOLDER - Bottom -->
+<script>
+const CARDS=[
+{id:'career-influencer',c:`┌─────────────────────────────────────┐
+│ 🔮 CAREER PATH REVEALED 🔮          │
+│ ─────────────────────────────────── │
+│ DESTINY: Professional Influencer    │
+│ SALARY: Variable (very)             │
+│ REQUIREMENTS: Phone + Confidence    │
+│ JOB SECURITY: Algorithm-dependent   │
+│                                     │
+│ DAILY TASKS:                        │
+│ • Post breakfast photos             │
+│ • Pretend to love products          │
+│ • Say "use code HELP10"             │
+│ • Monetize your existence           │
+│                                     │
+│ RETIREMENT PLAN: Retire at 25 or   │
+│ fade into obscurity at 26.          │
+│                                     │
+│ The oracle has spoken.              │
+│ dontwork.work/tools/career-oracle   │
+└─────────────────────────────────────┘`,s:'Career oracle says: Professional Influencer. Time to monetize my breakfast photos. 📸'},
+{id:'career-crypto',c:`┌─────────────────────────────────────┐
+│ 🔮 CAREER PATH REVEALED 🔮          │
+│ ─────────────────────────────────── │
+│ DESTINY: Crypto Day Trader          │
+│ SALARY: ???                         │
+│ RISK LEVEL: Maximum                 │
+│ SLEEP SCHEDULE: Nonexistent         │
+│                                     │
+│ DAILY TASKS:                        │
+│ • Stare at charts                   │
+│ • Lose money sophisticatedly        │
+│ • Tweet about "the dip"             │
+│ • Hustle culture 24/7               │
+│                                     │
+│ CAREER PROSPECTS:                   │
+│ Either retire next year or work     │
+│ at Wendy's. No middle ground.       │
+│                                     │
+│ The oracle is uncertain.            │
+│ dontwork.work/tools/career-oracle   │
+└─────────────────────────────────────┘`,s:'New career path: Crypto Day Trader. Future: uncertain. Confidence: maximum. 📈'},
+{id:'career-dog',c:`┌─────────────────────────────────────┐
+│ 🔮 CAREER PATH REVEALED 🔮          │
+│ ─────────────────────────────────── │
+│ DESTINY: Professional Dog Walker    │
+│ SALARY: Modest                      │
+│ STRESS LEVEL: Low                   │
+│ DOG LEVEL: High                     │
+│                                     │
+│ DAILY TASKS:                        │
+│ • Walk dogs                         │
+│ • Pet dogs                          │
+│ • Talk to dogs                      │
+│ • Get paid for dogs                 │
+│                                     │
+│ CAREER SATISFACTION: 100%           │
+│ HUMAN INTERACTION: Minimal          │
+│ LIFE QUALITY: Optimal               │
+│                                     │
+│ The oracle is wise. Accept this.    │
+│ dontwork.work/tools/career-oracle   │
+└─────────────────────────────────────┘`,s:'Career advice: Professional Dog Walker. Oracle is right. Best decision ever. 🐕'},
+{id:'career-retire',c:`┌─────────────────────────────────────┐
+│ 🔮 CAREER PATH REVEALED 🔮          │
+│ ─────────────────────────────────── │
+│ DESTINY: Early Retirement           │
+│ TIMELINE: Now                       │
+│ FUNDING SOURCE: TBD                 │
+│ PLAN QUALITY: Nonexistent           │
+│                                     │
+│ STEP 1: Quit job                    │
+│ STEP 2: ???                         │
+│ STEP 3: Live on beach forever      │
+│                                     │
+│ ORACLE CONFIDENCE: 100%             │
+│ YOUR BANK ACCOUNT: $47              │
+│ CONTRADICTION: Ignored              │
+│                                     │
+│ The oracle believes in you.         │
+│ (Unrealistically)                   │
+│ dontwork.work/tools/career-oracle   │
+└─────────────────────────────────────┘`,s:'Career plan: Early Retirement. How: TBD. Oracle confidence: 100%. My savings: $47. 💰'},
+{id:'career-artist',c:`┌─────────────────────────────────────┐
+│ 🔮 CAREER PATH REVEALED 🔮          │
+│ ─────────────────────────────────── │
+│ DESTINY: Starving Artist            │
+│ KEYWORD: Starving                   │
+│ SALARY: Passion                     │
+│ RENT: Always late                   │
+│                                     │
+│ LIFE CHOICES:                       │
+│ • Passion over paycheck             │
+│ • Ramen over rent                   │
+│ • Art over everything               │
+│ • Suffering for your craft          │
+│                                     │
+│ WORTH IT?: Absolutely               │
+│ PRACTICAL?: Absolutely not          │
+│                                     │
+│ The oracle honors your sacrifice.   │
+│ dontwork.work/tools/career-oracle   │
+└─────────────────────────────────────┘`,s:'Oracle career path: Starving Artist. Keyword: Starving. Worth it? Absolutely. 🎨'},
+{id:'career-youtuber',c:`┌─────────────────────────────────────┐
+│ 🔮 CAREER PATH REVEALED 🔮          │
+│ ─────────────────────────────────── │
+│ DESTINY: YouTuber                   │
+│ BOSS: The Algorithm                 │
+│ VACATION DAYS: 0                    │
+│ BURNOUT RISK: Guaranteed            │
+│                                     │
+│ DAILY TASKS:                        │
+│ • Film everything                   │
+│ • Monetize trauma                   │
+│ • Clickbait thumbnails              │
+│ • Beg for subscribers               │
+│                                     │
+│ SUCCESS RATE: 0.001%                │
+│ EFFORT REQUIRED: 200%               │
+│                                     │
+│ The oracle says: Good luck.         │
+│ You'll need it.                     │
+│ dontwork.work/tools/career-oracle   │
+└─────────────────────────────────────┘`,s:'Career oracle: YouTuber. New boss: The Algorithm. Vacation: Never. Living the dream. 📹'},
+{id:'career-consultant',c:`┌─────────────────────────────────────┐
+│ 🔮 CAREER PATH REVEALED 🔮          │
+│ ─────────────────────────────────── │
+│ DESTINY: Consultant                 │
+│ JOB: State the obvious              │
+│ PAY: Surprisingly good              │
+│ WEAPON: PowerPoint                  │
+│                                     │
+│ DAILY TASKS:                        │
+│ • Make slides                       │
+│ • Say "synergy" unironically        │
+│ • Charge $300/hour                  │
+│ • Solve problems you created        │
+│                                     │
+│ REQUIRED SKILLS:                    │
+│ Confidence > Competence             │
+│                                     │
+│ The oracle approves this grift.     │
+│ dontwork.work/tools/career-oracle   │
+└─────────────────────────────────────┘`,s:'New career: Consultant. Job: State the obvious. Pay: Surprisingly good. PowerPoint: Weaponized. 💼'},
+{id:'career-coach',c:`┌─────────────────────────────────────┐
+│ 🔮 CAREER PATH REVEALED 🔮          │
+│ ─────────────────────────────────── │
+│ DESTINY: Life Coach                 │
+│ CREDENTIALS: None needed            │
+│ RATE: $200/hour                     │
+│ IRONY LEVEL: Maximum                │
+│                                     │
+│ BUSINESS MODEL:                     │
+│ • Give advice you don't follow      │
+│ • Manifest abundance                │
+│ • Charge for common sense           │
+│ • Use word "journey" constantly     │
+│                                     │
+│ SUCCESS METRIC:                     │
+│ Your clients stay dependent on you  │
+│ forever. Recurring revenue!         │
+│                                     │
+│ The oracle sees your potential.     │
+│ dontwork.work/tools/career-oracle   │
+└─────────────────────────────────────┘`,s:'Career: Life Coach. Give advice I don\'t follow. Charge $200/hr. Galaxy brain. 🧠'},
+{id:'career-stay',c:`┌─────────────────────────────────────┐
+│ 🔮 CAREER PATH REVEALED 🔮          │
+│ ─────────────────────────────────── │
+│ DESTINY: Stay Exactly Where You Are │
+│ REASON: Change is scary             │
+│ COMFORT: Maximum                    │
+│ GROWTH: Minimal                     │
+│                                     │
+│ THE ORACLE'S WISDOM:                │
+│ Why risk failure when you can       │
+│ guarantee mediocrity? Safety is     │
+│ underrated. Ambition is overrated.  │
+│                                     │
+│ LONG-TERM PLAN:                     │
+│ Cruise to retirement. Minimal       │
+│ effort. Maximum pension.            │
+│                                     │
+│ SETTLING: Achieved                  │
+│                                     │
+│ The oracle understands fear.        │
+│ dontwork.work/tools/career-oracle   │
+└─────────────────────────────────────┘`,s:'Career oracle: Stay exactly where you are. Change is scary. Mediocrity: comfortable. Settling: achieved. 😌'},
+{id:'career-monk',c:`┌─────────────────────────────────────┐
+│ 🔮 CAREER PATH REVEALED 🔮          │
+│ ─────────────────────────────────── │
+│ DESTINY: Become a Monk              │
+│ SALARY: $0                          │
+│ PEACE: Priceless                    │
+│ WIFI: None                          │
+│                                     │
+│ REQUIRED ACTIONS:                   │
+│ • Delete LinkedIn                   │
+│ • Embrace silence                   │
+│ • Reject capitalism                 │
+│ • Find enlightenment                │
+│                                     │
+│ TRADE-OFFS:                         │
+│ Money: Gone                         │
+│ Stress: Also gone                   │
+│ Netflix: Definitely gone            │
+│                                     │
+│ The oracle respects this choice.    │
+│ dontwork.work/tools/career-oracle   │
+└─────────────────────────────────────┘`,s:'Career path: Become a monk. Salary: $0. Peace: Priceless. LinkedIn: Deleted. 🧘'}
+];
+let cur=null;
+function consult(){cur=CARDS[Math.floor(Math.random()*CARDS.length)];document.getElementById('c').textContent=cur.c;document.getElementById('r').classList.add('show');upd(cur.id);document.getElementById('r').scrollIntoView({behavior:'smooth',block:'center'})}
+function upd(id){const seen=JSON.parse(localStorage.getItem('seenCareerCards')||'[]');if(!seen.includes(id)){seen.push(id);localStorage.setItem('seenCareerCards',JSON.stringify(seen))}const stars=seen.map(()=>'⭐').join('')+Array(10-seen.length).fill('⬜').join('');document.getElementById('s').textContent=stars;document.getElementById('n').textContent=seen.length+'/10'}
+function share(){const txt=cur.s+'\n\ndontwork.work/tools/career-oracle';window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(txt),'_blank')}
+function copy(){navigator.clipboard.writeText('https://dontwork.work/tools/career-oracle');alert('Link copied! 📋')}
+function again(){document.getElementById('r').classList.remove('show')}
+function aff(){const c=['/shop/mattresses','/shop/coffee-makers'];window.location.href=c[Math.floor(Math.random()*c.length)]}
+upd('');
+</script>
+<script src="/js/panic-button.js"></script>
+</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Whose Fault Is This? - Blame Generator | DontWork.work</title>
+<meta name="description" content="Something went wrong. Find out who to blame. Spoiler: Never you.">
+<meta property="og:title" content="Whose Fault Is This? - Professional Blame Shifter">
+<meta property="og:description" content="Assign blame for everything. Never your fault.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/main.css">
+<style>
+body{background:linear-gradient(135deg,#C33764 0%,#1D2671 100%);min-height:100vh;padding:20px}.container{max-width:700px;margin:40px auto}.header{text-align:center;color:white;margin-bottom:40px}h1{font-family:'Fraunces',serif;font-size:clamp(2.5rem,6vw,4rem);margin-bottom:15px}.subtitle{font-size:1.2rem;opacity:0.9}.box{background:white;border-radius:20px;padding:40px;box-shadow:0 10px 40px rgba(0,0,0,0.3);margin-bottom:30px;text-align:center}.btn{width:100%;padding:25px;font-size:1.8rem;font-family:'Fraunces',serif;font-weight:700;background:linear-gradient(135deg,#C33764 0%,#1D2671 100%);color:white;border:none;border-radius:12px;cursor:pointer;transition:all 0.3s}.btn:hover{transform:translateY(-2px)}.result{display:none;background:white;border-radius:20px;padding:40px;box-shadow:0 10px 40px rgba(0,0,0,0.3);margin-bottom:30px}.result.show{display:block;animation:slideUp 0.5s}@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}.card{font-family:'Courier New',monospace;white-space:pre-wrap;background:#f5f5f5;padding:25px;border-radius:12px;border:2px solid #333;font-size:0.9rem;line-height:1.4;margin-bottom:25px}.btns{display:flex;gap:12px;flex-wrap:wrap}.sbtn{flex:1;min-width:140px;padding:15px;border:none;border-radius:10px;font-weight:700;cursor:pointer;transition:all 0.3s}.sbtn:hover{transform:translateY(-2px)}.tw{background:#1DA1F2;color:white}.cp{background:#34495e;color:white}.ag{background:linear-gradient(135deg,#C33764 0%,#1D2671 100%);color:white}.aff{background:linear-gradient(135deg,#FF6B35 0%,#F7C548 100%);border-radius:20px;padding:30px;text-align:center;color:white;margin-top:30px}.aff h3{font-family:'Fraunces',serif;font-size:1.8rem;margin-bottom:15px}.aff button{background:white;color:#FF6B35;padding:15px 35px;border:none;border-radius:12px;font-size:1.2rem;font-weight:700;cursor:pointer}.coll{text-align:center;margin-top:20px;padding:15px;background:#ffebee;border-radius:10px}
+</style>
+</head>
+<body>
+<!-- AD PLACEHOLDER - Top -->
+<div class="container">
+<div class="header"><h1>🎯 Whose Fault Is This?</h1><p class="subtitle">Professional blame shifting since 2026.</p></div>
+<div class="box"><button class="btn" onclick="blame()">🎯 Assign Blame</button></div>
+<div class="result" id="r"><div class="card" id="c"></div><div class="btns"><button class="sbtn tw" onclick="share()">🐦 Share</button><button class="sbtn cp" onclick="copy()">📋 Copy</button><button class="sbtn ag" onclick="again()">🔄 Again</button></div><div class="coll"><div style="font-size:1.5rem;margin:10px 0" id="s"></div><p><strong id="n">0/10</strong> blame assignments collected</p></div></div>
+<div class="aff"><h3>Feeling Impulsive?</h3><p style="opacity:0.9;margin-bottom:20px">Not your fault you're here...</p><button onclick="aff()">Show Me Random Stuff 🎁</button></div>
+<p style="text-align:center;margin-top:30px"><a href="/" style="color:white;text-decoration:none;opacity:0.8">← Back</a></p>
+</div>
+<!-- AD PLACEHOLDER - Bottom -->
+<script>
+const CARDS=[
+{id:'blame-mercury',c:`┌─────────────────────────────────────┐
+│ 🎯 BLAME ANALYSIS COMPLETE 🎯       │
+│ ─────────────────────────────────── │
+│                                     │
+│ FAULT: Mercury Retrograde           │
+│                                     │
+│ BLAME PERCENTAGE: 100%              │
+│ YOUR RESPONSIBILITY: 0%             │
+│                                     │
+│ EXPLANATION:                        │
+│ Mercury is in retrograde. This      │
+│ explains literally everything that  │
+│ went wrong. Communication issues,   │
+│ technology failures, bad decisions, │
+│ ALL of it. Not your fault.          │
+│                                     │
+│ SCIENTIFIC BASIS: None              │
+│ BELIEVABILITY: High among certain   │
+│                 demographics        │
+│                                     │
+│ USE THIS EXCUSE: Always works on    │
+│ people who read horoscopes.         │
+│                                     │
+│ dontwork.work/tools/whose-fault     │
+└─────────────────────────────────────┘`,s:'Whose fault? Mercury retrograde. My responsibility: 0%. Science: irrelevant. Horoscope people: convinced. 🌟'},
+{id:'blame-karen',c:`┌─────────────────────────────────────┐
+│ 🎯 BLAME ANALYSIS COMPLETE 🎯       │
+│ ─────────────────────────────────── │
+│                                     │
+│ FAULT: Karen from Accounting        │
+│                                     │
+│ BLAME PERCENTAGE: 87%               │
+│ YOUR RESPONSIBILITY: 13%            │
+│                                     │
+│ REASONING:                          │
+│ If Karen had sent that email on     │
+│ time, none of this would've         │
+│ happened. But she didn't. Classic   │
+│ Karen. This cascaded into the       │
+│ disaster you're currently facing.   │
+│                                     │
+│ KAREN'S DEFENSE: "I sent it"        │
+│ REALITY: She didn't                 │
+│                                     │
+│ RECOMMENDATION:                     │
+│ CC everyone next time. CYA.         │
+│                                     │
+│ dontwork.work/tools/whose-fault     │
+└─────────────────────────────────────┘`,s:'Blame analysis: 87% Karen from Accounting, 13% me. If she sent that email on time... Classic Karen. 📧'},
+{id:'blame-technology',c:`┌─────────────────────────────────────┐
+│ 🎯 BLAME ANALYSIS COMPLETE 🎯       │
+│ ─────────────────────────────────── │
+│                                     │
+│ FAULT: Technology                   │
+│                                     │
+│ BLAME PERCENTAGE: 95%               │
+│ YOUR RESPONSIBILITY: 5%             │
+│                                     │
+│ SPECIFIC CULPRITS:                  │
+│ • WiFi (flaky)                      │
+│ • Computer (old)                    │
+│ • Software (buggy)                  │
+│ • Printer (always the printer)      │
+│ • Cloud (inaccessible)              │
+│                                     │
+│ YOUR MINOR ROLE:                    │
+│ Not restarting it sooner.           │
+│                                     │
+│ VERDICT: Technology betrayed you.   │
+│ Machines cannot be trusted.         │
+│                                     │
+│ dontwork.work/tools/whose-fault     │
+└─────────────────────────────────────┘`,s:'Fault analysis: 95% technology, 5% me. WiFi flaky, computer old, printer evil. Machines betrayed me. 💻'},
+{id:'blame-society',c:`┌─────────────────────────────────────┐
+│ 🎯 BLAME ANALYSIS COMPLETE 🎯       │
+│ ─────────────────────────────────── │
+│                                     │
+│ FAULT: Society                      │
+│                                     │
+│ BLAME PERCENTAGE: 78%               │
+│ YOUR RESPONSIBILITY: 22%            │
+│                                     │
+│ SOCIETAL FAILURES:                  │
+│ • Late-stage capitalism             │
+│ • Hustle culture                    │
+│ • Unrealistic expectations          │
+│ • The system is rigged              │
+│                                     │
+│ YOUR CONTRIBUTION:                  │
+│ Existing within this broken system  │
+│ and trying your best.               │
+│                                     │
+│ CONCLUSION:                         │
+│ Not your fault. Society set you up  │
+│ to fail. Fight the system.          │
+│                                     │
+│ dontwork.work/tools/whose-fault     │
+└─────────────────────────────────────┘`,s:'Blame: 78% society, 22% me. Late-stage capitalism strikes again. The system is rigged. Fighting back. ✊'},
+{id:'blame-parents',c:`┌─────────────────────────────────────┐
+│ 🎯 BLAME ANALYSIS COMPLETE 🎯       │
+│ ─────────────────────────────────── │
+│                                     │
+│ FAULT: Your Parents                 │
+│                                     │
+│ BLAME PERCENTAGE: 65%               │
+│ YOUR RESPONSIBILITY: 35%            │
+│                                     │
+│ NATURE VS NURTURE:                  │
+│ • Genetic predisposition: Their DNA │
+│ • Childhood environment: Their home │
+│ • Learned behaviors: Their example  │
+│ • Attachment style: Their parenting │
+│                                     │
+│ YOUR THERAPIST AGREES.              │
+│                                     │
+│ RECOMMENDATION:                     │
+│ Years of therapy to unpack this.    │
+│ Call your mom anyway.               │
+│                                     │
+│ dontwork.work/tools/whose-fault     │
+└─────────────────────────────────────┘`,s:'Fault: 65% my parents, 35% me. Nature, nurture, therapy needed. Still calling mom on Sunday. 📞'},
+{id:'blame-boss',c:`┌─────────────────────────────────────┐
+│ 🎯 BLAME ANALYSIS COMPLETE 🎯       │
+│ ─────────────────────────────────── │
+│                                     │
+│ FAULT: Your Boss                    │
+│                                     │
+│ BLAME PERCENTAGE: 92%               │
+│ YOUR RESPONSIBILITY: 8%             │
+│                                     │
+│ BOSS'S FAILURES:                    │
+│ • Unclear instructions              │
+│ • Unrealistic deadlines             │
+│ • Poor communication                │
+│ • Micromanagement                   │
+│ • General incompetence              │
+│                                     │
+│ YOUR MINOR ROLE:                    │
+│ Not asking for clarification.       │
+│ (But they should've been clear.)    │
+│                                     │
+│ VERDICT: Bad leadership caused this.│
+│                                     │
+│ dontwork.work/tools/whose-fault     │
+└─────────────────────────────────────┘`,s:'Blame: 92% my boss, 8% me. Unclear instructions, unrealistic deadlines, general incompetence. Bad leadership. 👔'},
+{id:'blame-yourself',c:`┌─────────────────────────────────────┐
+│ 🎯 BLAME ANALYSIS COMPLETE 🎯       │
+│ ─────────────────────────────────── │
+│                                     │
+│ FAULT: Actually... you.             │
+│                                     │
+│ BLAME PERCENTAGE: 97%               │
+│ YOUR RESPONSIBILITY: 97%            │
+│                                     │
+│ BRUTAL HONESTY TIME:                │
+│ This one's on you, chief.           │
+│ You had all the information.        │
+│ You made the choice.                │
+│ You ignored the warnings.           │
+│                                     │
+│ THE GOOD NEWS:                      │
+│ If it's your fault, you can fix it. │
+│ Growth opportunity! Character       │
+│ building! Learning experience!      │
+│                                     │
+│ Or just... try again with the tool. │
+│                                     │
+│ dontwork.work/tools/whose-fault     │
+└─────────────────────────────────────┘`,s:'Blame analysis: 97% me. This one\'s on me, chief. Growth opportunity or... trying the tool again. 🔄'},
+{id:'blame-ex',c:`┌─────────────────────────────────────┐
+│ 🎯 BLAME ANALYSIS COMPLETE 🎯       │
+│ ─────────────────────────────────── │
+│                                     │
+│ FAULT: Your Ex                      │
+│                                     │
+│ BLAME PERCENTAGE: 110%              │
+│ YOUR RESPONSIBILITY: -10%           │
+│                                     │
+│ ANALYSIS:                           │
+│ Somehow, this traces back to your   │
+│ ex. Maybe not directly. Maybe just  │
+│ the emotional baggage they left you │
+│ with. But it's connected. Trust us. │
+│                                     │
+│ EVIDENCE: None needed. It's an ex.  │
+│                                     │
+│ CLOSURE STATUS: Never                │
+│                                     │
+│ RECOMMENDATION:                     │
+│ Don't text them about this.         │
+│ Seriously. Don't.                   │
+│                                     │
+│ dontwork.work/tools/whose-fault     │
+└─────────────────────────────────────┘`,s:'Fault: 110% my ex. Emotional baggage, unresolved issues. Connected somehow. Not texting them. Definitely not. 📵'},
+{id:'blame-government',c:`┌─────────────────────────────────────┐
+│ 🎯 BLAME ANALYSIS COMPLETE 🎯       │
+│ ─────────────────────────────────── │
+│                                     │
+│ FAULT: The Government               │
+│                                     │
+│ BLAME PERCENTAGE: 73%               │
+│ YOUR RESPONSIBILITY: 27%            │
+│                                     │
+│ GOVERNMENT FAILURES:                │
+│ • Taxes (too high)                  │
+│ • Infrastructure (crumbling)        │
+│ • Bureaucracy (inefficient)         │
+│ • Policies (confusing)              │
+│ • Everything else (broken)          │
+│                                     │
+│ YOUR ROLE:                          │
+│ Existing within this system.        │
+│ Voting? Maybe? Sometimes?           │
+│                                     │
+│ SOLUTION: Vote, complain, or move   │
+│ to a remote island. Your call.      │
+│                                     │
+│ dontwork.work/tools/whose-fault     │
+└─────────────────────────────────────┘`,s:'Blame: 73% the government. Taxes high, infrastructure crumbling, bureaucracy inefficient. Remote island looking good. 🏝️'},
+{id:'blame-algorithm',c:`┌─────────────────────────────────────┐
+│ 🎯 BLAME ANALYSIS COMPLETE 🎯       │
+│ ─────────────────────────────────── │
+│                                     │
+│ FAULT: The Algorithm                │
+│                                     │
+│ BLAME PERCENTAGE: 88%               │
+│ YOUR RESPONSIBILITY: 12%            │
+│                                     │
+│ ALGORITHMIC CRIMES:                 │
+│ • Addictive content feeds           │
+│ • Echo chambers                     │
+│ • Radicalization pipelines          │
+│ • Stolen time                       │
+│ • Destroyed attention span          │
+│                                     │
+│ YOUR CONTRIBUTION:                  │
+│ Clicking. Scrolling. Existing       │
+│ online. Being human.                │
+│                                     │
+│ VERDICT: The algorithm got you.     │
+│ It gets everyone eventually.        │
+│                                     │
+│ dontwork.work/tools/whose-fault     │
+└─────────────────────────────────────┘`,s:'Fault: 88% the algorithm. Destroyed my attention span, stole my time. It gets everyone. Still scrolling. 📱'}
+];
+let cur=null;
+function blame(){cur=CARDS[Math.floor(Math.random()*CARDS.length)];document.getElementById('c').textContent=cur.c;document.getElementById('r').classList.add('show');upd(cur.id);document.getElementById('r').scrollIntoView({behavior:'smooth',block:'center'})}
+function upd(id){const seen=JSON.parse(localStorage.getItem('seenBlameCards')||'[]');if(!seen.includes(id)){seen.push(id);localStorage.setItem('seenBlameCards',JSON.stringify(seen))}const stars=seen.map(()=>'⭐').join('')+Array(10-seen.length).fill('⬜').join('');document.getElementById('s').textContent=stars;document.getElementById('n').textContent=seen.length+'/10'}
+function share(){const txt=cur.s+'\n\ndontwork.work/tools/whose-fault';window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(txt),'_blank')}
+function copy(){navigator.clipboard.writeText('https://dontwork.work/tools/whose-fault');alert('Link copied! 📋')}
+function again(){document.getElementById('r').classList.remove('show')}
+function aff(){const c=['/shop/mattresses','/shop/coffee-makers'];window.location.href=c[Math.floor(Math.random()*c.length)]}
+upd('');
+</script>
+<script src="/js/panic-button.js"></script>
+</body>
+</html>

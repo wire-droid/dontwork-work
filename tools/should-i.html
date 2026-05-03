@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Should I? - Magic Decision Maker | DontWork.work</title>
+  <meta name="description" content="Can't make a decision? Let the universe decide. Ask 'Should I?' and receive cosmic guidance (probably terrible).">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <style>
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 700px;
+      margin: 40px auto;
+    }
+    
+    .header {
+      text-align: center;
+      color: white;
+      margin-bottom: 40px;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      margin-bottom: 15px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+    
+    .question-box {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      margin-bottom: 30px;
+    }
+    
+    .question-input {
+      width: 100%;
+      font-size: 1.3rem;
+      padding: 20px;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      font-family: 'DM Sans', sans-serif;
+    }
+    
+    .question-input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+    
+    .ask-btn {
+      width: 100%;
+      padding: 20px;
+      font-size: 1.5rem;
+      font-family: 'Fraunces', serif;
+      font-weight: 700;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .ask-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+    
+    .result-card {
+      display: none;
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      margin-bottom: 30px;
+    }
+    
+    .result-card.show {
+      display: block;
+      animation: slideUp 0.5s ease-out;
+    }
+    
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .card-content {
+      font-family: 'Courier New', monospace;
+      white-space: pre-wrap;
+      background: #f5f5f5;
+      padding: 25px;
+      border-radius: 12px;
+      border: 2px solid #333;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      margin-bottom: 25px;
+    }
+    
+    .share-buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    
+    .share-btn {
+      flex: 1;
+      min-width: 140px;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 1rem;
+    }
+    
+    .share-twitter {
+      background: #1DA1F2;
+      color: white;
+    }
+    
+    .share-copy {
+      background: #34495e;
+      color: white;
+    }
+    
+    .try-again {
+      background: #667eea;
+      color: white;
+    }
+    
+    .share-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    
+    .affiliate-box {
+      background: linear-gradient(135deg, #FF6B35 0%, #F7C548 100%);
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      color: white;
+      margin-top: 30px;
+    }
+    
+    .affiliate-box h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+    }
+    
+    .affiliate-btn {
+      background: white;
+      color: #FF6B35;
+      padding: 15px 35px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .affiliate-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    
+    .collection-info {
+      text-align: center;
+      margin-top: 20px;
+      padding: 15px;
+      background: #e8f5e9;
+      border-radius: 10px;
+    }
+    
+    /* Ad Placeholder Styles (hidden, just comments) */
+  </style>
+</head>
+<body>
+  
+  <!-- AD PLACEHOLDER - Top Leaderboard (728x90 or Responsive) -->
+  <!-- Replace this comment with your ad code -->
+  
+  <div class="container">
+    <div class="header">
+      <h1>🤔 Should I?</h1>
+      <p class="subtitle">The universe will decide your fate. Ask wisely.</p>
+    </div>
+    
+    <div class="question-box">
+      <input 
+        type="text" 
+        class="question-input" 
+        id="questionInput"
+        placeholder="Should I text my ex?"
+        maxlength="100"
+      />
+      <button class="ask-btn" onclick="askQuestion()">Ask the Universe</button>
+    </div>
+    
+    <div class="result-card" id="resultCard">
+      <div class="card-content" id="cardContent"></div>
+      
+      <div class="share-buttons">
+        <button class="share-btn share-twitter" onclick="shareTwitter()">
+          🐦 Share on Twitter
+        </button>
+        <button class="share-btn share-copy" onclick="copyLink()">
+          📋 Copy Link
+        </button>
+        <button class="share-btn try-again" onclick="tryAgain()">
+          🔄 Ask Again
+        </button>
+      </div>
+      
+      <div class="collection-info">
+        <div style="font-size: 1.5rem; margin: 10px 0;" id="collectionStars"></div>
+        <p><strong id="collectionCount">0/10</strong> cosmic answers collected</p>
+      </div>
+    </div>
+    
+    <div class="affiliate-box">
+      <h3>Feeling Impulsive?</h3>
+      <p style="opacity: 0.9; margin-bottom: 20px;">
+        Since you're making questionable decisions anyway...
+      </p>
+      <button class="affiliate-btn" onclick="randomAffiliate()">
+        Show Me Random Stuff 🎁
+      </button>
+    </div>
+    
+    <p style="text-align: center; margin-top: 30px;">
+      <a href="/" style="color: white; text-decoration: none; opacity: 0.8;">
+        ← Back to Home
+      </a>
+    </p>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom Leaderboard (728x90 or Responsive) -->
+  <!-- Replace this comment with your ad code -->
+  
+  <script>
+    const CARDS = [
+      {
+        id: 'should-yes',
+        answer: 'YES',
+        content: `┌─────────────────────────────────────┐
+│ 🔮 COSMIC DECISION RENDERED 🔮      │
+│ ─────────────────────────────────── │
+│                                     │
+│ QUESTION: {QUESTION}                │
+│                                     │
+│ ANSWER: YES, ABSOLUTELY             │
+│                                     │
+│ CONFIDENCE LEVEL: 87%               │
+│ (The universe is 13% uncertain,     │
+│  but that's your problem)           │
+│                                     │
+│ REASONING:                          │
+│ The alignment of Jupiter and your   │
+│ poor life choices suggests this     │
+│ is exactly the kind of decision     │
+│ you would make anyway.              │
+│                                     │
+│ RECOMMENDED NEXT STEPS:             │
+│ 1. Do it                            │
+│ 2. Regret it later                  │
+│ 3. Ask us again tomorrow            │
+│                                     │
+│ dontwork.work/tools/should-i        │
+└─────────────────────────────────────┘`,
+        shareText: 'The universe told me: YES, ABSOLUTELY. Confidence: 87%. I\'m doing it. 🔮'
+      },
+      {
+        id: 'should-no',
+        answer: 'NO',
+        content: `┌─────────────────────────────────────┐
+│ 🔮 COSMIC DECISION RENDERED 🔮      │
+│ ─────────────────────────────────── │
+│                                     │
+│ QUESTION: {QUESTION}                │
+│                                     │
+│ ANSWER: ABSOLUTELY NOT              │
+│                                     │
+│ CONFIDENCE LEVEL: 94%               │
+│ (We're pretty sure about this one)  │
+│                                     │
+│ REASONING:                          │
+│ Mercury is in retrograde, your      │
+│ bank account is crying, and the     │
+│ universe is begging you to stop.    │
+│                                     │
+│ CONSEQUENCES OF IGNORING:           │
+│ • Immediate regret: High            │
+│ • Long-term regret: Also high       │
+│ • "I told you so" moments: Endless  │
+│                                     │
+│ But you'll probably do it anyway.   │
+│                                     │
+│ dontwork.work/tools/should-i        │
+└─────────────────────────────────────┘`,
+        shareText: 'The universe said: ABSOLUTELY NOT. Confidence: 94%. ...I\'m probably still doing it. 🤷'
+      },
+      {
+        id: 'should-maybe',
+        answer: 'MAYBE',
+        content: `┌─────────────────────────────────────┐
+│ 🔮 COSMIC DECISION RENDERED 🔮      │
+│ ─────────────────────────────────── │
+│                                     │
+│ QUESTION: {QUESTION}                │
+│                                     │
+│ ANSWER: MAYBE? PROBABLY? WHO KNOWS? │
+│                                     │
+│ CONFIDENCE LEVEL: 50%               │
+│ (Literally a coin flip)             │
+│                                     │
+│ THE UNIVERSE RESPONDS:              │
+│ "We consulted the stars, checked    │
+│  your horoscope, and asked a Magic  │
+│  8-Ball. Results were inconclusive."│
+│                                     │
+│ HELPFUL SUGGESTIONS:                │
+│ • Flip a coin                       │
+│ • Ask your mom                      │
+│ • Do it anyway and blame us         │
+│ • Don't do it and regret not doing  │
+│                                     │
+│ You're on your own with this one.   │
+│                                     │
+│ dontwork.work/tools/should-i        │
+└─────────────────────────────────────┘`,
+        shareText: 'Asked the universe a question. Answer: MAYBE? 🤷 Thanks for nothing, cosmos.'
+      },
+      {
+        id: 'should-why',
+        answer: 'WHY ARE YOU ASKING US?',
+        content: `┌─────────────────────────────────────┐
+│ 🔮 COSMIC INTERVENTION REQUIRED 🔮  │
+│ ─────────────────────────────────── │
+│                                     │
+│ QUESTION: {QUESTION}                │
+│                                     │
+│ ANSWER: WHY ARE YOU ASKING US?      │
+│                                     │
+│ SERIOUSLY THOUGH:                   │
+│ You typed that question and thought │
+│ "Yes, the internet will have the    │
+│ answer to my life's problems."      │
+│                                     │
+│ WE ARE A RANDOM DECISION GENERATOR. │
+│ WE HAVE NO WISDOM.                  │
+│ WE ARE NOT QUALIFIED.               │
+│                                     │
+│ But since you're here anyway...     │
+│                                     │
+│ OUR ADVICE:                         │
+│ Do whatever makes you happy.        │
+│ Unless it's illegal.                │
+│ Or involves your ex.                │
+│ Actually, maybe just don't.         │
+│                                     │
+│ dontwork.work/tools/should-i        │
+└─────────────────────────────────────┘`,
+        shareText: 'I asked the universe for advice. They said: "WHY ARE YOU ASKING US?" Fair point. 🤔'
+      },
+      {
+        id: 'should-later',
+        answer: 'ASK AGAIN LATER',
+        content: `┌─────────────────────────────────────┐
+│ 🔮 COSMIC DECISION: POSTPONED 🔮    │
+│ ─────────────────────────────────── │
+│                                     │
+│ QUESTION: {QUESTION}                │
+│                                     │
+│ ANSWER: ASK AGAIN LATER             │
+│                                     │
+│ CURRENT COSMIC STATUS:              │
+│ • Mercury: Still in retrograde      │
+│ • Moon phase: Inconvenient          │
+│ • Your judgment: Questionable       │
+│ • Decision readiness: 0%            │
+│                                     │
+│ ESTIMATED TIME UNTIL CLARITY:       │
+│ Anywhere from 5 minutes to never.   │
+│                                     │
+│ ALTERNATIVE SUGGESTIONS:            │
+│ • Sleep on it                       │
+│ • Ask a magic 8-ball                │
+│ • Consult a therapist               │
+│ • Or just do it, who are we         │
+│   to judge?                         │
+│                                     │
+│ dontwork.work/tools/should-i        │
+└─────────────────────────────────────┘`,
+        shareText: 'Universe\'s answer: ASK AGAIN LATER. Guess I\'ll never know. ⏰'
+      },
+      {
+        id: 'should-definitely',
+        answer: 'DEFINITELY DO IT',
+        content: `┌─────────────────────────────────────┐
+│ 🔮 URGENT COSMIC BULLETIN 🔮        │
+│ ─────────────────────────────────── │
+│                                     │
+│ QUESTION: {QUESTION}                │
+│                                     │
+│ ANSWER: DEFINITELY DO IT. RIGHT NOW.│
+│                                     │
+│ URGENCY LEVEL: MAXIMUM              │
+│ CONSEQUENCES OF WAITING: Dire       │
+│                                     │
+│ THE STARS HAVE ALIGNED.             │
+│ THE MOMENT IS NOW.                  │
+│ TOMORROW WILL BE TOO LATE.          │
+│                                     │
+│ WHAT ARE YOU WAITING FOR?           │
+│ • Permission? Granted.              │
+│ • A sign? This is it.               │
+│ • Courage? You don't need it.       │
+│                                     │
+│ DISCLAIMER:                         │
+│ We accept no responsibility for     │
+│ what happens next. But seriously,   │
+│ do it. The universe demands it.     │
+│                                     │
+│ dontwork.work/tools/should-i        │
+└─────────────────────────────────────┘`,
+        shareText: 'The universe SCREAMED at me: DEFINITELY DO IT. RIGHT NOW. So I guess I\'m doing it. 🚀'
+      },
+      {
+        id: 'should-never',
+        answer: 'NEVER EVER',
+        content: `┌─────────────────────────────────────┐
+│ 🔮 COSMIC RED ALERT 🔮              │
+│ ─────────────────────────────────── │
+│                                     │
+│ QUESTION: {QUESTION}                │
+│                                     │
+│ ANSWER: NO. NEVER. NOT EVEN ONCE.   │
+│                                     │
+│ SEVERITY LEVEL: CATASTROPHIC        │
+│                                     │
+│ THE UNIVERSE CONSULTED:             │
+│ • Every deity (unanimous NO)        │
+│ • Your future self (says don't)     │
+│ • Common sense (unavailable, but    │
+│   would definitely say no)          │
+│                                     │
+│ IF YOU DO THIS ANYWAY:              │
+│ ⚠️  Regret probability: 99.8%       │
+│ ⚠️  "What was I thinking": Immediate│
+│ ⚠️  Telling this story later: Never │
+│                                     │
+│ The cosmos has spoken.              │
+│ Please listen this time.            │
+│                                     │
+│ dontwork.work/tools/should-i        │
+└─────────────────────────────────────┘`,
+        shareText: 'Universe verdict: NEVER EVER. NOT EVEN ONCE. But like... what if I did anyway? 🤔'
+      },
+      {
+        id: 'should-coin',
+        answer: 'FLIP A COIN',
+        content: `┌─────────────────────────────────────┐
+│ 🔮 COSMIC RESPONSIBILITY WAIVER 🔮  │
+│ ─────────────────────────────────── │
+│                                     │
+│ QUESTION: {QUESTION}                │
+│                                     │
+│ ANSWER: WE REFUSE TO ANSWER THIS    │
+│                                     │
+│ REASONING:                          │
+│ Even the universe has limits.       │
+│ This decision is too important,     │
+│ too stupid, or too obvious for      │
+│ us to weigh in.                     │
+│                                     │
+│ ALTERNATIVE DECISION METHODS:       │
+│ • Flip a coin (heads = yes)         │
+│ • Ask literally anyone else         │
+│ • Close your eyes and point         │
+│ • Eenie meenie miney mo             │
+│ • Wait for a sign from god          │
+│                                     │
+│ FINAL THOUGHT:                      │
+│ If you're asking a random website   │
+│ this question, the answer is        │
+│ probably "get professional help."   │
+│                                     │
+│ dontwork.work/tools/should-i        │
+└─────────────────────────────────────┘`,
+        shareText: 'Asked the universe a question. They refused to answer and told me to flip a coin. Rude. 🪙'
+      },
+      {
+        id: 'should-yolo',
+        answer: 'YOLO',
+        content: `┌─────────────────────────────────────┐
+│ 🔮 COSMIC YOLO DIRECTIVE 🔮         │
+│ ─────────────────────────────────── │
+│                                     │
+│ QUESTION: {QUESTION}                │
+│                                     │
+│ ANSWER: YOLO. YOU ONLY LIVE ONCE.   │
+│                                     │
+│ LIFE EXPECTANCY ANALYSIS:           │
+│ Years remaining: Unknown            │
+│ Good decisions made: Too few        │
+│ Regrets so far: Too many            │
+│ Time for one more?: Absolutely      │
+│                                     │
+│ THE UNIVERSE'S WISDOM:              │
+│ "You're gonna die someday anyway.   │
+│  Might as well have a good story    │
+│  to tell at your funeral."          │
+│                                     │
+│ WORST CASE SCENARIO:                │
+│ It goes horribly wrong and you      │
+│ have a funny story. Best case: you  │
+│ don't regret NOT doing it forever.  │
+│                                     │
+│ Go forth. Be chaotic. YOLO.         │
+│                                     │
+│ dontwork.work/tools/should-i        │
+└─────────────────────────────────────┘`,
+        shareText: 'Universe\'s advice: YOLO. YOU ONLY LIVE ONCE. So I\'m doing the thing. Consequences be damned. 🎉'
+      },
+      {
+        id: 'should-sleep',
+        answer: 'SLEEP ON IT',
+        content: `┌─────────────────────────────────────┐
+│ 🔮 COSMIC WISDOM DISPENSED 🔮       │
+│ ─────────────────────────────────── │
+│                                     │
+│ QUESTION: {QUESTION}                │
+│                                     │
+│ ANSWER: SLEEP ON IT                 │
+│                                     │
+│ CURRENT TIME: Too late for this     │
+│ DECISION QUALITY: Compromised       │
+│ SLEEP DEPRIVATION: Evident          │
+│                                     │
+│ ANALYSIS:                           │
+│ No one makes good decisions when    │
+│ they're tired, emotional, or both.  │
+│ You are clearly one or both.        │
+│                                     │
+│ PRESCRIBED TREATMENT:               │
+│ 1. Close this tab                   │
+│ 2. Go to bed                        │
+│ 3. Sleep 8 hours                    │
+│ 4. Wake up and reconsider           │
+│ 5. Realize how dumb this was        │
+│                                     │
+│ Tomorrow-you will thank today-you.  │
+│                                     │
+│ dontwork.work/tools/should-i        │
+└─────────────────────────────────────┘`,
+        shareText: 'Asked the universe for advice at 2 AM. They told me to sleep on it. They\'re probably right. 😴'
+      },
+      {
+        id: 'should-why-not',
+        answer: 'WHY NOT?',
+        content: `┌─────────────────────────────────────┐
+│ 🔮 COSMIC SHRUG 🔮                  │
+│ ─────────────────────────────────── │
+│                                     │
+│ QUESTION: {QUESTION}                │
+│                                     │
+│ ANSWER: WHY NOT? 🤷                 │
+│                                     │
+│ RISK ASSESSMENT:                    │
+│ Catastrophic outcome: Unlikely      │
+│ Mild embarrassment: Probable        │
+│ Good story: Guaranteed              │
+│ Regrets: Who cares?                 │
+│                                     │
+│ PHILOSOPHICAL PERSPECTIVE:          │
+│ In the grand cosmic scheme of       │
+│ things, none of this matters. The   │
+│ heat death of the universe is       │
+│ inevitable. Your choices are        │
+│ meaningless. So... why not?         │
+│                                     │
+│ MOTIVATIONAL THOUGHT:               │
+│ Every good story starts with        │
+│ someone saying "why not?"           │
+│                                     │
+│ Be the story. Do the thing.         │
+│                                     │
+│ dontwork.work/tools/should-i        │
+└─────────────────────────────────────┘`,
+        shareText: 'Universe said: WHY NOT? 🤷 So that\'s settled. I\'m doing it for the story.'
+      }
+    ];
+    
+    let currentQuestion = '';
+    let currentCard = null;
+    
+    function askQuestion() {
+      const input = document.getElementById('questionInput');
+      currentQuestion = input.value.trim() || 'Should I do the thing?';
+      
+      // Select random card
+      currentCard = CARDS[Math.floor(Math.random() * CARDS.length)];
+      
+      // Format content
+      let content = currentCard.content.replace(/\{QUESTION\}/g, 
+        currentQuestion.length > 50 ? currentQuestion.substring(0, 47) + '...' : currentQuestion
+      );
+      
+      // Display card
+      document.getElementById('cardContent').textContent = content;
+      document.getElementById('resultCard').classList.add('show');
+      
+      // Update collection
+      updateCollection(currentCard.id);
+      
+      // Scroll to result
+      document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    
+    function updateCollection(cardId) {
+      const seen = JSON.parse(localStorage.getItem('seenShouldICards') || '[]');
+      if (!seen.includes(cardId)) {
+        seen.push(cardId);
+        localStorage.setItem('seenShouldICards', JSON.stringify(seen));
+      }
+      
+      const stars = seen.map(() => '⭐').join('') + Array(10 - seen.length).fill('⬜').join('');
+      document.getElementById('collectionStars').textContent = stars;
+      document.getElementById('collectionCount').textContent = `${seen.length}/10`;
+    }
+    
+    function shareTwitter() {
+      const text = currentCard.shareText + `\n\nQuestion: "${currentQuestion}"\n\ndontwork.work/tools/should-i`;
+      const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+      window.open(url, '_blank');
+    }
+    
+    function copyLink() {
+      navigator.clipboard.writeText('https://dontwork.work/tools/should-i');
+      alert('Link copied! 📋');
+    }
+    
+    function tryAgain() {
+      document.getElementById('resultCard').classList.remove('show');
+      document.getElementById('questionInput').value = '';
+      document.getElementById('questionInput').focus();
+    }
+    
+    function randomAffiliate() {
+      const categories = [
+        '/shop/mattresses',
+        '/shop/coffee-makers',
+        '/shop/headphones',
+        '/shop/standing-desks',
+        '/shop/fidget-toys'
+      ];
+      window.location.href = categories[Math.floor(Math.random() * categories.length)];
+    }
+    
+    // Enter key support
+    document.getElementById('questionInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') askQuestion();
+    });
+    
+    // Load collection on start
+    updateCollection('');
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

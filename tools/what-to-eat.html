@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>What Should I Eat? - Food Decision Maker | DontWork.work</title>
+  <meta name="description" content="Can't decide what to eat? Let us tell you the truth: you're probably just bored.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <style>
+    body {
+      background: linear-gradient(135deg, #FF6B35 0%, #F7C548 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 700px;
+      margin: 40px auto;
+    }
+    
+    .header {
+      text-align: center;
+      color: white;
+      margin-bottom: 40px;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      margin-bottom: 15px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+    
+    .decide-box {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    
+    .decide-btn {
+      width: 100%;
+      padding: 25px;
+      font-size: 1.8rem;
+      font-family: 'Fraunces', serif;
+      font-weight: 700;
+      background: linear-gradient(135deg, #FF6B35 0%, #F7C548 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .decide-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+    }
+    
+    .result-card {
+      display: none;
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      margin-bottom: 30px;
+    }
+    
+    .result-card.show {
+      display: block;
+      animation: slideUp 0.5s ease-out;
+    }
+    
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .card-content {
+      font-family: 'Courier New', monospace;
+      white-space: pre-wrap;
+      background: #f5f5f5;
+      padding: 25px;
+      border-radius: 12px;
+      border: 2px solid #333;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      margin-bottom: 25px;
+    }
+    
+    .share-buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    
+    .share-btn {
+      flex: 1;
+      min-width: 140px;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 1rem;
+    }
+    
+    .share-twitter { background: #1DA1F2; color: white; }
+    .share-copy { background: #34495e; color: white; }
+    .try-again { background: #FF6B35; color: white; }
+    
+    .share-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    
+    .affiliate-box {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      color: white;
+      margin-top: 30px;
+    }
+    
+    .affiliate-box h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+    }
+    
+    .affiliate-btn {
+      background: white;
+      color: #667eea;
+      padding: 15px 35px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .affiliate-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    
+    .collection-info {
+      text-align: center;
+      margin-top: 20px;
+      padding: 15px;
+      background: #fff3e0;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <div class="header">
+      <h1>🍔 What Should I Eat?</h1>
+      <p class="subtitle">Spoiler: You're probably just bored.</p>
+    </div>
+    
+    <div class="decide-box">
+      <button class="decide-btn" onclick="decide()">
+        🎲 Decide My Meal
+      </button>
+    </div>
+    
+    <div class="result-card" id="resultCard">
+      <div class="card-content" id="cardContent"></div>
+      
+      <div class="share-buttons">
+        <button class="share-btn share-twitter" onclick="shareTwitter()">🐦 Share</button>
+        <button class="share-btn share-copy" onclick="copyLink()">📋 Copy</button>
+        <button class="share-btn try-again" onclick="tryAgain()">🔄 Again</button>
+      </div>
+      
+      <div class="collection-info">
+        <div style="font-size: 1.5rem; margin: 10px 0;" id="collectionStars"></div>
+        <p><strong id="collectionCount">0/10</strong> food truths discovered</p>
+      </div>
+    </div>
+    
+    <div class="affiliate-box">
+      <h3>Feeling Impulsive?</h3>
+      <p style="opacity: 0.9; margin-bottom: 20px;">
+        Can't decide what to eat? Maybe buy something instead.
+      </p>
+      <button class="affiliate-btn" onclick="randomAffiliate()">
+        Show Me Random Stuff 🎁
+      </button>
+    </div>
+    
+    <p style="text-align: center; margin-top: 30px;">
+      <a href="/" style="color: white; text-decoration: none; opacity: 0.8;">← Back to Home</a>
+    </p>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    const CARDS = [
+      {
+        id: 'eat-nothing',
+        content: `┌─────────────────────────────────────┐
+│ 🍽️ NUTRITIONAL ANALYSIS COMPLETE 🍽️│
+│ ─────────────────────────────────── │
+│                                     │
+│ RECOMMENDATION: NOTHING             │
+│                                     │
+│ DIAGNOSIS: You're not hungry.       │
+│ You're bored.                       │
+│                                     │
+│ EVIDENCE:                           │
+│ • You opened the fridge 3x already  │
+│ • Nothing looked good               │
+│ • You're on this website            │
+│ • You ate 2 hours ago               │
+│                                     │
+│ PRESCRIPTION:                       │
+│ - Drink water                       │
+│ - Find a hobby                      │
+│ - Stop opening the fridge           │
+│ - Accept that you're just bored     │
+│                                     │
+│ NEXT MEAL: Actual hunger            │
+│                                     │
+│ dontwork.work/tools/what-to-eat     │
+└─────────────────────────────────────┘`,
+        shareText: 'Asked what I should eat. Answer: NOTHING. I\'m not hungry, just bored. Called out. 😑'
+      },
+      {
+        id: 'eat-pizza',
+        content: `┌─────────────────────────────────────┐
+│ 🍕 CULINARY ORACLE SPEAKS 🍕        │
+│ ─────────────────────────────────── │
+│                                     │
+│ RECOMMENDATION: PIZZA               │
+│                                     │
+│ JUSTIFICATION:                      │
+│ It's always pizza. Why did you     │
+│ even ask? You knew it was pizza.    │
+│                                     │
+│ PIZZA PROBABILITY FACTORS:          │
+│ • Day of week: Irrelevant (pizza)   │
+│ • Time of day: Doesn't matter       │
+│ • Last ate pizza: Also irrelevant   │
+│ • Diet goals: Paused for pizza      │
+│                                     │
+│ TOPPING SUGGESTION:                 │
+│ Whatever makes you happy.           │
+│ It's pizza. You can't go wrong.     │
+│                                     │
+│ DELIVERY OR PICKUP:                 │
+│ You're on a procrastination site.   │
+│ Obviously delivery.                 │
+│                                     │
+│ dontwork.work/tools/what-to-eat     │
+└─────────────────────────────────────┘`,
+        shareText: 'What should I eat? PIZZA. It\'s always pizza. Why did I even ask. 🍕'
+      },
+      {
+        id: 'eat-leftovers',
+        content: `┌─────────────────────────────────────┐
+│ 🥡 REFRIGERATOR AUDIT RESULTS 🥡    │
+│ ─────────────────────────────────── │
+│                                     │
+│ RECOMMENDATION: LEFTOVERS           │
+│                                     │
+│ LOCATION: Back of fridge, probably  │
+│ AGE: Unknown, possibly concerning   │
+│ SMELL TEST: Required                │
+│                                     │
+│ FINANCIAL ANALYSIS:                 │
+│ You already paid for this food.     │
+│ Ordering new food = wasting money   │
+│ on food you'll also not eat.        │
+│                                     │
+│ GUILT FACTOR:                       │
+│ High. Your parents would be         │
+│ disappointed in this waste.         │
+│                                     │
+│ DECISION TREE:                      │
+│ Smells okay? → Eat it               │
+│ Smells weird? → Eat it anyway       │
+│ Looks fuzzy? → Order pizza          │
+│                                     │
+│ dontwork.work/tools/what-to-eat     │
+└─────────────────────────────────────┘`,
+        shareText: 'Food recommendation: Eat the leftovers. They\'re probably fine. Probably. 🥡'
+      },
+      {
+        id: 'eat-cereal',
+        content: `┌─────────────────────────────────────┐
+│ 🥣 MEAL COMPLEXITY ASSESSMENT 🥣    │
+│ ─────────────────────────────────── │
+│                                     │
+│ RECOMMENDATION: CEREAL              │
+│                                     │
+│ REASONING:                          │
+│ You can't be bothered to cook.      │
+│ We can't be bothered to suggest     │
+│ anything that requires effort.      │
+│                                     │
+│ CEREAL ADVANTAGES:                  │
+│ • Prep time: 30 seconds             │
+│ • Dishes: One bowl, one spoon       │
+│ • Cooking skill: None required      │
+│ • Judgment from others: Minimal     │
+│                                     │
+│ TIME OF DAY IRRELEVANCE:            │
+│ Breakfast? Sure.                    │
+│ Lunch? Why not.                     │
+│ Dinner? Absolutely.                 │
+│ 3 AM? Classic move.                 │
+│                                     │
+│ dontwork.work/tools/what-to-eat     │
+└─────────────────────────────────────┘`,
+        shareText: 'Dinner recommendation: Cereal. Time of day: Irrelevant. Effort required: Zero. 🥣'
+      },
+      {
+        id: 'eat-expensive',
+        content: `┌─────────────────────────────────────┐
+│ 💰 FINANCIAL IRRESPONSIBILITY 💰    │
+│ ─────────────────────────────────── │
+│                                     │
+│ RECOMMENDATION: SOMETHING EXPENSIVE │
+│                                     │
+│ BUDGET STATUS: Ignored              │
+│ BANK ACCOUNT: Crying                │
+│ FUTURE YOU: Will regret this        │
+│                                     │
+│ JUSTIFICATION GENERATOR:            │
+│ ✓ You deserve it                    │
+│ ✓ Treat yourself                    │
+│ ✓ YOLO                              │
+│ ✓ Money isn't real anyway           │
+│                                     │
+│ SUGGESTED OPTIONS:                  │
+│ • That fancy sushi place            │
+│ • Overpriced brunch ($45 eggs)      │
+│ • Restaurant with 1 Michelin star   │
+│ • Anywhere with valet parking       │
+│                                     │
+│ TOMORROW'S PROBLEM: Checking your   │
+│ bank statement. Today's vibe: Feast.│
+│                                     │
+│ dontwork.work/tools/what-to-eat     │
+└─────────────────────────────────────┘`,
+        shareText: 'Food budget recommendation: Something expensive. Bank account: Crying. Me: Eating fancy food. 💸'
+      },
+      {
+        id: 'eat-salad',
+        content: `┌─────────────────────────────────────┐
+│ 🥗 GUILT MANAGEMENT PROTOCOL 🥗     │
+│ ─────────────────────────────────── │
+│                                     │
+│ RECOMMENDATION: SALAD (but not      │
+│                        really)      │
+│                                     │
+│ ANALYSIS:                           │
+│ You ate poorly all week. Your       │
+│ conscience is screaming. Time for   │
+│ the "healthy choice."               │
+│                                     │
+│ SALAD PREDICTION:                   │
+│ You will order a salad.             │
+│ You will add chicken.               │
+│ Then bacon. Then cheese.            │
+│ Extra dressing.                     │
+│ Final result: 1,200 calories.       │
+│                                     │
+│ NUTRITIONAL HONESTY:                │
+│ This salad is not healthy.          │
+│ You know it. We know it.            │
+│ Order pizza instead.                │
+│                                     │
+│ dontwork.work/tools/what-to-eat     │
+└─────────────────────────────────────┘`,
+        shareText: 'Ordered a "healthy" salad. Added bacon, cheese, and ranch. It\'s now 1,200 calories. Feeling great. 🥗'
+      },
+      {
+        id: 'eat-whatever',
+        content: `┌─────────────────────────────────────┐
+│ 🎲 DECISION ABDICATION COMPLETE 🎲  │
+│ ─────────────────────────────────── │
+│                                     │
+│ RECOMMENDATION: WHATEVER IS CLOSEST │
+│                                     │
+│ EFFORT LEVEL DETECTED: Zero         │
+│ Distance willing to travel: Minimal │
+│                                     │
+│ SELECTION CRITERIA:                 │
+│ 1. Is it nearby? (< 5 min walk)     │
+│ 2. Do they deliver? (preferred)     │
+│ 3. Will you regret it? (probably,   │
+│    but you'll eat it anyway)        │
+│                                     │
+│ LIKELY OUTCOME:                     │
+│ Fast food from the place you        │
+│ always go to while saying "I        │
+│ should try somewhere new."          │
+│                                     │
+│ NEXT TIME:                          │
+│ You'll do the exact same thing.     │
+│ This is who you are now.            │
+│                                     │
+│ dontwork.work/tools/what-to-eat     │
+└─────────────────────────────────────┘`,
+        shareText: 'Food decision: Whatever is closest. Standards: Rock bottom. Regrets: Incoming. 🍟'
+      },
+      {
+        id: 'eat-snacks',
+        content: `┌─────────────────────────────────────┐
+│ 🍿 MEAL REPLACEMENT ANALYSIS 🍿     │
+│ ─────────────────────────────────── │
+│                                     │
+│ RECOMMENDATION: JUST SNACKS         │
+│                                     │
+│ MEAL STATUS: Cancelled              │
+│ ADULT DECISION-MAKING: Suspended    │
+│                                     │
+│ SUGGESTED SNACK COMBINATION:        │
+│ • Chips (family size, for you)      │
+│ • Chocolate (sharing size, also     │
+│   for you)                          │
+│ • Something salty                   │
+│ • Something sweet                   │
+│ • Repeat until full                 │
+│                                     │
+│ NUTRITIONAL VALUE:                  │
+│ Questionable at best.               │
+│                                     │
+│ JUDGMENT LEVELS:                    │
+│ Self: High                          │
+│ Others: They don't need to know     │
+│                                     │
+│ dontwork.work/tools/what-to-eat     │
+└─────────────────────────────────────┘`,
+        shareText: 'Dinner tonight: Just snacks. All the snacks. Meal status: Cancelled. Adulthood: Questionable. 🍿'
+      },
+      {
+        id: 'eat-breakfast',
+        content: `┌─────────────────────────────────────┐
+│ 🍳 TIME-INAPPROPRIATE DINING 🍳     │
+│ ─────────────────────────────────── │
+│                                     │
+│ RECOMMENDATION: BREAKFAST FOR       │
+│                 DINNER              │
+│                                     │
+│ CURRENT TIME: Not breakfast time    │
+│ SOCIETAL NORMS: Irrelevant          │
+│ PANCAKES AT 8PM: Absolutely         │
+│                                     │
+│ JUSTIFICATION:                      │
+│ Breakfast food is the best food.    │
+│ Time is a social construct.         │
+│ You're an adult. You make the rules.│
+│                                     │
+│ MENU SUGGESTIONS:                   │
+│ • Pancakes (yes, really)            │
+│ • Waffles (go wild)                 │
+│ • Eggs (any style)                  │
+│ • Bacon (obviously)                 │
+│                                     │
+│ BONUS: Breakfast for dinner hits    │
+│ different. This is the way.         │
+│                                     │
+│ dontwork.work/tools/what-to-eat     │
+└─────────────────────────────────────┘`,
+        shareText: 'Dinner decision: Breakfast food. Time: 8 PM. Regrets: Zero. Pancakes incoming. 🥞'
+      },
+      {
+        id: 'eat-hydrate',
+        content: `┌─────────────────────────────────────┐
+│ 💧 HYDRATION INTERVENTION 💧        │
+│ ─────────────────────────────────── │
+│                                     │
+│ RECOMMENDATION: DRINK WATER         │
+│                                     │
+│ DIAGNOSIS: Dehydration              │
+│ SYMPTOMS DETECTED:                  │
+│ • Thinking you're hungry            │
+│ • Can't decide what to eat          │
+│ • Using a random website for        │
+│   food advice                       │
+│                                     │
+│ TREATMENT PLAN:                     │
+│ 1. Close this tab                   │
+│ 2. Drink a full glass of water      │
+│ 3. Wait 15 minutes                  │
+│ 4. Realize you weren't hungry       │
+│                                     │
+│ FOLLOW-UP:                          │
+│ If still hungry after water,        │
+│ refer to previous recommendation:   │
+│ Pizza. It's always pizza.           │
+│                                     │
+│ dontwork.work/tools/what-to-eat     │
+└─────────────────────────────────────┘`,
+        shareText: 'Food recommendation: DRINK WATER. Diagnosis: Not hungry, just dehydrated. I feel attacked. 💧'
+      }
+    ];
+    
+    let currentCard = null;
+    
+    function decide() {
+      currentCard = CARDS[Math.floor(Math.random() * CARDS.length)];
+      document.getElementById('cardContent').textContent = currentCard.content;
+      document.getElementById('resultCard').classList.add('show');
+      updateCollection(currentCard.id);
+      document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    
+    function updateCollection(cardId) {
+      const seen = JSON.parse(localStorage.getItem('seenFoodCards') || '[]');
+      if (!seen.includes(cardId)) {
+        seen.push(cardId);
+        localStorage.setItem('seenFoodCards', JSON.stringify(seen));
+      }
+      const stars = seen.map(() => '⭐').join('') + Array(10 - seen.length).fill('⬜').join('');
+      document.getElementById('collectionStars').textContent = stars;
+      document.getElementById('collectionCount').textContent = `${seen.length}/10`;
+    }
+    
+    function shareTwitter() {
+      const text = currentCard.shareText + '\n\ndontwork.work/tools/what-to-eat';
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+    }
+    
+    function copyLink() {
+      navigator.clipboard.writeText('https://dontwork.work/tools/what-to-eat');
+      alert('Link copied! 📋');
+    }
+    
+    function tryAgain() {
+      document.getElementById('resultCard').classList.remove('show');
+    }
+    
+    function randomAffiliate() {
+      const categories = ['/shop/mattresses', '/shop/coffee-makers', '/shop/headphones', '/shop/standing-desks', '/shop/fidget-toys'];
+      window.location.href = categories[Math.floor(Math.random() * categories.length)];
+    }
+    
+    updateCollection('');
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

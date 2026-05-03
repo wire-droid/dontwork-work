@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Call In Sick - Excuse Generator | DontWork.work</title>
+  <meta name="description" content="Generate believable excuses to skip work. Rated by believability. Use responsibly (or not).">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <style>
+    body {
+      background: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container { max-width: 700px; margin: 40px auto; }
+    .header { text-align: center; color: white; margin-bottom: 40px; }
+    h1 { font-family: 'Fraunces', serif; font-size: clamp(2.5rem, 6vw, 4rem); margin-bottom: 15px; }
+    .subtitle { font-size: 1.2rem; opacity: 0.9; }
+    
+    .generate-box {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    
+    .generate-btn {
+      width: 100%;
+      padding: 25px;
+      font-size: 1.8rem;
+      font-family: 'Fraunces', serif;
+      font-weight: 700;
+      background: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .generate-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+    }
+    
+    .result-card {
+      display: none;
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      margin-bottom: 30px;
+    }
+    
+    .result-card.show { display: block; animation: slideUp 0.5s; }
+    
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .card-content {
+      font-family: 'Courier New', monospace;
+      white-space: pre-wrap;
+      background: #f5f5f5;
+      padding: 25px;
+      border-radius: 12px;
+      border: 2px solid #333;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      margin-bottom: 25px;
+    }
+    
+    .share-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+    
+    .share-btn {
+      flex: 1;
+      min-width: 140px;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .share-twitter { background: #1DA1F2; color: white; }
+    .share-copy { background: #34495e; color: white; }
+    .try-again { background: #2ECC71; color: white; }
+    
+    .share-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    
+    .affiliate-box {
+      background: linear-gradient(135deg, #FF6B35 0%, #F7C548 100%);
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      color: white;
+      margin-top: 30px;
+    }
+    
+    .affiliate-box h3 { font-family: 'Fraunces', serif; font-size: 1.8rem; margin-bottom: 15px; }
+    
+    .affiliate-btn {
+      background: white;
+      color: #FF6B35;
+      padding: 15px 35px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .collection-info {
+      text-align: center;
+      margin-top: 20px;
+      padding: 15px;
+      background: #e8f5e9;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <div class="header">
+      <h1>🤥 Call In Sick</h1>
+      <p class="subtitle">Professional excuse generator. Use at your own risk.</p>
+    </div>
+    
+    <div class="generate-box">
+      <button class="generate-btn" onclick="generate()">
+        🎲 Generate Excuse
+      </button>
+    </div>
+    
+    <div class="result-card" id="resultCard">
+      <div class="card-content" id="cardContent"></div>
+      
+      <div class="share-buttons">
+        <button class="share-btn share-twitter" onclick="shareTwitter()">🐦 Share</button>
+        <button class="share-btn share-copy" onclick="copyLink()">📋 Copy</button>
+        <button class="share-btn try-again" onclick="tryAgain()">🔄 New Excuse</button>
+      </div>
+      
+      <div class="collection-info">
+        <div style="font-size: 1.5rem; margin: 10px 0;" id="collectionStars"></div>
+        <p><strong id="collectionCount">0/10</strong> excuses collected</p>
+      </div>
+    </div>
+    
+    <div class="affiliate-box">
+      <h3>Feeling Impulsive?</h3>
+      <p style="opacity: 0.9; margin-bottom: 20px;">
+        Since you're skipping work anyway...
+      </p>
+      <button class="affiliate-btn" onclick="randomAffiliate()">
+        Show Me Random Stuff 🎁
+      </button>
+    </div>
+    
+    <p style="text-align: center; margin-top: 30px;">
+      <a href="/" style="color: white; text-decoration: none; opacity: 0.8;">← Back to Home</a>
+    </p>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    const CARDS = [
+      { id: 'sick-food', content: `┌─────────────────────────────────────┐
+│ 🤒 SICK DAY EXCUSE GENERATOR 🤒     │
+│ ─────────────────────────────────── │
+│                                     │
+│ EXCUSE: Food Poisoning              │
+│                                     │
+│ BELIEVABILITY: 85%                  │
+│                                     │
+│ SCRIPT:                             │
+│ "I ate something last night and I've│
+│  been up all night. I can't leave   │
+│  the bathroom. Sorry."              │
+│                                     │
+│ WHY IT WORKS:                       │
+│ • Nobody asks follow-up questions   │
+│ • Instantly believable              │
+│ • Can't be disproven                │
+│ • Requires no doctor's note         │
+│                                     │
+│ TIPS:                               │
+│ - Sound tired (you probably are)    │
+│ - Don't name the restaurant         │
+│ - Mention "feeling better tomorrow" │
+│                                     │
+│ dontwork.work/tools/call-in-sick    │
+└─────────────────────────────────────┘`, shareText: 'Called in sick. Excuse: Food poisoning. Believability: 85%. Currently eating pizza. 🍕' },
+      { id: 'sick-migraine', content: `┌─────────────────────────────────────┐
+│ 🤒 SICK DAY EXCUSE GENERATOR 🤒     │
+│ ─────────────────────────────────── │
+│                                     │
+│ EXCUSE: Severe Migraine             │
+│                                     │
+│ BELIEVABILITY: 78%                  │
+│                                     │
+│ SCRIPT:                             │
+│ "I woke up with a terrible migraine.│
+│  I can barely look at screens. I    │
+│  need to rest in a dark room."      │
+│                                     │
+│ WHY IT WORKS:                       │
+│ • Sounds medical                    │
+│ • Can't be verified                 │
+│ • Everyone's had headaches          │
+│ • Explains phone call (not email)   │
+│                                     │
+│ ADVANCED TIPS:                      │
+│ - Speak quietly                     │
+│ - Don't post on social media today  │
+│ - Use "light sensitivity" excuse    │
+│                                     │
+│ dontwork.work/tools/call-in-sick    │
+└─────────────────────────────────────┘`, shareText: 'Excuse: Severe migraine. Can\'t look at screens. Currently scrolling Twitter. Oops. 📱' },
+      { id: 'sick-family', content: `┌─────────────────────────────────────┐
+│ 🤒 SICK DAY EXCUSE GENERATOR 🤒     │
+│ ─────────────────────────────────── │
+│                                     │
+│ EXCUSE: Family Emergency            │
+│                                     │
+│ BELIEVABILITY: 92%                  │
+│                                     │
+│ SCRIPT:                             │
+│ "I have a family emergency I need   │
+│  to deal with. I'll update you when │
+│  I can. Thanks for understanding."  │
+│                                     │
+│ WHY IT WORKS:                       │
+│ • Nobody dares ask details          │
+│ • Universally accepted              │
+│ • Open-ended timeline               │
+│ • Minimal explanation needed        │
+│                                     │
+│ WARNING:                            │
+│ High believability = high guilt.    │
+│ Use sparingly. Karma is real.       │
+│                                     │
+│ dontwork.work/tools/call-in-sick    │
+└─────────────────────────────────────┘`, shareText: 'Called in: Family emergency. Reality: Mental health day. Emergency: My sanity. 🧠' },
+      { id: 'sick-car', content: `┌─────────────────────────────────────┐
+│ 🤒 SICK DAY EXCUSE GENERATOR 🤒     │
+│ ─────────────────────────────────── │
+│                                     │
+│ EXCUSE: Car Trouble                 │
+│                                     │
+│ BELIEVABILITY: 65%                  │
+│                                     │
+│ SCRIPT:                             │
+│ "My car won't start. I'm waiting for│
+│  roadside assistance. I'll work from│
+│  home if I can't make it in."       │
+│                                     │
+│ WHY IT'S RISKY:                     │
+│ • Boss might offer ride             │
+│ • Could suggest Uber                │
+│ • Verifiable if they wanted         │
+│                                     │
+│ MITIGATION:                         │
+│ Follow up with "working from home"  │
+│ option. Then actually work a bit.   │
+│ Sends a few emails. Problem solved. │
+│                                     │
+│ dontwork.work/tools/call-in-sick    │
+└─────────────────────────────────────┘`, shareText: 'Excuse: Car won\'t start. Reality: I won\'t start. Both true. 🚗' },
+      { id: 'sick-plumber', content: `┌─────────────────────────────────────┐
+│ 🤒 SICK DAY EXCUSE GENERATOR 🤒     │
+│ ─────────────────────────────────── │
+│                                     │
+│ EXCUSE: Emergency Plumber           │
+│                                     │
+│ BELIEVABILITY: 72%                  │
+│                                     │
+│ SCRIPT:                             │
+│ "I have a plumbing emergency at home│
+│  (pipe burst/leak). Plumber can only│
+│  come during business hours. I need │
+│  to be here to let them in."        │
+│                                     │
+│ WHY IT WORKS:                       │
+│ • Adult responsibility angle        │
+│ • Time-sensitive issue              │
+│ • Sounds expensive (sympathy)       │
+│ • Can't reschedule                  │
+│                                     │
+│ PRO TIP:                            │
+│ Actually take a shower. You'll feel │
+│ less guilty. Barely.                │
+│                                     │
+│ dontwork.work/tools/call-in-sick    │
+└─────────────────────────────────────┘`, shareText: 'Excuse: Emergency plumber. Believability: 72%. Actual emergency: My motivation. 🔧' },
+      { id: 'sick-honest', content: `┌─────────────────────────────────────┐
+│ 🤒 SICK DAY EXCUSE GENERATOR 🤒     │
+│ ─────────────────────────────────── │
+│                                     │
+│ EXCUSE: Brutal Honesty              │
+│                                     │
+│ BELIEVABILITY: 5%                   │
+│                                     │
+│ SCRIPT:                             │
+│ "I just can't today. I'm burned out,│
+│  I need a mental health day, and I'm│
+│  taking one. See you tomorrow."     │
+│                                     │
+│ WHY IT DOESN'T WORK:                │
+│ • Too honest                        │
+│ • Makes boss uncomfortable          │
+│ • Might get lecture                 │
+│ • "Mental health" still taboo       │
+│                                     │
+│ BUT ALSO:                           │
+│ Respect for trying. Maybe one day   │
+│ this will be acceptable. Until then,│
+│ stick with "food poisoning."        │
+│                                     │
+│ dontwork.work/tools/call-in-sick    │
+└─────────────────────────────────────┘`, shareText: 'Tried brutal honesty: "I just can\'t today." Believability: 5%. Worth it? Absolutely. 💯' },
+      { id: 'sick-pet', content: `┌─────────────────────────────────────┐
+│ 🤒 SICK DAY EXCUSE GENERATOR 🤒     │
+│ ─────────────────────────────────── │
+│                                     │
+│ EXCUSE: Pet Emergency               │
+│                                     │
+│ BELIEVABILITY: 55%                  │
+│                                     │
+│ SCRIPT:                             │
+│ "My dog/cat is sick and I need to   │
+│  take them to the vet. It's the only│
+│  appointment available today."      │
+│                                     │
+│ WHY IT'S RISKY:                     │
+│ • Not everyone is pet-friendly      │
+│ • Might suggest "just drop them off"│
+│ • Could backfire with cat people    │
+│                                     │
+│ WHO IT WORKS ON:                    │
+│ Other pet owners. They get it.      │
+│                                     │
+│ BONUS:                              │
+│ Spend the day with your pet anyway. │
+│ Guilt-free day off achieved.        │
+│                                     │
+│ dontwork.work/tools/call-in-sick    │
+└─────────────────────────────────────┘`, shareText: 'Excuse: Pet emergency. Dog is fine. I\'m the one who needed the vet. Emotional support human. 🐕' },
+      { id: 'sick-absurd', content: `┌─────────────────────────────────────┐
+│ 🤒 SICK DAY EXCUSE GENERATOR 🤒     │
+│ ─────────────────────────────────── │
+│                                     │
+│ EXCUSE: Attacked by Geese           │
+│                                     │
+│ BELIEVABILITY: 12%                  │
+│                                     │
+│ SCRIPT:                             │
+│ "I was attacked by a flock of geese │
+│  on my morning walk. I'm shaken up  │
+│  and need the day to recover."      │
+│                                     │
+│ WHY THIS IS TERRIBLE:               │
+│ • Nobody will believe you           │
+│ • Will become office legend         │
+│ • Forever known as "goose person"   │
+│ • Might get asked for photos        │
+│                                     │
+│ WHEN TO USE:                        │
+│ When you want to be memorable.      │
+│ Or when you're actually attacked    │
+│ by geese (it happens).              │
+│                                     │
+│ dontwork.work/tools/call-in-sick    │
+└─────────────────────────────────────┘`, shareText: 'Excuse: Attacked by geese. Believability: 12%. But it COULD happen. Right? ...Right? 🦢' },
+      { id: 'sick-covid', content: `┌─────────────────────────────────────┐
+│ 🤒 SICK DAY EXCUSE GENERATOR 🤒     │
+│ ─────────────────────────────────── │
+│                                     │
+│ EXCUSE: COVID Symptoms              │
+│                                     │
+│ BELIEVABILITY: 95%                  │
+│                                     │
+│ SCRIPT:                             │
+│ "I woke up with symptoms. Taking a  │
+│  test and staying home out of an    │
+│  abundance of caution."             │
+│                                     │
+│ WHY IT WORKS:                       │
+│ • Instant approval                  │
+│ • No questions asked                │
+│ • Shows responsibility              │
+│ • Could be multiple days            │
+│                                     │
+│ ETHICAL WARNING:                    │
+│ This one works TOO well. Use        │
+│ sparingly. Crying wolf has          │
+│ consequences. Also, karma.          │
+│                                     │
+│ dontwork.work/tools/call-in-sick    │
+└─────────────────────────────────────┘`, shareText: 'Excuse: COVID symptoms. Believability: 95%. Actual symptoms: Sunday Scaries extended to Monday. 😷' },
+      { id: 'sick-dentist', content: `┌─────────────────────────────────────┐
+│ 🤒 SICK DAY EXCUSE GENERATOR 🤒     │
+│ ─────────────────────────────────── │
+│                                     │
+│ EXCUSE: Emergency Dental Work       │
+│                                     │
+│ BELIEVABILITY: 68%                  │
+│                                     │
+│ SCRIPT:                             │
+│ "I have an emergency dentist appt.  │
+│  Lost a filling/cracked tooth last  │
+│  night. Only slot available is this │
+│  morning. Will be in after."        │
+│                                     │
+│ WHY IT'S DECENT:                    │
+│ • Medical = legitimate              │
+│ • Limited time (half day)           │
+│ • Painful = sympathy                │
+│ • Hard to verify                    │
+│                                     │
+│ DOWNSIDE:                           │
+│ Might sound like you lied if you    │
+│ show up smiling and eating. Fake a  │
+│ slight wince. Method acting.        │
+│                                     │
+│ dontwork.work/tools/call-in-sick    │
+└─────────────────────────────────────┘`, shareText: 'Excuse: Emergency dentist. Believability: 68%. Currently eating candy. Should probably stop. 🦷' }
+    ];
+    
+    let currentCard = null;
+    
+    function generate() {
+      currentCard = CARDS[Math.floor(Math.random() * CARDS.length)];
+      document.getElementById('cardContent').textContent = currentCard.content;
+      document.getElementById('resultCard').classList.add('show');
+      updateCollection(currentCard.id);
+      document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    
+    function updateCollection(cardId) {
+      const seen = JSON.parse(localStorage.getItem('seenSickCards') || '[]');
+      if (!seen.includes(cardId)) {
+        seen.push(cardId);
+        localStorage.setItem('seenSickCards', JSON.stringify(seen));
+      }
+      const stars = seen.map(() => '⭐').join('') + Array(10 - seen.length).fill('⬜').join('');
+      document.getElementById('collectionStars').textContent = stars;
+      document.getElementById('collectionCount').textContent = `${seen.length}/10`;
+    }
+    
+    function shareTwitter() {
+      const text = currentCard.shareText + '\n\ndontwork.work/tools/call-in-sick';
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+    }
+    
+    function copyLink() {
+      navigator.clipboard.writeText('https://dontwork.work/tools/call-in-sick');
+      alert('Link copied! 📋');
+    }
+    
+    function tryAgain() {
+      document.getElementById('resultCard').classList.remove('show');
+    }
+    
+    function randomAffiliate() {
+      const categories = ['/shop/mattresses', '/shop/coffee-makers'];
+      window.location.href = categories[Math.floor(Math.random() * categories.length)];
+    }
+    
+    updateCollection('');
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

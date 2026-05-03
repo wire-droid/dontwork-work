@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Am I Drunk? - Scientific Sobriety Test | DontWork.work</title>
+  <meta name="description" content="Scientifically determine if you're drunk. Spoiler: You probably are.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <style>
+    body {
+      background: linear-gradient(135deg, #8E2DE2 0%, #4A00E0 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 700px;
+      margin: 40px auto;
+    }
+    
+    .header {
+      text-align: center;
+      color: white;
+      margin-bottom: 40px;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      margin-bottom: 15px;
+    }
+    
+    .test-box {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    
+    .test-btn {
+      width: 100%;
+      padding: 25px;
+      font-size: 1.8rem;
+      font-family: 'Fraunces', serif;
+      font-weight: 700;
+      background: linear-gradient(135deg, #8E2DE2 0%, #4A00E0 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin: 10px 0;
+    }
+    
+    .test-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(142, 45, 226, 0.4);
+    }
+    
+    .result-card {
+      display: none;
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      margin-bottom: 30px;
+    }
+    
+    .result-card.show { display: block; animation: slideUp 0.5s; }
+    
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .card-content {
+      font-family: 'Courier New', monospace;
+      white-space: pre-wrap;
+      background: #f5f5f5;
+      padding: 25px;
+      border-radius: 12px;
+      border: 2px solid #333;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      margin-bottom: 25px;
+    }
+    
+    .share-buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    
+    .share-btn {
+      flex: 1;
+      min-width: 140px;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .share-twitter { background: #1DA1F2; color: white; }
+    .share-copy { background: #34495e; color: white; }
+    .try-again { background: #8E2DE2; color: white; }
+    
+    .share-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    
+    .affiliate-box {
+      background: linear-gradient(135deg, #FF6B35 0%, #F7C548 100%);
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      color: white;
+      margin-top: 30px;
+    }
+    
+    .affiliate-box h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+    }
+    
+    .affiliate-btn {
+      background: white;
+      color: #FF6B35;
+      padding: 15px 35px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .collection-info {
+      text-align: center;
+      margin-top: 20px;
+      padding: 15px;
+      background: #e3f2fd;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <div class="header">
+      <h1>🍺 Am I Drunk?</h1>
+      <p class="subtitle" style="font-size: 1.2rem; opacity: 0.9;">
+        Scientific analysis. Totally legitimate. Definitely reliable.
+      </p>
+    </div>
+    
+    <div class="test-box">
+      <p style="margin-bottom: 20px; font-size: 1.1rem; color: #666;">
+        Choose your test method:
+      </p>
+      <button class="test-btn" onclick="runTest()" style="font-size: 1.5rem;">
+        🧪 Run Sobriety Test
+      </button>
+    </div>
+    
+    <div class="result-card" id="resultCard">
+      <div class="card-content" id="cardContent"></div>
+      
+      <div class="share-buttons">
+        <button class="share-btn share-twitter" onclick="shareTwitter()">🐦 Share</button>
+        <button class="share-btn share-copy" onclick="copyLink()">📋 Copy</button>
+        <button class="share-btn try-again" onclick="tryAgain()">🔄 Test Again</button>
+      </div>
+      
+      <div class="collection-info">
+        <div style="font-size: 1.5rem; margin: 10px 0;" id="collectionStars"></div>
+        <p><strong id="collectionCount">0/10</strong> sobriety verdicts collected</p>
+      </div>
+    </div>
+    
+    <div class="affiliate-box">
+      <h3>Feeling Impulsive?</h3>
+      <p style="opacity: 0.9; margin-bottom: 20px;">
+        Drunk decisions lead to great stories. And purchases.
+      </p>
+      <button class="affiliate-btn" onclick="randomAffiliate()">
+        Show Me Random Stuff 🎁
+      </button>
+    </div>
+    
+    <p style="text-align: center; margin-top: 30px;">
+      <a href="/" style="color: white; text-decoration: none; opacity: 0.8;">← Back to Home</a>
+    </p>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    const CARDS = [
+      {
+        id: 'drunk-yes',
+        content: `┌─────────────────────────────────────┐
+│ 🍺 SOBRIETY ANALYSIS COMPLETE 🍺    │
+│ ─────────────────────────────────── │
+│                                     │
+│ VERDICT: YES, YOU'RE DRUNK          │
+│                                     │
+│ BLOOD ALCOHOL CONTENT: Significant  │
+│ DECISION-MAKING ABILITY: Impaired   │
+│ CONFIDENCE LEVEL: Suspiciously high │
+│                                     │
+│ EVIDENCE:                           │
+│ • You're taking an online test      │
+│ • At this hour                      │
+│ • You thought this would help       │
+│ • You're still reading this         │
+│                                     │
+│ RECOMMENDATIONS:                    │
+│ ✓ Water (lots of it)                │
+│ ✓ Food (carbs preferred)            │
+│ ✓ Do NOT text anyone                │
+│ ✓ Do NOT make life decisions        │
+│ ✓ Do NOT order more drinks          │
+│                                     │
+│ You will ignore all of these.       │
+│                                     │
+│ dontwork.work/tools/am-i-drunk      │
+└─────────────────────────────────────┘`,
+        shareText: 'Took a sobriety test. Result: YES, YOU\'RE DRUNK. Instructions: Don\'t text anyone. Me: Already texting. 🍺'
+      },
+      {
+        id: 'drunk-no',
+        content: `┌─────────────────────────────────────┐
+│ 🍺 SOBRIETY ANALYSIS COMPLETE 🍺    │
+│ ─────────────────────────────────── │
+│                                     │
+│ VERDICT: NO, YOU'RE SOBER           │
+│                                     │
+│ BLOOD ALCOHOL CONTENT: 0.00%        │
+│ DISAPPOINTMENT LEVEL: High          │
+│                                     │
+│ FINDINGS:                           │
+│ You're completely sober and still   │
+│ taking random internet tests.       │
+│                                     │
+│ DIAGNOSIS:                          │
+│ Boredom. Severe boredom.            │
+│                                     │
+│ TREATMENT OPTIONS:                  │
+│ A) Have a drink                     │
+│ B) Find better entertainment        │
+│ C) Both                             │
+│                                     │
+│ PROGNOSIS:                          │
+│ You'll probably stay on this site   │
+│ taking more useless tests.          │
+│                                     │
+│ dontwork.work/tools/am-i-drunk      │
+└─────────────────────────────────────┘`,
+        shareText: 'Sobriety test result: Completely sober. Diagnosis: Severe boredom. Currently fixing that. 🍻'
+      },
+      {
+        id: 'drunk-maybe',
+        content: `┌─────────────────────────────────────┐
+│ 🍺 SOBRIETY ANALYSIS: UNCLEAR 🍺    │
+│ ─────────────────────────────────── │
+│                                     │
+│ VERDICT: POSSIBLY? UNCLEAR.         │
+│                                     │
+│ BLOOD ALCOHOL CONTENT: ???          │
+│ TEST RELIABILITY: Questionable      │
+│                                     │
+│ CONFLICTING EVIDENCE:               │
+│ • Walking: Mostly straight          │
+│ • Spelling: Occasionally correct    │
+│ • Judgment: Always bad (baseline)   │
+│ • Confidence: Hard to measure       │
+│                                     │
+│ ALTERNATIVE ASSESSMENT METHOD:      │
+│ Ask yourself: "Would sober me do    │
+│ this?" If yes → sober. If no →      │
+│ drunk. If unsure → definitely drunk.│
+│                                     │
+│ SCIENTIFIC CONCLUSION:              │
+│ ¯\_(ツ)_/¯                          │
+│                                     │
+│ dontwork.work/tools/am-i-drunk      │
+└─────────────────────────────────────┘`,
+        shareText: 'Am I drunk? Test says: POSSIBLY? UNCLEAR. ¯\\_(ツ)_/¯ Science has failed me. 🤷'
+      },
+      {
+        id: 'drunk-tipsy',
+        content: `┌─────────────────────────────────────┐
+│ 🍺 SOBRIETY STATUS: BORDERLINE 🍺   │
+│ ─────────────────────────────────── │
+│                                     │
+│ VERDICT: TIPSY (LEGAL GRAY AREA)    │
+│                                     │
+│ INTOXICATION LEVEL: 6.5/10          │
+│ FUN LEVEL: 8/10                     │
+│ REGRET PROBABILITY: 7/10            │
+│                                     │
+│ CURRENT STATE:                      │
+│ • Not drunk enough to stop          │
+│ • Not sober enough to drive         │
+│ • Perfect amount for bad decisions  │
+│ • Ideal level for embarrassment     │
+│                                     │
+│ THE DANGER ZONE:                    │
+│ You're in the sweet spot where      │
+│ everything seems like a good idea.  │
+│ Spoiler: Nothing is a good idea.    │
+│                                     │
+│ PROCEED WITH CAUTION.               │
+│ (You won't.)                        │
+│                                     │
+│ dontwork.work/tools/am-i-drunk      │
+└─────────────────────────────────────┘`,
+        shareText: 'Drunk test: TIPSY. The danger zone where everything seems like a good idea. Currently making bad decisions. 🥴'
+      },
+      {
+        id: 'drunk-testing',
+        content: `┌─────────────────────────────────────┐
+│ 🍺 META-ANALYSIS RESULTS 🍺         │
+│ ─────────────────────────────────── │
+│                                     │
+│ VERDICT: IF YOU'RE ASKING, YES      │
+│                                     │
+│ LOGICAL ASSESSMENT:                 │
+│ Sober people don't question their   │
+│ sobriety. They just... know.        │
+│                                     │
+│ THE FACT THAT YOU:                  │
+│ • Opened this page                  │
+│ • Clicked the button                │
+│ • Are reading this now              │
+│ • Needed confirmation               │
+│                                     │
+│ SUGGESTS:                           │
+│ You already know the answer.        │
+│ You're just looking for permission  │
+│ to continue drinking.               │
+│                                     │
+│ PERMISSION: DENIED                  │
+│ (Drink water. Eat food. Sleep.)     │
+│                                     │
+│ dontwork.work/tools/am-i-drunk      │
+└─────────────────────────────────────┘`,
+        shareText: 'If you\'re asking "Am I drunk?" the answer is yes. Sober people don\'t question their sobriety. Gotcha. 🎯'
+      },
+      {
+        id: 'drunk-wasted',
+        content: `┌─────────────────────────────────────┐
+│ 🚨 CRITICAL INTOXICATION ALERT 🚨   │
+│ ─────────────────────────────────── │
+│                                     │
+│ VERDICT: EXTREMELY DRUNK            │
+│                                     │
+│ SOBRIETY LEVEL: 0/10                │
+│ REGRET LEVEL: Future you will know │
+│                                     │
+│ IMMEDIATE ACTIONS REQUIRED:         │
+│ 🚫 STOP DRINKING NOW                │
+│ 💧 DRINK WATER (ENTIRE BOTTLE)      │
+│ 🍕 EAT FOOD (PIZZA RECOMMENDED)     │
+│ 🛏️  GO TO BED (SERIOUSLY)           │
+│                                     │
+│ DO NOT:                             │
+│ ❌ Text your ex                     │
+│ ❌ Post on social media             │
+│ ❌ Make any decisions               │
+│ ❌ Leave the house                  │
+│ ❌ Trust your judgment              │
+│                                     │
+│ TOMORROW: Hangover incoming.        │
+│                                     │
+│ dontwork.work/tools/am-i-drunk      │
+└─────────────────────────────────────┘`,
+        shareText: 'Sobriety test: EXTREMELY DRUNK. Instructions: Stop everything. Me: Posting this on social media. 🚨'
+      },
+      {
+        id: 'drunk-morning',
+        content: `┌─────────────────────────────────────┐
+│ 🌅 MORNING AFTER ANALYSIS 🌅        │
+│ ─────────────────────────────────── │
+│                                     │
+│ VERDICT: HUNGOVER (TECHNICALLY      │
+│          NOT DRUNK ANYMORE)         │
+│                                     │
+│ CURRENT STATUS:                     │
+│ • Blood alcohol: Decreasing         │
+│ • Headache: Increasing              │
+│ • Regret: Maximum                   │
+│ • Memory: Fragmentary               │
+│                                     │
+│ EVIDENCE OF LAST NIGHT:             │
+│ • Your phone (check with caution)   │
+│ • Your bank statement (avoid)       │
+│ • Text messages (delete unsent)     │
+│ • Social media (pray)               │
+│                                     │
+│ RECOVERY PROTOCOL:                  │
+│ Water. Greasy food. Aspirin. Shame. │
+│                                     │
+│ LESSON LEARNED: None. You'll do     │
+│ this again next weekend.            │
+│                                     │
+│ dontwork.work/tools/am-i-drunk      │
+└─────────────────────────────────────┘`,
+        shareText: 'Morning after analysis: HUNGOVER. Evidence of last night: Everywhere. Regret: Maximum. Same time next week. 🤕'
+      },
+      {
+        id: 'drunk-deny',
+        content: `┌─────────────────────────────────────┐
+│ 🍺 DENIAL ASSESSMENT 🍺             │
+│ ─────────────────────────────────── │
+│                                     │
+│ VERDICT: YOU CLAIM YOU'RE FINE      │
+│                                     │
+│ YOUR STATEMENT:                     │
+│ "I'm totally fine. I can drive.     │
+│  I've only had like 2 drinks."      │
+│                                     │
+│ REALITY CHECK:                      │
+│ • Actual drinks consumed: 6+        │
+│ • "Fine" assessment: Incorrect      │
+│ • Driving ability: Nonexistent      │
+│ • Self-awareness: Missing           │
+│                                     │
+│ EVERYONE AT THE BAR KNOWS:          │
+│ You're not fine. You're slurring.   │
+│ You tried to pay with your ID.      │
+│ You asked the bartender to marry    │
+│ you. This is not fine.              │
+│                                     │
+│ UBER: Already called for you.       │
+│                                     │
+│ dontwork.work/tools/am-i-drunk      │
+└─────────────────────────────────────┘`,
+        shareText: 'Me: "I\'m totally fine, only had 2 drinks." Reality: 6+ drinks, tried to pay with my ID. Uber incoming. 🚕'
+      },
+      {
+        id: 'drunk-professional',
+        content: `┌─────────────────────────────────────┐
+│ 🎓 PROFESSIONAL ASSESSMENT 🎓       │
+│ ─────────────────────────────────── │
+│                                     │
+│ VERDICT: FUNCTIONALLY INTOXICATED   │
+│                                     │
+│ SCIENTIFIC ANALYSIS:                │
+│ You've reached the level where you  │
+│ can still form sentences but they   │
+│ don't make sense. Impressive.       │
+│                                     │
+│ COGNITIVE FUNCTION TEST:            │
+│ • Memory: Impaired                  │
+│ • Speech: Slurred                   │
+│ • Balance: Questionable             │
+│ • Confidence: Dangerously high      │
+│ • Wisdom: Nonexistent               │
+│                                     │
+│ PROFESSIONAL RECOMMENDATION:        │
+│ You're at that perfect level of     │
+│ drunk where you think you're a      │
+│ genius but you're actually just     │
+│ loud. Embrace it or go home.        │
+│                                     │
+│ dontwork.work/tools/am-i-drunk      │
+└─────────────────────────────────────┘`,
+        shareText: 'Drunk level: FUNCTIONALLY INTOXICATED. I can form sentences but they don\'t make sense. Peak performance. 🎓'
+      },
+      {
+        id: 'drunk-responsible',
+        content: `┌─────────────────────────────────────┐
+│ 👏 RESPONSIBLE ADULT DETECTED 👏    │
+│ ─────────────────────────────────── │
+│                                     │
+│ VERDICT: SOBER & RESPONSIBLE        │
+│                                     │
+│ CONGRATULATIONS:                    │
+│ You're either:                      │
+│ A) Designated driver (thank you)    │
+│ B) On antibiotics (get well soon)   │
+│ C) Pregnant (congrats!)             │
+│ D) Just don't drink (respect)       │
+│ E) Broke (relatable)                │
+│                                     │
+│ HOWEVER:                            │
+│ You're still on a procrastination   │
+│ website taking drunk tests while    │
+│ sober. So... how responsible        │
+│ are you really?                     │
+│                                     │
+│ PHILOSOPHICAL QUESTION:             │
+│ Is sober procrastination better     │
+│ than drunk productivity?            │
+│                                     │
+│ dontwork.work/tools/am-i-drunk      │
+└─────────────────────────────────────┘`,
+        shareText: 'Drunk test: SOBER & RESPONSIBLE. But I\'m on a procrastination site taking drunk tests. So... am I really? 🤔'
+      }
+    ];
+    
+    let currentCard = null;
+    
+    function runTest() {
+      currentCard = CARDS[Math.floor(Math.random() * CARDS.length)];
+      document.getElementById('cardContent').textContent = currentCard.content;
+      document.getElementById('resultCard').classList.add('show');
+      updateCollection(currentCard.id);
+      document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    
+    function updateCollection(cardId) {
+      const seen = JSON.parse(localStorage.getItem('seenDrunkCards') || '[]');
+      if (!seen.includes(cardId)) {
+        seen.push(cardId);
+        localStorage.setItem('seenDrunkCards', JSON.stringify(seen));
+      }
+      const stars = seen.map(() => '⭐').join('') + Array(10 - seen.length).fill('⬜').join('');
+      document.getElementById('collectionStars').textContent = stars;
+      document.getElementById('collectionCount').textContent = `${seen.length}/10`;
+    }
+    
+    function shareTwitter() {
+      const text = currentCard.shareText + '\n\ndontwork.work/tools/am-i-drunk';
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+    }
+    
+    function copyLink() {
+      navigator.clipboard.writeText('https://dontwork.work/tools/am-i-drunk');
+      alert('Link copied! 📋');
+    }
+    
+    function tryAgain() {
+      document.getElementById('resultCard').classList.remove('show');
+    }
+    
+    function randomAffiliate() {
+      const categories = ['/shop/mattresses', '/shop/coffee-makers', '/shop/headphones'];
+      window.location.href = categories[Math.floor(Math.random() * categories.length)];
+    }
+    
+    updateCollection('');
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

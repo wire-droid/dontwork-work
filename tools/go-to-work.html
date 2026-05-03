@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Should I Go to Work Tomorrow? - Work Avoider | DontWork.work</title>
+<meta name="description" content="Wondering if you should go to work tomorrow? Spoiler: Probably not.">
+<meta property="og:title" content="Should I Go to Work Tomorrow?">
+<meta property="og:description" content="Find reasons not to go to work. We always find them.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/main.css">
+<style>
+body{background:linear-gradient(135deg,#134E5E 0%,#71B280 100%);min-height:100vh;padding:20px}.container{max-width:700px;margin:40px auto}.header{text-align:center;color:white;margin-bottom:40px}h1{font-family:'Fraunces',serif;font-size:clamp(2.5rem,6vw,4rem);margin-bottom:15px}.subtitle{font-size:1.2rem;opacity:0.9}.box{background:white;border-radius:20px;padding:40px;box-shadow:0 10px 40px rgba(0,0,0,0.3);margin-bottom:30px;text-align:center}.btn{width:100%;padding:25px;font-size:1.8rem;font-family:'Fraunces',serif;font-weight:700;background:linear-gradient(135deg,#134E5E 0%,#71B280 100%);color:white;border:none;border-radius:12px;cursor:pointer;transition:all 0.3s}.btn:hover{transform:translateY(-2px)}.result{display:none;background:white;border-radius:20px;padding:40px;box-shadow:0 10px 40px rgba(0,0,0,0.3);margin-bottom:30px}.result.show{display:block;animation:slideUp 0.5s}@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}.card{font-family:'Courier New',monospace;white-space:pre-wrap;background:#f5f5f5;padding:25px;border-radius:12px;border:2px solid #333;font-size:0.9rem;line-height:1.4;margin-bottom:25px}.btns{display:flex;gap:12px;flex-wrap:wrap}.sbtn{flex:1;min-width:140px;padding:15px;border:none;border-radius:10px;font-weight:700;cursor:pointer;transition:all 0.3s}.sbtn:hover{transform:translateY(-2px)}.tw{background:#1DA1F2;color:white}.cp{background:#34495e;color:white}.ag{background:linear-gradient(135deg,#134E5E 0%,#71B280 100%);color:white}.aff{background:linear-gradient(135deg,#FF6B35 0%,#F7C548 100%);border-radius:20px;padding:30px;text-align:center;color:white;margin-top:30px}.aff h3{font-family:'Fraunces',serif;font-size:1.8rem;margin-bottom:15px}.aff button{background:white;color:#FF6B35;padding:15px 35px;border:none;border-radius:12px;font-size:1.2rem;font-weight:700;cursor:pointer}.coll{text-align:center;margin-top:20px;padding:15px;background:#e8f5e9;border-radius:10px}
+</style>
+</head>
+<body>
+<!-- AD PLACEHOLDER - Top -->
+<div class="container">
+<div class="header"><h1>📅 Should I Go to Work Tomorrow?</h1><p class="subtitle">Finding reasons not to since 2026.</p></div>
+<div class="box"><button class="btn" onclick="decide()">📅 Should I Go?</button></div>
+<div class="result" id="r"><div class="card" id="c"></div><div class="btns"><button class="sbtn tw" onclick="share()">🐦 Share</button><button class="sbtn cp" onclick="copy()">📋 Copy</button><button class="sbtn ag" onclick="again()">🔄 Again</button></div><div class="coll"><div style="font-size:1.5rem;margin:10px 0" id="s"></div><p><strong id="n">0/10</strong> excuses collected</p></div></div>
+<div class="aff"><h3>Feeling Impulsive?</h3><p style="opacity:0.9;margin-bottom:20px">Skip work, buy stuff...</p><button onclick="aff()">Show Me Random Stuff 🎁</button></div>
+<p style="text-align:center;margin-top:30px"><a href="/" style="color:white;text-decoration:none;opacity:0.8">← Back</a></p>
+</div>
+<!-- AD PLACEHOLDER - Bottom -->
+<script>
+const CARDS=[
+{id:'work-no-never',c:`┌─────────────────────────────────────┐
+│ 📅 WORK ATTENDANCE VERDICT 📅       │
+│ ─────────────────────────────────── │
+│ ANSWER: No. Absolutely not.         │
+│ REASONING: Life is short.           │
+│ CONVICTION LEVEL: 100%              │
+│                                     │
+│ WHY YOU SHOULDN'T GO:               │
+│ • It's a Tuesday (worst day)        │
+│ • You went last week                │
+│ • They don't appreciate you         │
+│ • The commute is terrible           │
+│ • You deserve better                │
+│                                     │
+│ ALTERNATIVE PLAN:                   │
+│ Stay home. Watch TV. Eat snacks.    │
+│ Pretend to be sick. Live your       │
+│ best life.                          │
+│                                     │
+│ CONSEQUENCES: Tomorrow you's problem│
+│ dontwork.work/tools/go-to-work      │
+└─────────────────────────────────────┘`,s:'Should I go to work tomorrow? No. Absolutely not. Life is short. Staying home. Living my best life. 🏠'},
+{id:'work-technically',c:`┌─────────────────────────────────────┐
+│ 📅 WORK ATTENDANCE VERDICT 📅       │
+│ ─────────────────────────────────── │
+│ ANSWER: Technically yes, but...     │
+│ ASTERISKS: Many                     │
+│                                     │
+│ THE "BUT" LIST:                     │
+│ • You could WFH instead             │
+│ • Half day is acceptable            │
+│ • Come in late, leave early         │
+│ • Minimal effort mode               │
+│                                     │
+│ RECOMMENDATION:                     │
+│ Go, but bring your whole self?      │
+│ Absolutely not. Bring 40% of        │
+│ yourself. Coast mode activated.     │
+│                                     │
+│ ENERGY ALLOCATION:                  │
+│ Work: 30% | Looking busy: 70%       │
+│                                     │
+│ dontwork.work/tools/go-to-work      │
+└─────────────────────────────────────┘`,s:'Go to work? Technically yes but minimal effort mode. Bringing 40% of myself. Coast mode activated. 😴'},
+{id:'work-weather',c:`┌─────────────────────────────────────┐
+│ 📅 WORK ATTENDANCE VERDICT 📅       │
+│ ─────────────────────────────────── │
+│ ANSWER: Check the weather first.    │
+│                                     │
+│ WEATHER-BASED DECISION TREE:        │
+│ • Sunny: Stay home, enjoy it        │
+│ • Rainy: Stay home, too dangerous   │
+│ • Snowy: Impossible, stay safe      │
+│ • Cloudy: Depressing, mental health │
+│ • Perfect: Rare, don't waste it     │
+│                                     │
+│ CONCLUSION:                         │
+│ All weather conditions suggest not  │
+│ going. Mother Nature agrees with    │
+│ your instincts.                     │
+│                                     │
+│ SCIENTIFIC BACKING: None            │
+│ FEELS TRUE: Yes                     │
+│                                     │
+│ dontwork.work/tools/go-to-work      │
+└─────────────────────────────────────┘`,s:'Should I work? Check weather first. Sunny/rainy/snowy/cloudy = all say stay home. Mother Nature agrees. ☀️🌧️'},
+{id:'work-monday',c:`┌─────────────────────────────────────┐
+│ 📅 WORK ATTENDANCE VERDICT 📅       │
+│ ─────────────────────────────────── │
+│ TOMORROW IS: Monday                 │
+│ ANSWER: Definitely not.             │
+│ CONVICTION: Absolute                │
+│                                     │
+│ MONDAY FACTS:                       │
+│ • Scientifically the worst day      │
+│ • Everyone hates Mondays            │
+│ • Even Garfield knows               │
+│ • Stats show: less productive       │
+│                                     │
+│ BETTER OPTIONS:                     │
+│ • Start Tuesday instead             │
+│ • 4-day work week (your version)    │
+│ • Call in sick                      │
+│ • Quit (extreme but effective)      │
+│                                     │
+│ MONDAY SURVIVAL RATE: Low           │
+│                                     │
+│ dontwork.work/tools/go-to-work      │
+└─────────────────────────────────────┘`,s:'Tomorrow is Monday. Should I go? DEFINITELY NOT. Starting Tuesday instead. 4-day work week achieved. 📅'},
+{id:'work-feeling',c:`┌─────────────────────────────────────┐
+│ 📅 WORK ATTENDANCE VERDICT 📅       │
+│ ─────────────────────────────────── │
+│ ANSWER: Listen to your body.        │
+│                                     │
+│ BODY SIGNALS DETECTED:              │
+│ • Tiredness: High                   │
+│ • Motivation: Nonexistent           │
+│ • Will to live: Questionable        │
+│ • Desire to work: Negative          │
+│                                     │
+│ DIAGNOSIS:                          │
+│ Your body is screaming "NO."        │
+│ Your mind is screaming "NO."        │
+│ Only your bank account says "YES."  │
+│                                     │
+│ RECOMMENDATION:                     │
+│ Take a mental health day.           │
+│ Your mental health needs it.        │
+│ We all need it.                     │
+│                                     │
+│ dontwork.work/tools/go-to-work      │
+└─────────────────────────────────────┘`,s:'Should I work? Body says NO. Mind says NO. Bank account says YES. Taking mental health day. 🧠'},
+{id:'work-projects',c:`┌─────────────────────────────────────┐
+│ 📅 WORK ATTENDANCE VERDICT 📅       │
+│ ─────────────────────────────────── │
+│ ANSWER: What projects are due?      │
+│                                     │
+│ PROJECT STATUS CHECK:               │
+│ • Urgent projects: None             │
+│ • Important meetings: Skippable     │
+│ • Deadlines: Next week (plenty)     │
+│ • Boss expectations: Low            │
+│                                     │
+│ ANALYSIS:                           │
+│ Nothing urgent = nothing requiring  │
+│ your physical presence. Email works.│
+│ Slack works. Your couch works better│
+│                                     │
+│ VERDICT:                            │
+│ Work from home. Or just... home.    │
+│ Nobody will notice the difference.  │
+│                                     │
+│ dontwork.work/tools/go-to-work      │
+└─────────────────────────────────────┘`,s:'Projects due? None urgent. Meetings? Skippable. Verdict: Working from couch. Nobody will notice. 🛋️'},
+{id:'work-coffee',c:`┌─────────────────────────────────────┐
+│ 📅 WORK ATTENDANCE VERDICT 📅       │
+│ ─────────────────────────────────── │
+│ ANSWER: Is there good coffee there? │
+│                                     │
+│ OFFICE COFFEE QUALITY: Terrible     │
+│ HOME COFFEE QUALITY: Superior       │
+│                                     │
+│ ECONOMIC ANALYSIS:                  │
+│ • Office coffee: Free but sad       │
+│ • Home coffee: Costs money, amazing │
+│ • Starbucks: Expensive, consistent  │
+│                                     │
+│ RECOMMENDATION:                     │
+│ Stay home for the coffee alone.     │
+│ Quality of life matters.            │
+│                                     │
+│ PRODUCTIVITY CORRELATION:           │
+│ Good coffee = better work           │
+│ Home has good coffee                │
+│ Therefore: WFH is logical           │
+│                                     │
+│ dontwork.work/tools/go-to-work      │
+└─────────────────────────────────────┘`,s:'Office coffee: terrible. Home coffee: superior. Staying home for the coffee alone. Quality of life matters. ☕'},
+{id:'work-commute',c:`┌─────────────────────────────────────┐
+│ 📅 WORK ATTENDANCE VERDICT 📅       │
+│ ─────────────────────────────────── │
+│ ANSWER: Factor in the commute.      │
+│                                     │
+│ COMMUTE REALITY CHECK:              │
+│ • Time wasted: 2 hours daily        │
+│ • Gas money: Significant            │
+│ • Stress level: Maximum             │
+│ • Podcast completion: Only upside   │
+│                                     │
+│ CALCULATION:                        │
+│ 2 hours commute = 2 hours of life   │
+│ lost forever. Is your job worth     │
+│ that? Survey says: No.              │
+│                                     │
+│ ALTERNATIVE:                        │
+│ • WFH: 0 minute commute             │
+│ • Productivity: Probably the same   │
+│ • Pants: Optional                   │
+│                                     │
+│ dontwork.work/tools/go-to-work      │
+└─────────────────────────────────────┘`,s:'Commute: 2 hours daily. Life lost: Forever. Is job worth it? No. WFH: 0 minute commute. Pants: Optional. 🚗'},
+{id:'work-yes',c:`┌─────────────────────────────────────┐
+│ 📅 WORK ATTENDANCE VERDICT 📅       │
+│ ─────────────────────────────────── │
+│ ANSWER: Yes, you should go.         │
+│                                     │
+│ WAIT, REALLY?                       │
+│ Are you sure you're on the right    │
+│ website? This is dontwork.work.     │
+│ We don't usually say yes.           │
+│                                     │
+│ BUT FINE, REASONS TO GO:            │
+│ • Paycheck (valid)                  │
+│ • Health insurance (important)      │
+│ • Don't get fired (smart)           │
+│ • Professional growth (maybe)       │
+│                                     │
+│ DISCLAIMER:                         │
+│ This answer brought to you by       │
+│ Responsibility. We don't endorse it.│
+│                                     │
+│ dontwork.work/tools/go-to-work      │
+└─────────────────────────────────────┘`,s:'Should I work? Tool says... YES? Wrong website. Brought to you by Responsibility (not endorsed). 😅'},
+{id:'work-lottery',c:`┌─────────────────────────────────────┐
+│ 📅 WORK ATTENDANCE VERDICT 📅       │
+│ ─────────────────────────────────── │
+│ ANSWER: Did you win the lottery?    │
+│                                     │
+│ LOTTERY STATUS: Probably not        │
+│ FINANCIAL FREEDOM: Still pending    │
+│ NEED FOR JOB: Unfortunately, yes    │
+│                                     │
+│ HARSH REALITY:                      │
+│ Until you win the lottery, you      │
+│ probably need this job. Bills exist.│
+│ Rent is due. Food costs money.      │
+│                                     │
+│ HOWEVER:                            │
+│ That doesn't mean you can't call    │
+│ in sick occasionally. Balance.      │
+│                                     │
+│ RECOMMENDATION:                     │
+│ Go, but buy a lottery ticket on     │
+│ the way. Hope is free.              │
+│                                     │
+│ dontwork.work/tools/go-to-work      │
+└─────────────────────────────────────┘`,s:'Should I work? Did I win lottery? No. Need job? Unfortunately yes. Going but buying lottery ticket. Hope is free. 🎟️'}
+];
+let cur=null;
+function decide(){cur=CARDS[Math.floor(Math.random()*CARDS.length)];document.getElementById('c').textContent=cur.c;document.getElementById('r').classList.add('show');upd(cur.id);document.getElementById('r').scrollIntoView({behavior:'smooth',block:'center'})}
+function upd(id){const seen=JSON.parse(localStorage.getItem('seenWorkCards')||'[]');if(!seen.includes(id)){seen.push(id);localStorage.setItem('seenWorkCards',JSON.stringify(seen))}const stars=seen.map(()=>'⭐').join('')+Array(10-seen.length).fill('⬜').join('');document.getElementById('s').textContent=stars;document.getElementById('n').textContent=seen.length+'/10'}
+function share(){const txt=cur.s+'\n\ndontwork.work/tools/go-to-work';window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(txt),'_blank')}
+function copy(){navigator.clipboard.writeText('https://dontwork.work/tools/go-to-work');alert('Link copied! 📋')}
+function again(){document.getElementById('r').classList.remove('show')}
+function aff(){const c=['/shop/mattresses','/shop/coffee-makers'];window.location.href=c[Math.floor(Math.random()*c.length)]}
+upd('');
+</script>
+<script src="/js/panic-button.js"></script>
+</body>
+</html>
