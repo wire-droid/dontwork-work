@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Passive-Aggressive Email Translator | DontWork.work</title>
+  <meta name="description" content="Translate corporate emails! Per my last email = CAN'T YOU READ?! Professional to honest translator!">
+  <meta name="keywords" content="email translator, passive aggressive, corporate email, email decoder, work email">
+  
+  <meta property="og:title" content="Passive-Aggressive Email Translator">
+  <meta property="og:description" content="Per my last email... = CAN'T YOU READ?!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/email-translator.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Email Translator">
+  <meta name="twitter:description" content="Translate corporate speak to real meaning!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #FA8BFF 0%, #2BD2FF 50%, #2BFF88 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+    
+    .translator {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    
+    .mode-toggle {
+      display: flex;
+      background: #f5f5f5;
+      border-radius: 50px;
+      padding: 8px;
+      margin-bottom: 30px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .mode-btn {
+      flex: 1;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 50px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      background: transparent;
+      color: #666;
+    }
+    
+    .mode-btn.active {
+      background: linear-gradient(135deg, #FA8BFF 0%, #2BD2FF 100%);
+      color: white;
+    }
+    
+    .translation-area {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    
+    .text-box {
+      background: #f9f9f9;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 20px;
+      min-height: 150px;
+      text-align: left;
+    }
+    
+    .box-label {
+      font-weight: 700;
+      color: #666;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+    }
+    
+    .text-input {
+      width: 100%;
+      min-height: 100px;
+      border: none;
+      background: transparent;
+      font-size: 1rem;
+      font-family: 'DM Sans', sans-serif;
+      resize: vertical;
+      color: #333;
+    }
+    
+    .text-input:focus {
+      outline: none;
+    }
+    
+    .text-output {
+      min-height: 100px;
+      color: #333;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+    
+    .arrow {
+      font-size: 2rem;
+      color: #666;
+    }
+    
+    .quick-phrases {
+      background: #f5f5f5;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 25px;
+    }
+    
+    .phrases-title {
+      font-weight: 700;
+      color: #666;
+      margin-bottom: 15px;
+      font-size: 1rem;
+    }
+    
+    .phrase-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+    }
+    
+    .phrase-btn {
+      background: white;
+      border: 2px solid #e0e0e0;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 0.85rem;
+      text-align: left;
+    }
+    
+    .phrase-btn:hover {
+      border-color: #FA8BFF;
+      background: #FFF5FD;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      padding: 15px 35px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .translate-btn {
+      background: linear-gradient(135deg, #FA8BFF 0%, #2BD2FF 100%);
+      color: white;
+    }
+    
+    .copy-btn {
+      background: #4CAF50;
+      color: white;
+    }
+    
+    .clear-btn {
+      background: #f5f5f5;
+      color: #666;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.2);
+      padding: 20px 30px;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+      .translation-area {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+      .arrow {
+        transform: rotate(90deg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>💬 Email Translator</h1>
+    <p class="subtitle">Decode corporate passive-aggression</p>
+    
+    <div class="translator">
+      <div class="mode-toggle">
+        <button class="mode-btn active" onclick="setMode('toHonest')" id="toHonestBtn">
+          Professional → Honest
+        </button>
+        <button class="mode-btn" onclick="setMode('toProfessional')" id="toProfessionalBtn">
+          Honest → Professional
+        </button>
+      </div>
+      
+      <div class="translation-area">
+        <div class="text-box">
+          <div class="box-label" id="inputLabel">PROFESSIONAL EMAIL:</div>
+          <textarea class="text-input" id="inputText" placeholder="Type or paste an email phrase..."></textarea>
+        </div>
+        
+        <div class="arrow">→</div>
+        
+        <div class="text-box">
+          <div class="box-label" id="outputLabel">WHAT IT REALLY MEANS:</div>
+          <div class="text-output" id="outputText">Translation will appear here...</div>
+        </div>
+      </div>
+      
+      <div class="quick-phrases">
+        <div class="phrases-title">QUICK PHRASES (Click to translate):</div>
+        <div class="phrase-grid" id="phraseGrid"></div>
+      </div>
+      
+      <div class="controls">
+        <button class="btn translate-btn" onclick="translate()">🔄 Translate</button>
+        <button class="btn copy-btn" onclick="copyTranslation()">📋 Copy</button>
+        <button class="btn clear-btn" onclick="clearAll()">✖ Clear</button>
+      </div>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="translations">0</div>
+        <div class="stat-label">Translations</div>
+      </div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    const translations = {
+      // Professional to Honest
+      "per my last email": "CAN'T YOU READ?!",
+      "as previously mentioned": "I ALREADY TOLD YOU THIS",
+      "per our conversation": "Remember when I said this? No? Figures.",
+      "i wanted to reach out": "I need something from you",
+      "let's take this offline": "Stop talking",
+      "let's circle back": "I'm ignoring this until you forget",
+      "thanks for your patience": "This is taking forever and it's not my fault",
+      "i'll look into it": "I'm going to forget about this immediately",
+      "noted": "I don't care",
+      "thanks for the heads up": "This is your problem now",
+      "happy to discuss further": "I'm not happy about this at all",
+      "i hope this email finds you well": "I need something from you but I'm pretending to care",
+      "just following up": "WHERE IS MY RESPONSE?!",
+      "gentle reminder": "Not so gentle anymore",
+      "friendly reminder": "I'm losing my patience",
+      "quick question": "This will take 3 hours of your time",
+      "when you get a chance": "DROP EVERYTHING NOW",
+      "at your earliest convenience": "I NEEDED THIS YESTERDAY",
+      "no worries": "There are definitely worries",
+      "sorry for the delay": "Not actually sorry",
+      "apologies for any confusion": "You're confused, not me",
+      "just wanted to loop you in": "I'm covering my tracks",
+      "let me know your thoughts": "Agree with me",
+      "i defer to your expertise": "This is your problem now",
+      "going forward": "Don't mess up again",
+      "moving forward": "We're not talking about what just happened",
+      "i'm not sure i understand": "This makes no sense",
+      "can you clarify": "This is wrong and you know it",
+      "just checking in": "I don't trust you to do this",
+      "any updates": "WHY ISN'T THIS DONE YET",
+      "thanks in advance": "Do this or else",
+      "please advise": "Fix this now",
+      "correct me if i'm wrong": "I'm right and you know it",
+      "with all due respect": "I have zero respect for this",
+      "i see what you're saying but": "You're wrong",
+      "that's an interesting point": "That's a terrible point",
+      "let's align on this": "Do it my way",
+      "i want to make sure we're on the same page": "You're completely wrong",
+      "i don't want to overstep": "I'm about to overstep",
+      "not to be rude but": "I'm about to be very rude",
+      "just my two cents": "This is the only correct opinion",
+      "food for thought": "Think about how wrong you are",
+      "i'm just thinking out loud": "Listen to my brilliant idea",
+      "this might be a silly question": "This isn't silly, you're just unprepared"
+    };
+    
+    let currentMode = 'toHonest';
+    let translationCount = 0;
+    let currentOutput = '';
+    
+    const quickPhrases = [
+      "Per my last email",
+      "As previously mentioned",
+      "Let's take this offline",
+      "Just following up",
+      "When you get a chance",
+      "Quick question",
+      "Please advise",
+      "Thanks in advance"
+    ];
+    
+    function setMode(mode) {
+      currentMode = mode;
+      
+      const toHonestBtn = document.getElementById('toHonestBtn');
+      const toProfessionalBtn = document.getElementById('toProfessionalBtn');
+      const inputLabel = document.getElementById('inputLabel');
+      const outputLabel = document.getElementById('outputLabel');
+      const inputText = document.getElementById('inputText');
+      
+      if (mode === 'toHonest') {
+        toHonestBtn.classList.add('active');
+        toProfessionalBtn.classList.remove('active');
+        inputLabel.textContent = 'PROFESSIONAL EMAIL:';
+        outputLabel.textContent = 'WHAT IT REALLY MEANS:';
+        inputText.placeholder = 'Type or paste an email phrase...';
+      } else {
+        toProfessionalBtn.classList.add('active');
+        toHonestBtn.classList.remove('active');
+        inputLabel.textContent = 'WHAT YOU WANT TO SAY:';
+        outputLabel.textContent = 'PROFESSIONAL VERSION:';
+        inputText.placeholder = 'Type what you really want to say...';
+      }
+      
+      clearAll();
+    }
+    
+    function renderQuickPhrases() {
+      const grid = document.getElementById('phraseGrid');
+      grid.innerHTML = '';
+      
+      quickPhrases.forEach(phrase => {
+        const btn = document.createElement('button');
+        btn.className = 'phrase-btn';
+        btn.textContent = phrase;
+        btn.onclick = () => {
+          document.getElementById('inputText').value = phrase;
+          translate();
+        };
+        grid.appendChild(btn);
+      });
+    }
+    
+    function translate() {
+      const input = document.getElementById('inputText').value.trim().toLowerCase();
+      const output = document.getElementById('outputText');
+      
+      if (!input) {
+        output.textContent = 'Please enter some text to translate!';
+        return;
+      }
+      
+      if (currentMode === 'toHonest') {
+        // Professional to Honest
+        let found = false;
+        for (let phrase in translations) {
+          if (input.includes(phrase)) {
+            currentOutput = translations[phrase];
+            output.textContent = currentOutput;
+            found = true;
+            translationCount++;
+            updateStats();
+            break;
+          }
+        }
+        
+        if (!found) {
+          currentOutput = "🤔 Hmm, this seems suspiciously genuine. Are you sure this is corporate email?";
+          output.textContent = currentOutput;
+        }
+      } else {
+        // Honest to Professional
+        const reverseTranslations = Object.entries(translations).reduce((acc, [key, val]) => {
+          acc[val.toLowerCase()] = key.charAt(0).toUpperCase() + key.slice(1);
+          return acc;
+        }, {});
+        
+        let found = false;
+        for (let phrase in reverseTranslations) {
+          if (input.includes(phrase.toLowerCase())) {
+            currentOutput = reverseTranslations[phrase];
+            output.textContent = currentOutput;
+            found = true;
+            translationCount++;
+            updateStats();
+            break;
+          }
+        }
+        
+        if (!found) {
+          // Generate a generic professional version
+          const professionalVersions = [
+            "I wanted to follow up on this matter.",
+            "I'd appreciate your input on this when you have a moment.",
+            "Let's align on the next steps here.",
+            "I wanted to circle back on this discussion.",
+            "Perhaps we could schedule time to discuss this further.",
+            "I wanted to make sure we're on the same page regarding this."
+          ];
+          
+          currentOutput = professionalVersions[Math.floor(Math.random() * professionalVersions.length)];
+          output.textContent = currentOutput;
+          translationCount++;
+          updateStats();
+        }
+      }
+    }
+    
+    function copyTranslation() {
+      if (!currentOutput) {
+        alert('Translate something first!');
+        return;
+      }
+      
+      navigator.clipboard.writeText(currentOutput).then(() => {
+        alert('✓ Translation copied!');
+      }).catch(() => {
+        alert('✓ Translation copied!');
+      });
+    }
+    
+    function clearAll() {
+      document.getElementById('inputText').value = '';
+      document.getElementById('outputText').textContent = 'Translation will appear here...';
+      currentOutput = '';
+    }
+    
+    function updateStats() {
+      document.getElementById('translations').textContent = translationCount;
+    }
+    
+    // Load saved stats
+    const saved = localStorage.getItem('emailTranslatorStats');
+    if (saved) {
+      const stats = JSON.parse(saved);
+      translationCount = stats.translations || 0;
+    }
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('emailTranslatorStats', JSON.stringify({
+        translations: translationCount
+      }));
+    });
+    
+    renderQuickPhrases();
+    updateStats();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

@@ -4,18 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>All Games - 40 Ways to Procrastinate | DontWork.work</title>
-  <meta name="description" content="Browse all 40 procrastination games. Tab switching, notification dismissing, email archiving, and 37 more ways to avoid real work!">
+  <title>All Games - 45 Ways to Procrastinate | DontWork.work</title>
+  <meta name="description" content="Browse all 45 procrastination games. LinkedIn generators, buzzword bingo, email translators, and 42 more ways to avoid real work!">
   <meta name="keywords" content="procrastination games, browser games, productivity parody, office games, time wasting games">
   
   <meta property="og:title" content="All Games - DontWork.work">
-  <meta property="og:description" content="40 procrastination games to help you avoid real work!">
+  <meta property="og:description" content="45 procrastination games to help you avoid real work!">
   <meta property="og:image" content="https://dontwork.work/og-image.jpg">
   <meta property="og:url" content="https://dontwork.work/games.html">
   
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="All Games - DontWork.work">
-  <meta name="twitter:description" content="40 ways to procrastinate at work!">
+  <meta name="twitter:description" content="45 ways to procrastinate at work!">
   <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
   
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -66,6 +66,27 @@
       font-size: 1.1rem;
     }
     
+    .section-title {
+      color: white;
+      font-family: 'Fraunces', serif;
+      font-size: 2rem;
+      margin: 50px 0 25px;
+      text-align: center;
+      background: rgba(255,255,255,0.15);
+      padding: 15px;
+      border-radius: 12px;
+    }
+    
+    .viral-badge {
+      background: #FFD700;
+      color: #333;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-left: 10px;
+    }
+    
     .games-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -86,6 +107,11 @@
     .game-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    
+    .game-card.viral {
+      border: 3px solid #FFD700;
+      background: linear-gradient(135deg, #FFFEF5 0%, white 100%);
     }
     
     .game-icon {
@@ -135,9 +161,45 @@
     <header>
       <h1>🎮 All Games</h1>
       <p class="subtitle">Your complete procrastination toolkit</p>
-      <div class="game-count">🎉 40 Games Available!</div>
+      <div class="game-count">🎉 45 Games Available!</div>
     </header>
     
+    <!-- VIRAL GAMES SECTION -->
+    <h2 class="section-title">🔥 VIRAL GAMES <span class="viral-badge">NEW!</span></h2>
+    <div class="games-grid">
+      <a href="/linkedin-generator.html" class="game-card viral">
+        <div class="game-icon">💼</div>
+        <h2 class="game-title">LinkedIn Humble Brag Generator</h2>
+        <p class="game-description">Humbled and honored to generate cringeworthy LinkedIn posts!</p>
+      </a>
+      
+      <a href="/buzzword-bingo.html" class="game-card viral">
+        <div class="game-icon">📊</div>
+        <h2 class="game-title">Corporate Buzzword Bingo</h2>
+        <p class="game-description">Synergy! Circle back! Low-hanging fruit! Get BINGO in meetings!</p>
+      </a>
+      
+      <a href="/email-translator.html" class="game-card viral">
+        <div class="game-icon">💬</div>
+        <h2 class="game-title">Passive-Aggressive Email Translator</h2>
+        <p class="game-description">Per my last email... = CAN'T YOU READ?! Decode corporate speak!</p>
+      </a>
+      
+      <a href="/meeting-calculator.html" class="game-card viral">
+        <div class="game-icon">💰</div>
+        <h2 class="game-title">Meeting Cost Calculator</h2>
+        <p class="game-description">This 30-minute standup just cost $1,247 in salaries!</p>
+      </a>
+      
+      <a href="/ooo-generator.html" class="game-card viral">
+        <div class="game-icon">🏖️</div>
+        <h2 class="game-title">Out of Office Generator</h2>
+        <p class="game-description">From professional to brutally honest vacation messages!</p>
+      </a>
+    </div>
+    
+    <!-- ORIGINAL GAMES SECTION -->
+    <h2 class="section-title">📁 ALL PROCRASTINATION GAMES</h2>
     <div class="games-grid">
       <!-- Original 5 Games -->
       <a href="/tab-switcher.html" class="game-card">

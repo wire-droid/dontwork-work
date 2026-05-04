@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>LinkedIn Humble Brag Generator - Cringe Posts | DontWork.work</title>
+  <meta name="description" content="Generate cringeworthy LinkedIn posts. Humbled and honored to announce... instant humble brag generator!">
+  <meta name="keywords" content="linkedin generator, humble brag, linkedin cringe, corporate posts, linkedin parody">
+  
+  <meta property="og:title" content="LinkedIn Humble Brag Generator">
+  <meta property="og:description" content="Humbled and honored to generate cringeworthy LinkedIn posts!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/linkedin-generator.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="LinkedIn Humble Brag Generator">
+  <meta name="twitter:description" content="Generate perfectly cringe LinkedIn posts!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #0077B5 0%, #00A0DC 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+    
+    .linkedin-post {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 25px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      text-align: left;
+    }
+    
+    .post-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .avatar {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #0077B5 0%, #00A0DC 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+    
+    .post-author {
+      flex: 1;
+    }
+    
+    .author-name {
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 2px;
+    }
+    
+    .author-title {
+      font-size: 0.85rem;
+      color: #666;
+    }
+    
+    .post-content {
+      color: #333;
+      line-height: 1.7;
+      font-size: 1rem;
+      margin-bottom: 20px;
+      min-height: 200px;
+    }
+    
+    .cringe-meter {
+      background: #f5f5f5;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .cringe-label {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    
+    .cringe-bar-container {
+      background: #e0e0e0;
+      height: 30px;
+      border-radius: 15px;
+      overflow: hidden;
+    }
+    
+    .cringe-bar {
+      background: linear-gradient(90deg, #4CAF50 0%, #FF9800 50%, #F44336 100%);
+      height: 100%;
+      width: 0%;
+      transition: width 0.5s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: white;
+      font-size: 0.85rem;
+    }
+    
+    .post-actions {
+      display: flex;
+      gap: 20px;
+      padding-top: 15px;
+      border-top: 1px solid #e0e0e0;
+      color: #666;
+      font-size: 0.9rem;
+    }
+    
+    .action {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+    
+    .btn {
+      padding: 15px 35px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .generate-btn {
+      background: white;
+      color: #0077B5;
+    }
+    
+    .copy-btn {
+      background: #4CAF50;
+      color: white;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.2);
+      padding: 20px 30px;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+    
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #4CAF50;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 10px;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s;
+      font-weight: 600;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+    
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>💼 LinkedIn Humble Brag Generator</h1>
+    <p class="subtitle">Humbled and honored to generate cringe</p>
+    
+    <div class="linkedin-post">
+      <div class="post-header">
+        <div class="avatar">👔</div>
+        <div class="post-author">
+          <div class="author-name">Generic LinkedIn User</div>
+          <div class="author-title">Thought Leader | Synergy Enthusiast | Change Agent</div>
+        </div>
+      </div>
+      
+      <div class="post-content" id="postContent">
+        Click "Generate" to create your perfectly cringeworthy LinkedIn post!
+      </div>
+      
+      <div class="cringe-meter">
+        <div class="cringe-label">CRINGE LEVEL: <span id="cringeText">PENDING</span></div>
+        <div class="cringe-bar-container">
+          <div class="cringe-bar" id="cringeBar">0%</div>
+        </div>
+      </div>
+      
+      <div class="post-actions">
+        <div class="action">👍 Like</div>
+        <div class="action">💬 Comment</div>
+        <div class="action">🔄 Repost</div>
+        <div class="action">📤 Send</div>
+      </div>
+    </div>
+    
+    <div class="controls">
+      <button class="btn generate-btn" onclick="generate()">🎲 Generate Post</button>
+      <button class="btn copy-btn" onclick="copyPost()">📋 Copy to Clipboard</button>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="generated">0</div>
+        <div class="stat-label">Posts Generated</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="avgCringe">0%</div>
+        <div class="stat-label">Avg Cringe Level</div>
+      </div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <div class="toast" id="toast">✓ Copied to clipboard!</div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    const templates = [
+      // Promotions
+      "Humbled and honored to announce that I've been promoted to {title}! 🎉\n\nThis journey wouldn't have been possible without my amazing team, my supportive family, and my relentless dedication to {buzzword}.\n\nGrateful for this opportunity to make an even bigger impact. Here's to the next chapter! 🚀\n\n#Blessed #Leadership #Growth #Humble",
+      
+      "Excited to share that I've accepted a new role as {title}! 🌟\n\nAfter {number} years of grinding, learning, and pushing boundaries, I'm ready to take on this challenge.\n\nShoutout to everyone who believed in me. Let's {action}! 💪\n\n#NewBeginnings #CareerGrowth #Grateful",
+      
+      // Insights
+      "Hot take: {insight} 🔥\n\nAfter {number} years in {industry}, I've learned that success isn't about working harder—it's about working smarter.\n\nThoughts? Drop your insights below! 👇\n\n#ThoughtLeadership #MondayMotivation #Success",
+      
+      "I've been reflecting on my {number}-year journey in {industry}...\n\nThe biggest lesson? {lesson}\n\nWhat's one lesson you've learned recently? Let's learn together! 🙌\n\n#Leadership #Growth #Learning",
+      
+      // Gratitude
+      "Grateful doesn't even begin to describe how I feel right now. 🙏\n\nI just wrapped up an incredible {event} where I had the privilege of {action}.\n\nReminder: Success is a team sport. Thank you to everyone who made this possible.\n\n#Gratitude #Blessed #TeamWork",
+      
+      "Taking a moment to express my gratitude... ✨\n\nThis week, I {achievement}. But none of this would be possible without my network, my mentors, and my {number} cups of coffee per day.\n\nWho are you grateful for today?\n\n#ThankfulThursday #Community #Success",
+      
+      // Awards
+      "Incredibly honored to announce that I've been recognized as a {award}! 🏆\n\nThis isn't just my win—it's OUR win. Thank you to my team, my family, and everyone who supported me on this journey.\n\nLet's keep {action}! 💯\n\n#Award #Recognition #Humble #Blessed",
+      
+      "Still processing this... I was named {award} by {organization}! 🎖️\n\nI'm humbled, grateful, and more motivated than ever to {action}.\n\nHere's to making an impact! 🚀\n\n#ThoughtLeader #Industry #Recognition",
+      
+      // Milestones
+      "Today marks {number} years since I started my journey in {industry}. 🎂\n\nWhat a ride it's been! From {starting_point} to {current_position}, I've learned so much.\n\nKey takeaway: {lesson}\n\nHere's to the next {number} years! 🥂\n\n#Anniversary #CareerJourney #Growth",
+      
+      "Just hit {milestone} and I'm speechless! 🤯\n\nWhen I started, I never imagined {outcome}. But with persistence, dedication, and a lot of {buzzword}, anything is possible.\n\nWhat's your current goal? Share below! 👇\n\n#Milestone #Success #Motivation",
+      
+      // Inspiration
+      "Unpopular opinion: {opinion} 💡\n\nI know this might ruffle some feathers, but after {number} years of {action}, I've realized that conventional wisdom isn't always right.\n\nAgree or disagree? Let's discuss! 🗣️\n\n#ThoughtLeadership #Innovation #DisruptTheNorm",
+      
+      "Monday reminder: You are capable of more than you think. 💪\n\nI almost gave up {number} times this year. But I didn't. And look where we are now!\n\nWhat's one thing you're not giving up on?\n\n#MondayMotivation #NeverGiveUp #Success",
+      
+      // Meta
+      "LinkedIn has changed my life. 🌟\n\nThrough this platform, I've {achievement}, connected with {number} amazing people, and learned more than I ever imagined.\n\nIf you're not leveraging LinkedIn, you're missing out.\n\nWhat's LinkedIn done for you?\n\n#LinkedIn #Networking #Community",
+      
+      "Confession: I used to think {old_belief}. How wrong I was! 😅\n\nAfter {number} years of {action}, I now understand that {new_belief}.\n\nGrowth is uncomfortable, but necessary.\n\nWhat belief have you changed recently?\n\n#Growth #Learning #SelfImprovement"
+    ];
+    
+    const replacements = {
+      title: [
+        "Senior Associate Deputy Manager",
+        "Chief Synergy Officer",
+        "VP of Strategic Initiatives",
+        "Director of Digital Transformation",
+        "Head of Innovation and Excellence",
+        "Principal Thought Leadership Consultant"
+      ],
+      buzzword: [
+        "leveraging synergies",
+        "driving innovation",
+        "thinking outside the box",
+        "disrupting the industry",
+        "cultivating excellence",
+        "optimizing workflows"
+      ],
+      number: ["3", "5", "7", "10", "15"],
+      action: [
+        "crush our goals",
+        "make an impact",
+        "change the game",
+        "disrupt the industry",
+        "drive results",
+        "move the needle"
+      ],
+      industry: [
+        "tech",
+        "SaaS",
+        "consulting",
+        "marketing",
+        "finance",
+        "leadership"
+      ],
+      insight: [
+        "Your network is your net worth",
+        "Failure is just feedback",
+        "Success favors the persistent",
+        "Your vibe attracts your tribe",
+        "Comfort zones are career killers"
+      ],
+      lesson: [
+        "It's not about the title, it's about the impact",
+        "Authenticity beats perfection every time",
+        "Your network is everything",
+        "Asking for help is a strength, not a weakness",
+        "Consistency compounds over time"
+      ],
+      event: [
+        "conference",
+        "workshop",
+        "panel discussion",
+        "leadership summit",
+        "industry event"
+      ],
+      achievement: [
+        "closed a major deal",
+        "spoke at a conference",
+        "launched a new initiative",
+        "hit our quarterly goals",
+        "onboarded my dream client"
+      ],
+      award: [
+        "Top Voice in Leadership",
+        "Rising Star in Innovation",
+        "40 Under 40",
+        "Industry Innovator",
+        "Thought Leader of the Year"
+      ],
+      organization: [
+        "Forbes",
+        "Harvard Business Review",
+        "Fast Company",
+        "Inc. Magazine",
+        "LinkedIn"
+      ],
+      starting_point: [
+        "an entry-level position",
+        "a small startup",
+        "absolute zero",
+        "just an idea"
+      ],
+      current_position: [
+        "leading a team of 50+",
+        "running my own company",
+        "making real impact",
+        "living my dream"
+      ],
+      milestone: [
+        "10K followers",
+        "100K in revenue",
+        "1 million impressions",
+        "50 clients"
+      ],
+      outcome: [
+        "we'd be here",
+        "this would be possible",
+        "I'd achieve this",
+        "we'd make it this far"
+      ],
+      opinion: [
+        "Hustle culture is toxic",
+        "Work-life balance is a myth",
+        "Your degree doesn't define you",
+        "Networking is overrated"
+      ],
+      old_belief: [
+        "success was about working 80-hour weeks",
+        "I needed an MBA to succeed",
+        "networking was just small talk",
+        "failure meant I wasn't good enough"
+      ],
+      new_belief: [
+        "it's about working smart, not hard",
+        "experience trumps credentials",
+        "authentic relationships change everything",
+        "failure is the best teacher"
+      ]
+    };
+    
+    let generatedCount = 0;
+    let totalCringe = 0;
+    let currentPost = "";
+    
+    function generate() {
+      const template = templates[Math.floor(Math.random() * templates.length)];
+      let post = template;
+      
+      // Replace all placeholders
+      for (let key in replacements) {
+        const regex = new RegExp(`\\{${key}\\}`, 'g');
+        const options = replacements[key];
+        const value = options[Math.floor(Math.random() * options.length)];
+        post = post.replace(regex, value);
+      }
+      
+      currentPost = post;
+      generatedCount++;
+      
+      // Calculate cringe level (always high!)
+      const cringeLevel = Math.floor(Math.random() * 30) + 70; // 70-100%
+      totalCringe += cringeLevel;
+      
+      document.getElementById('postContent').textContent = post;
+      updateCringe(cringeLevel);
+      updateStats();
+    }
+    
+    function updateCringe(level) {
+      const bar = document.getElementById('cringeBar');
+      const text = document.getElementById('cringeText');
+      
+      bar.style.width = level + '%';
+      bar.textContent = level + '%';
+      
+      if (level < 50) text.textContent = 'MILD';
+      else if (level < 70) text.textContent = 'MODERATE';
+      else if (level < 85) text.textContent = 'HIGH';
+      else if (level < 95) text.textContent = 'EXTREME';
+      else text.textContent = 'MAXIMUM CRINGE';
+    }
+    
+    function copyPost() {
+      if (!currentPost) {
+        showToast('Generate a post first!');
+        return;
+      }
+      
+      navigator.clipboard.writeText(currentPost).then(() => {
+        showToast('✓ Copied to clipboard!');
+      }).catch(() => {
+        showToast('✓ Post copied!');
+      });
+    }
+    
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+    
+    function updateStats() {
+      document.getElementById('generated').textContent = generatedCount;
+      const avgCringe = generatedCount > 0 ? Math.floor(totalCringe / generatedCount) : 0;
+      document.getElementById('avgCringe').textContent = avgCringe + '%';
+    }
+    
+    // Load saved stats
+    const saved = localStorage.getItem('linkedinGeneratorStats');
+    if (saved) {
+      const stats = JSON.parse(saved);
+      generatedCount = stats.generated || 0;
+      totalCringe = stats.totalCringe || 0;
+    }
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('linkedinGeneratorStats', JSON.stringify({
+        generated: generatedCount,
+        totalCringe: totalCringe
+      }));
+    });
+    
+    updateStats();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

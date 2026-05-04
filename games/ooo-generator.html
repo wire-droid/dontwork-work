@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Out of Office Generator - Auto-Reply Messages | DontWork.work</title>
+  <meta name="description" content="Generate out of office messages! From professional to brutally honest. Auto-reply generator for vacation emails!">
+  <meta name="keywords" content="out of office, OOO generator, auto reply, vacation message, email auto-responder">
+  
+  <meta property="og:title" content="Out of Office Generator">
+  <meta property="og:description" content="Generate OOO messages from professional to honest!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/ooo-generator.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Out of Office Generator">
+  <meta name="twitter:description" content="Professional to brutally honest vacation messages!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #4FACFE 0%, #00F2FE 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+    
+    .generator {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    
+    .honesty-control {
+      background: #f5f5f5;
+      border-radius: 15px;
+      padding: 25px;
+      margin-bottom: 30px;
+    }
+    
+    .honesty-label {
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 15px;
+      font-size: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .honesty-level {
+      color: #4FACFE;
+      font-size: 1.2rem;
+    }
+    
+    .honesty-slider {
+      width: 100%;
+      height: 12px;
+      border-radius: 6px;
+      background: linear-gradient(90deg, #4CAF50 0%, #FF9800 50%, #F44336 100%);
+      outline: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+    }
+    
+    .honesty-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: white;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      border: 3px solid #4FACFE;
+    }
+    
+    .honesty-slider::-moz-range-thumb {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: white;
+      cursor: pointer;
+      border: 3px solid #4FACFE;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+    
+    .message-display {
+      background: #f9f9f9;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 25px;
+      text-align: left;
+      min-height: 200px;
+    }
+    
+    .message-text {
+      color: #333;
+      line-height: 1.8;
+      font-size: 1rem;
+      white-space: pre-wrap;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 25px;
+    }
+    
+    .btn {
+      padding: 15px 35px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .generate-btn {
+      background: linear-gradient(135deg, #4FACFE 0%, #00F2FE 100%);
+      color: white;
+    }
+    
+    .copy-btn {
+      background: #4CAF50;
+      color: white;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+    
+    .presets {
+      background: #f5f5f5;
+      border-radius: 12px;
+      padding: 20px;
+    }
+    
+    .presets-title {
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 15px;
+      font-size: 1rem;
+    }
+    
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+    }
+    
+    .preset-btn {
+      background: white;
+      border: 2px solid #e0e0e0;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    
+    .preset-btn:hover {
+      border-color: #4FACFE;
+      background: #F0FAFF;
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.2);
+      padding: 20px 30px;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+    
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #4CAF50;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 10px;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s;
+      font-weight: 600;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+    
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>🏖️ Out of Office Generator</h1>
+    <p class="subtitle">From professional to brutally honest</p>
+    
+    <div class="generator">
+      <div class="honesty-control">
+        <div class="honesty-label">
+          <span>HONESTY LEVEL:</span>
+          <span class="honesty-level" id="honestyLabel">Professional</span>
+        </div>
+        <input type="range" min="0" max="100" value="0" class="honesty-slider" id="honestySlider">
+      </div>
+      
+      <div class="message-display">
+        <div class="message-text" id="messageText">
+          Adjust the honesty slider and click generate!
+        </div>
+      </div>
+      
+      <div class="controls">
+        <button class="btn generate-btn" onclick="generate()">🎲 Generate Message</button>
+        <button class="btn copy-btn" onclick="copyMessage()">📋 Copy Message</button>
+      </div>
+      
+      <div class="presets">
+        <div class="presets-title">QUICK PRESETS:</div>
+        <div class="preset-grid">
+          <button class="preset-btn" onclick="setPreset(0)">Corporate</button>
+          <button class="preset-btn" onclick="setPreset(25)">Polite</button>
+          <button class="preset-btn" onclick="setPreset(50)">Casual</button>
+          <button class="preset-btn" onclick="setPreset(75)">Honest</button>
+          <button class="preset-btn" onclick="setPreset(100)">Brutal</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="generated">0</div>
+        <div class="stat-label">Messages Generated</div>
+      </div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <div class="toast" id="toast">✓ Message copied!</div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    const templates = {
+      professional: [
+        "Thank you for your email.\n\nI am currently out of the office with limited access to email from {date_start} through {date_end}.\n\nI will respond to your message upon my return.\n\nFor urgent matters, please contact {contact}.\n\nBest regards",
+        "I am out of the office until {date_end}.\n\nI will have limited access to email during this time.\n\nFor immediate assistance, please reach out to {contact}.\n\nThank you for your patience.",
+        "I am currently away from the office and will return on {date_end}.\n\nYour email is important to me, and I will respond as soon as possible upon my return.\n\nIf you need immediate assistance, please contact {contact}.",
+      ],
+      polite: [
+        "Thanks for reaching out!\n\nI'm out of office from {date_start} to {date_end}, enjoying some time away.\n\nI'll get back to you when I return. If it's urgent, {contact} can help.\n\nThanks!",
+        "Hi there!\n\nI'm currently on vacation until {date_end} and will have limited email access.\n\nI'll respond when I'm back. For anything urgent, contact {contact}.\n\nCheers!",
+        "Hello!\n\nI'm away until {date_end} recharging my batteries.\n\nI'll catch up on emails when I return. If it can't wait, reach out to {contact}.\n\nThanks for understanding!",
+      ],
+      casual: [
+        "Hey!\n\nI'm out of office until {date_end}. Probably won't be checking email much (or at all).\n\nIf it's urgent, try {contact}. Otherwise, I'll get back to you when I'm back.\n\nCheers!",
+        "Out of office alert! 🏖️\n\nI'm away from {date_start} to {date_end}.\n\nEmail access will be... optimistic. Hit up {contact} if you need something ASAP.\n\nSee you when I'm back!",
+        "Currently out of office and trying not to think about work.\n\nBack on {date_end}.\n\nFor urgent stuff: {contact}\nFor everything else: see you in a bit!",
+      ],
+      honest: [
+        "I'm on vacation until {date_end}.\n\nI'm not checking email. At all. That's kind of the point.\n\nIf it's actually urgent (and it's probably not), contact {contact}.\n\nOtherwise, I'll get to it when I get back. Maybe.",
+        "Out of office from {date_start} to {date_end}.\n\nYour email will sit here unread until I return. I will not be checking messages.\n\nUrgent issues: {contact}\n\nNon-urgent: it can wait.",
+        "I'm on vacation.\n\nNo, I won't be checking email.\nNo, it can't wait? Call {contact}.\nYes, it can wait? I'll respond when I'm back.\n\nReturn date: {date_end}",
+      ],
+      brutal: [
+        "I'm on vacation until {date_end}.\n\nI will not be checking email. I will not be thinking about work. I will delete everything that isn't urgent.\n\nIs it urgent? Contact {contact}.\nIs it not urgent? Then why are you emailing me while I'm on vacation?",
+        "Out of office: {date_start} - {date_end}\n\nI am GONE. Unreachable. Living my best life.\n\nDo not email me. I won't see it and I don't want to.\n\nActual emergency? {contact} exists for a reason.\n\nEverything else? Wait.",
+        "VACATION MODE: ACTIVATED\n\nReturn date: {date_end}\nEmail access: ZERO\nChance I respond before then: Also zero\n\nUrgent? → {contact}\nNot urgent? → Then it can wait until {date_end}",
+      ]
+    };
+    
+    const honestySlider = document.getElementById('honestySlider');
+    let currentMessage = '';
+    let generatedCount = 0;
+    
+    honestySlider.addEventListener('input', (e) => {
+      updateHonestyLabel(parseInt(e.target.value));
+    });
+    
+    function updateHonestyLabel(value) {
+      const label = document.getElementById('honestyLabel');
+      
+      if (value < 20) label.textContent = 'Professional';
+      else if (value < 40) label.textContent = 'Polite';
+      else if (value < 60) label.textContent = 'Casual';
+      else if (value < 80) label.textContent = 'Honest';
+      else label.textContent = 'Brutally Honest';
+    }
+    
+    function setPreset(value) {
+      honestySlider.value = value;
+      updateHonestyLabel(value);
+      generate();
+    }
+    
+    function generate() {
+      const honesty = parseInt(honestySlider.value);
+      let category;
+      
+      if (honesty < 20) category = 'professional';
+      else if (honesty < 40) category = 'polite';
+      else if (honesty < 60) category = 'casual';
+      else if (honesty < 80) category = 'honest';
+      else category = 'brutal';
+      
+      const options = templates[category];
+      const template = options[Math.floor(Math.random() * options.length)];
+      
+      // Replace placeholders
+      const today = new Date();
+      const endDate = new Date(today);
+      endDate.setDate(endDate.getDate() + Math.floor(Math.random() * 14) + 3); // 3-17 days
+      
+      const startStr = today.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+      const endStr = endDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+      
+      const contacts = [
+        "my colleague at colleague@company.com",
+        "the team at team@company.com",
+        "my manager at manager@company.com",
+        "our support team at support@company.com"
+      ];
+      
+      const contact = contacts[Math.floor(Math.random() * contacts.length)];
+      
+      currentMessage = template
+        .replace('{date_start}', startStr)
+        .replace('{date_end}', endStr)
+        .replace(/{date_end}/g, endStr)
+        .replace(/{contact}/g, contact);
+      
+      document.getElementById('messageText').textContent = currentMessage;
+      generatedCount++;
+      updateStats();
+    }
+    
+    function copyMessage() {
+      if (!currentMessage) {
+        showToast('Generate a message first!');
+        return;
+      }
+      
+      navigator.clipboard.writeText(currentMessage).then(() => {
+        showToast('✓ Message copied to clipboard!');
+      }).catch(() => {
+        showToast('✓ Message copied!');
+      });
+    }
+    
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+    
+    function updateStats() {
+      document.getElementById('generated').textContent = generatedCount;
+    }
+    
+    // Load saved stats
+    const saved = localStorage.getItem('oooGeneratorStats');
+    if (saved) {
+      const stats = JSON.parse(saved);
+      generatedCount = stats.generated || 0;
+    }
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('oooGeneratorStats', JSON.stringify({
+        generated: generatedCount
+      }));
+    });
+    
+    updateStats();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

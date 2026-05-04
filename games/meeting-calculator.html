@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Meeting Cost Calculator - Time = Money | DontWork.work</title>
+  <meta name="description" content="Calculate how much that meeting actually cost! Real-time salary calculator for corporate meetings. This meeting cost $1,247!">
+  <meta name="keywords" content="meeting cost, salary calculator, meeting calculator, productivity cost, time wasted">
+  
+  <meta property="og:title" content="Meeting Cost Calculator">
+  <meta property="og:description" content="Your 30-minute standup just cost $1,247 in salaries!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/meeting-calculator.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Meeting Cost Calculator">
+  <meta name="twitter:description" content="Quantify wasted company dollars in real-time!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #F44336 0%, #E91E63 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+    
+    .calculator {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    
+    .cost-display {
+      background: linear-gradient(135deg, #F44336 0%, #E91E63 100%);
+      color: white;
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 30px;
+    }
+    
+    .cost-label {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin-bottom: 10px;
+    }
+    
+    .cost-amount {
+      font-size: 4rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+      margin-bottom: 5px;
+    }
+    
+    .cost-subtitle {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+    
+    .input-group {
+      background: #f5f5f5;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    
+    .input-label {
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 15px;
+      font-size: 1rem;
+    }
+    
+    .slider-container {
+      margin-bottom: 20px;
+    }
+    
+    .slider-label-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      color: #666;
+      font-size: 0.9rem;
+    }
+    
+    .slider-value {
+      font-weight: 700;
+      color: #F44336;
+      font-size: 1.2rem;
+    }
+    
+    .slider {
+      width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      background: #e0e0e0;
+      outline: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+    }
+    
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #F44336 0%, #E91E63 100%);
+      cursor: pointer;
+    }
+    
+    .slider::-moz-range-thumb {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #F44336 0%, #E91E63 100%);
+      cursor: pointer;
+      border: none;
+    }
+    
+    .input-field {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: 'DM Sans', sans-serif;
+    }
+    
+    .input-field:focus {
+      outline: none;
+      border-color: #F44336;
+    }
+    
+    .breakdown {
+      background: #f9f9f9;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: left;
+      margin-bottom: 25px;
+    }
+    
+    .breakdown-title {
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 15px;
+      font-size: 1rem;
+    }
+    
+    .breakdown-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #e0e0e0;
+      color: #666;
+    }
+    
+    .breakdown-item:last-child {
+      border-bottom: none;
+    }
+    
+    .breakdown-value {
+      font-weight: 700;
+      color: #F44336;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      padding: 15px 35px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .start-btn {
+      background: #4CAF50;
+      color: white;
+    }
+    
+    .stop-btn {
+      background: #F44336;
+      color: white;
+    }
+    
+    .share-btn {
+      background: #2196F3;
+      color: white;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+    
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.2);
+      padding: 20px 30px;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>💰 Meeting Cost Calculator</h1>
+    <p class="subtitle">Quantify the pain in real dollars</p>
+    
+    <div class="calculator">
+      <div class="cost-display">
+        <div class="cost-label">TOTAL MEETING COST:</div>
+        <div class="cost-amount" id="totalCost">$0</div>
+        <div class="cost-subtitle" id="duration">0 minutes elapsed</div>
+      </div>
+      
+      <div class="input-group">
+        <div class="input-label">Meeting Configuration:</div>
+        
+        <div class="slider-container">
+          <div class="slider-label-row">
+            <span>Number of Attendees:</span>
+            <span class="slider-value" id="attendeesValue">5</span>
+          </div>
+          <input type="range" min="2" max="50" value="5" class="slider" id="attendeesSlider">
+        </div>
+        
+        <div class="slider-container">
+          <div class="slider-label-row">
+            <span>Average Salary per Person:</span>
+            <span class="slider-value" id="salaryValue">$75,000</span>
+          </div>
+          <input type="range" min="30000" max="200000" step="5000" value="75000" class="slider" id="salarySlider">
+        </div>
+      </div>
+      
+      <div class="breakdown">
+        <div class="breakdown-title">COST BREAKDOWN:</div>
+        <div class="breakdown-item">
+          <span>Cost Per Minute:</span>
+          <span class="breakdown-value" id="perMinute">$0.00</span>
+        </div>
+        <div class="breakdown-item">
+          <span>Cost Per Hour:</span>
+          <span class="breakdown-value" id="perHour">$0.00</span>
+        </div>
+        <div class="breakdown-item">
+          <span>Productivity Loss:</span>
+          <span class="breakdown-value" id="productivity">0%</span>
+        </div>
+      </div>
+      
+      <div class="controls">
+        <button class="btn start-btn" id="startBtn" onclick="startMeeting()">▶️ Start Meeting</button>
+        <button class="btn stop-btn" id="stopBtn" onclick="stopMeeting()" disabled>⏹️ End Meeting</button>
+        <button class="btn share-btn" onclick="shareCost()">📤 Share Cost</button>
+      </div>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="totalWasted">$0</div>
+        <div class="stat-label">Total Wasted</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="meetingsTracked">0</div>
+        <div class="stat-label">Meetings Tracked</div>
+      </div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    let attendees = 5;
+    let avgSalary = 75000;
+    let isRunning = false;
+    let startTime = null;
+    let elapsedSeconds = 0;
+    let intervalId = null;
+    let currentCost = 0;
+    
+    let totalWasted = 0;
+    let meetingsTracked = 0;
+    
+    const attendeesSlider = document.getElementById('attendeesSlider');
+    const salarySlider = document.getElementById('salarySlider');
+    
+    attendeesSlider.addEventListener('input', (e) => {
+      attendees = parseInt(e.target.value);
+      document.getElementById('attendeesValue').textContent = attendees;
+      updateBreakdown();
+    });
+    
+    salarySlider.addEventListener('input', (e) => {
+      avgSalary = parseInt(e.target.value);
+      document.getElementById('salaryValue').textContent = '$' + avgSalary.toLocaleString();
+      updateBreakdown();
+    });
+    
+    function startMeeting() {
+      isRunning = true;
+      startTime = Date.now();
+      elapsedSeconds = 0;
+      
+      document.getElementById('startBtn').disabled = true;
+      document.getElementById('stopBtn').disabled = false;
+      attendeesSlider.disabled = true;
+      salarySlider.disabled = true;
+      
+      intervalId = setInterval(updateCost, 1000);
+    }
+    
+    function stopMeeting() {
+      isRunning = false;
+      clearInterval(intervalId);
+      
+      totalWasted += currentCost;
+      meetingsTracked++;
+      
+      document.getElementById('startBtn').disabled = false;
+      document.getElementById('stopBtn').disabled = true;
+      attendeesSlider.disabled = false;
+      salarySlider.disabled = false;
+      
+      updateStats();
+    }
+    
+    function updateCost() {
+      elapsedSeconds++;
+      
+      // Calculate hourly rate per person
+      const hourlyRate = avgSalary / 2080; // 52 weeks * 40 hours
+      
+      // Cost per second for all attendees
+      const costPerSecond = (hourlyRate * attendees) / 3600;
+      
+      currentCost = costPerSecond * elapsedSeconds;
+      
+      const minutes = Math.floor(elapsedSeconds / 60);
+      const seconds = elapsedSeconds % 60;
+      
+      document.getElementById('totalCost').textContent = '$' + Math.floor(currentCost).toLocaleString();
+      document.getElementById('duration').textContent = `${minutes}:${String(seconds).padStart(2, '0')} elapsed`;
+      
+      // Update productivity loss (increases over time)
+      const productivityLoss = Math.min(95, Math.floor(elapsedSeconds / 60) * 10);
+      document.getElementById('productivity').textContent = productivityLoss + '%';
+    }
+    
+    function updateBreakdown() {
+      const hourlyRate = avgSalary / 2080;
+      const costPerMinute = (hourlyRate * attendees) / 60;
+      const costPerHour = hourlyRate * attendees;
+      
+      document.getElementById('perMinute').textContent = '$' + costPerMinute.toFixed(2);
+      document.getElementById('perHour').textContent = '$' + Math.floor(costPerHour).toLocaleString();
+    }
+    
+    function shareCost() {
+      const minutes = Math.floor(elapsedSeconds / 60);
+      const cost = Math.floor(currentCost);
+      
+      let text;
+      if (cost === 0) {
+        text = `Calculate your meeting costs at DontWork.work! 💰`;
+      } else {
+        text = `Our ${minutes}-minute meeting just cost $${cost.toLocaleString()} in salaries! 💸`;
+      }
+      
+      if (navigator.share) {
+        navigator.share({
+          title: 'Meeting Cost Calculator',
+          text: text,
+          url: window.location.href
+        });
+      } else {
+        navigator.clipboard.writeText(text + ' ' + window.location.href);
+        alert('Cost copied to clipboard!');
+      }
+    }
+    
+    function updateStats() {
+      document.getElementById('totalWasted').textContent = '$' + Math.floor(totalWasted).toLocaleString();
+      document.getElementById('meetingsTracked').textContent = meetingsTracked;
+    }
+    
+    // Load saved stats
+    const saved = localStorage.getItem('meetingCalculatorStats');
+    if (saved) {
+      const stats = JSON.parse(saved);
+      totalWasted = stats.wasted || 0;
+      meetingsTracked = stats.meetings || 0;
+    }
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      if (isRunning) {
+        totalWasted += currentCost;
+        meetingsTracked++;
+      }
+      
+      localStorage.setItem('meetingCalculatorStats', JSON.stringify({
+        wasted: totalWasted,
+        meetings: meetingsTracked
+      }));
+    });
+    
+    updateBreakdown();
+    updateStats();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

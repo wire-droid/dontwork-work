@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Corporate Buzzword Bingo - Meeting Game | DontWork.work</title>
+  <meta name="description" content="Play Buzzword Bingo during meetings! Mark off synergy, circle back, low-hanging fruit. Get BINGO and survive corporate speak!">
+  <meta name="keywords" content="buzzword bingo, corporate bingo, meeting game, office bingo, synergy game">
+  
+  <meta property="og:title" content="Corporate Buzzword Bingo">
+  <meta property="og:description" content="Circle back on synergies! Play bingo during meetings!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/buzzword-bingo.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Corporate Buzzword Bingo">
+  <meta name="twitter:description" content="Leverage synergies and circle back! Meeting survival game!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #F093FB 0%, #F5576C 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+    
+    .bingo-card {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    
+    .card-title {
+      color: #333;
+      font-size: 1.8rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+      margin-bottom: 20px;
+    }
+    
+    .bingo-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+    
+    .bingo-cell {
+      aspect-ratio: 1;
+      background: #f5f5f5;
+      border: 3px solid #e0e0e0;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #333;
+      cursor: pointer;
+      transition: all 0.3s;
+      padding: 8px;
+      text-align: center;
+    }
+    
+    .bingo-cell:hover {
+      background: #e8f5e9;
+      border-color: #4CAF50;
+    }
+    
+    .bingo-cell.marked {
+      background: #4CAF50;
+      color: white;
+      border-color: #388E3C;
+      transform: scale(0.95);
+    }
+    
+    .bingo-cell.free {
+      background: #FF9800;
+      color: white;
+      border-color: #F57C00;
+      cursor: default;
+    }
+    
+    .bingo-winner {
+      background: #FFD700;
+      color: #333;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+      animation: celebrate 0.5s;
+      display: none;
+    }
+    
+    .bingo-winner.show {
+      display: block;
+    }
+    
+    @keyframes celebrate {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    .controls {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+    
+    .btn {
+      padding: 15px 35px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .reset-btn {
+      background: white;
+      color: #F5576C;
+    }
+    
+    .share-btn {
+      background: #4CAF50;
+      color: white;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.2);
+      padding: 20px 30px;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 600px) {
+      .bingo-cell {
+        font-size: 0.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>📊 Corporate Buzzword Bingo</h1>
+    <p class="subtitle">Survive meetings one buzzword at a time</p>
+    
+    <div class="bingo-card">
+      <h2 class="card-title">BINGO CARD</h2>
+      
+      <div class="bingo-winner" id="bingoWinner">
+        🎉 BINGO! 🎉<br>You survived the meeting!
+      </div>
+      
+      <div class="bingo-grid" id="bingoGrid"></div>
+    </div>
+    
+    <div class="controls">
+      <button class="btn reset-btn" onclick="resetCard()">🔄 New Card</button>
+      <button class="btn share-btn" onclick="shareScore()">📤 Share Score</button>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="bingos">0</div>
+        <div class="stat-label">Total BINGOs</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="buzzwords">0</div>
+        <div class="stat-label">Buzzwords Marked</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="fastestBingo">-</div>
+        <div class="stat-label">Fastest BINGO</div>
+      </div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    const buzzwords = [
+      "Synergy",
+      "Circle Back",
+      "Low-Hanging Fruit",
+      "Move the Needle",
+      "Think Outside the Box",
+      "Deep Dive",
+      "Bandwidth",
+      "Touch Base",
+      "Paradigm Shift",
+      "Game Changer",
+      "Win-Win",
+      "Best Practice",
+      "Take it Offline",
+      "Loop In",
+      "Leverage",
+      "Strategic",
+      "Optimize",
+      "Drill Down",
+      "Action Items",
+      "Align",
+      "Ping Me",
+      "Core Competency",
+      "Roadmap",
+      "Ecosystem",
+      "Disrupt",
+      "Scale",
+      "Agile",
+      "Quick Win",
+      "Big Picture",
+      "Value Add",
+      "Key Takeaway",
+      "Streamline",
+      "Proactive",
+      "Ideate",
+      "Stakeholder",
+      "Deliverable",
+      "Pivot",
+      "Boil the Ocean",
+      "Run it Up the Flagpole",
+      "Net-Net",
+      "Close the Loop",
+      "Move Forward",
+      "At the End of the Day",
+      "Going Forward",
+      "Per My Last Email"
+    ];
+    
+    let grid = [];
+    let totalBingos = 0;
+    let totalBuzzwords = 0;
+    let fastestBingo = null;
+    let startTime = Date.now();
+    let markedCount = 0;
+    
+    function shuffleArray(array) {
+      const shuffled = [...array];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    }
+    
+    function generateCard() {
+      const shuffled = shuffleArray(buzzwords);
+      grid = [];
+      
+      for (let i = 0; i < 25; i++) {
+        if (i === 12) { // Center square
+          grid.push({ text: "FREE SPACE", marked: true, isFree: true });
+        } else {
+          const buzzwordIndex = i < 12 ? i : i - 1;
+          grid.push({ 
+            text: shuffled[buzzwordIndex], 
+            marked: false,
+            isFree: false
+          });
+        }
+      }
+      
+      renderCard();
+    }
+    
+    function renderCard() {
+      const gridEl = document.getElementById('bingoGrid');
+      gridEl.innerHTML = '';
+      
+      grid.forEach((cell, index) => {
+        const div = document.createElement('div');
+        div.className = 'bingo-cell';
+        if (cell.marked) div.classList.add('marked');
+        if (cell.isFree) div.classList.add('free');
+        div.textContent = cell.text;
+        div.onclick = () => markCell(index);
+        gridEl.appendChild(div);
+      });
+    }
+    
+    function markCell(index) {
+      if (grid[index].isFree || grid[index].marked) return;
+      
+      grid[index].marked = true;
+      totalBuzzwords++;
+      markedCount++;
+      
+      renderCard();
+      checkBingo();
+      updateStats();
+    }
+    
+    function checkBingo() {
+      const size = 5;
+      let hasBingo = false;
+      
+      // Check rows
+      for (let row = 0; row < size; row++) {
+        let rowComplete = true;
+        for (let col = 0; col < size; col++) {
+          if (!grid[row * size + col].marked) {
+            rowComplete = false;
+            break;
+          }
+        }
+        if (rowComplete) hasBingo = true;
+      }
+      
+      // Check columns
+      for (let col = 0; col < size; col++) {
+        let colComplete = true;
+        for (let row = 0; row < size; row++) {
+          if (!grid[row * size + col].marked) {
+            colComplete = false;
+            break;
+          }
+        }
+        if (colComplete) hasBingo = true;
+      }
+      
+      // Check diagonals
+      let diag1 = true, diag2 = true;
+      for (let i = 0; i < size; i++) {
+        if (!grid[i * size + i].marked) diag1 = false;
+        if (!grid[i * size + (size - 1 - i)].marked) diag2 = false;
+      }
+      if (diag1 || diag2) hasBingo = true;
+      
+      if (hasBingo) {
+        showBingo();
+      }
+    }
+    
+    function showBingo() {
+      document.getElementById('bingoWinner').classList.add('show');
+      totalBingos++;
+      
+      // Calculate time
+      const timeTaken = Math.floor((Date.now() - startTime) / 1000);
+      if (fastestBingo === null || timeTaken < fastestBingo) {
+        fastestBingo = timeTaken;
+      }
+      
+      updateStats();
+    }
+    
+    function resetCard() {
+      document.getElementById('bingoWinner').classList.remove('show');
+      startTime = Date.now();
+      markedCount = 0;
+      generateCard();
+    }
+    
+    function shareScore() {
+      const text = `I got BINGO in ${markedCount} buzzwords on Corporate Buzzword Bingo! Can you beat that? 🎯`;
+      
+      if (navigator.share) {
+        navigator.share({
+          title: 'Corporate Buzzword Bingo',
+          text: text,
+          url: window.location.href
+        });
+      } else {
+        navigator.clipboard.writeText(text + ' ' + window.location.href);
+        alert('Score copied to clipboard!');
+      }
+    }
+    
+    function formatTime(seconds) {
+      if (seconds < 60) return seconds + 's';
+      const mins = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      return `${mins}m ${secs}s`;
+    }
+    
+    function updateStats() {
+      document.getElementById('bingos').textContent = totalBingos;
+      document.getElementById('buzzwords').textContent = totalBuzzwords;
+      document.getElementById('fastestBingo').textContent = 
+        fastestBingo !== null ? formatTime(fastestBingo) : '-';
+    }
+    
+    // Load saved stats
+    const saved = localStorage.getItem('buzzwordBingoStats');
+    if (saved) {
+      const stats = JSON.parse(saved);
+      totalBingos = stats.bingos || 0;
+      totalBuzzwords = stats.buzzwords || 0;
+      fastestBingo = stats.fastest || null;
+    }
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('buzzwordBingoStats', JSON.stringify({
+        bingos: totalBingos,
+        buzzwords: totalBuzzwords,
+        fastest: fastestBingo
+      }));
+    });
+    
+    generateCard();
+    updateStats();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>
