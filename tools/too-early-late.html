@@ -254,7 +254,7 @@ function upd(id){const seen=JSON.parse(localStorage.getItem('seenTimeCards')||'[
 function share(){const txt=cur.s+'\n\ndontwork.work/tools/too-early-late';window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(txt),'_blank')}
 function copy(){navigator.clipboard.writeText('https://dontwork.work/tools/too-early-late');alert('Link copied! 📋')}
 function again(){document.getElementById('r').classList.remove('show')}
-function aff(){const c=['/shop/mattresses','/shop/coffee-makers'];window.location.href=c[Math.floor(Math.random()*c.length)]}
+function aff(){window.location.href='/shop/shop.html'}
 upd('');
 </script>
 <script src="/js/panic-button.js"></script>
