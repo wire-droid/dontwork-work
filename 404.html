@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Page Not Found | DontWork.work</title>
+  <meta name="robots" content="noindex, nofollow">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 600px;
+      text-align: center;
+      color: white;
+    }
+    
+    .error-code {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(8rem, 20vw, 15rem);
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 20px;
+      opacity: 0.9;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin-bottom: 20px;
+    }
+    
+    p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+    
+    .buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 15px 35px;
+      background: white;
+      color: #667eea;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      transition: all 0.3s;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+    
+    .btn-secondary {
+      background: rgba(255,255,255,0.2);
+      color: white;
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    
+    .suggestions {
+      margin-top: 60px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .suggestions h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+    
+    .links {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .links a {
+      color: white;
+      text-decoration: none;
+      opacity: 0.8;
+      transition: opacity 0.3s;
+    }
+    
+    .links a:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+    
+    @media (max-width: 768px) {
+      .error-code {
+        font-size: 10rem;
+      }
+      
+      .buttons {
+        flex-direction: column;
+      }
+      
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="container">
+    <div class="error-code">404</div>
+    
+    <h1>This Page Doesn't Exist</h1>
+    
+    <p>
+      Either you typed the wrong URL, or we deleted this page while you weren't working.<br>
+      Both are equally possible.
+    </p>
+    
+    <div class="buttons">
+      <a href="/" class="btn">Go Home</a>
+      <a href="/games/games.html" class="btn btn-secondary">Browse Games</a>
+      <a href="/tools/decisions.html" class="btn btn-secondary">Decision Makers</a>
+    </div>
+    
+    <div class="suggestions">
+      <h2>Popular Pages</h2>
+      <div class="links">
+        <a href="/bubble-wrap-popper.html">Bubble Wrap</a>
+        <a href="/vent-typer.html">Vent Typer</a>
+        <a href="/tools/should-i.html">Should I?</a>
+        <a href="/tools/call-in-sick.html">Call In Sick</a>
+        <a href="/tools/whose-fault.html">Whose Fault?</a>
+      </div>
+    </div>
+  </div>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="50" cy="50" r="48" fill="url(#grad)"/>
+  
+  <!-- Emoji-style relaxed face -->
+  <circle cx="35" cy="40" r="4" fill="white"/>
+  <circle cx="65" cy="40" r="4" fill="white"/>
+  
+  <!-- Relaxed smile -->
+  <path d="M 30 60 Q 50 70 70 60" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
+  
+  <!-- Small "zzz" for sleep/relaxation -->
+  <text x="75" y="25" font-family="Arial, sans-serif" font-size="12" fill="white" font-weight="bold">z</text>
+  <text x="80" y="20" font-family="Arial, sans-serif" font-size="10" fill="white" font-weight="bold" opacity="0.7">z</text>
+  <text x="84" y="16" font-family="Arial, sans-serif" font-size="8" fill="white" font-weight="bold" opacity="0.5">z</text>
+</svg>
