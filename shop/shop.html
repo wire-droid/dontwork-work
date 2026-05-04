@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Shop - You Probably Need This | DontWork.work</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <meta name="description" content="Things you didn't know you needed. Coming soon: curated procrastination supplies and office survival gear.">
   <meta name="robots" content="noindex, follow">
   
@@ -205,15 +206,44 @@
       e.preventDefault();
       const email = document.getElementById('emailInput').value;
       
-      // For now, just show success
-      // Later: integrate with email service (Mailchimp, ConvertKit, etc.)
-      alert('Thanks! We\'ll notify you when the shop launches. 🎉\n\nEmail: ' + email);
+      // Store in localStorage
+      const emails = JSON.parse(localStorage.getItem('shopNotifyEmails') || '[]');
       
+      if (!emails.includes(email)) {
+        emails.push(email);
+        localStorage.setItem('shopNotifyEmails', JSON.stringify(emails));
+      }
+      
+      // Show success message
+      alert('Thanks! We\'ll notify you when the shop launches. 🎉\n\nEmail saved: ' + email);
+      
+      // Clear input
       document.getElementById('emailInput').value = '';
+      
+      // Log to console (you can check collected emails)
+      console.log('Collected emails:', emails);
       
       return false;
     }
+    
+    // Function to export collected emails (for admin use)
+    function exportEmails() {
+      const emails = JSON.parse(localStorage.getItem('shopNotifyEmails') || '[]');
+      console.log('Collected Emails:\n' + emails.join('\n'));
+      return emails;
+    }
   </script>
+  
+  <!-- TODO: Replace with real email collection -->
+  <!-- Options:
+       1. Mailchimp embed form
+       2. ConvertKit
+       3. Tally.so form
+       4. Backend API endpoint
+       
+       Current: Saves to localStorage (temporary)
+       To retrieve: Open browser console and type: exportEmails()
+  -->
   
   <script src="/js/panic-button.js"></script>
 </body>
