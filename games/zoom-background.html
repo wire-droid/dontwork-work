@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Zoom Background Tester - Virtual Backgrounds | DontWork.work</title>
+  <meta name="description" content="Try virtual backgrounds. Look professional. Hide your messy room!">
+  <meta name="keywords" content="zoom background, virtual background, video call, work from home, background filter">
+  
+  <meta property="og:title" content="Zoom Background Tester - Hide The Mess">
+  <meta property="og:description" content="Test virtual backgrounds. Look professional instantly!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/zoom-background.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Zoom Background Tester">
+  <meta name="twitter:description" content="Virtual backgrounds for every occasion!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #2C3E50 0%, #3498DB 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+    
+    .video-container {
+      background: #1a1a1a;
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    }
+    
+    .video-screen {
+      background: #000;
+      border-radius: 12px;
+      aspect-ratio: 16/9;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.5s;
+    }
+    
+    .background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8rem;
+      transition: all 0.5s;
+    }
+    
+    .person {
+      position: relative;
+      z-index: 2;
+      font-size: 15rem;
+      filter: drop-shadow(0 10px 30px rgba(0,0,0,0.5));
+    }
+    
+    .background-selector {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+    
+    .bg-option {
+      background: rgba(255,255,255,0.1);
+      border: 3px solid transparent;
+      border-radius: 10px;
+      padding: 15px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 3rem;
+    }
+    
+    .bg-option:hover {
+      background: rgba(255,255,255,0.2);
+      transform: scale(1.05);
+    }
+    
+    .bg-option.active {
+      border-color: #4CAF50;
+      background: rgba(76, 175, 80, 0.2);
+    }
+    
+    .bg-label {
+      font-size: 0.75rem;
+      margin-top: 8px;
+      opacity: 0.9;
+    }
+    
+    .blur-control {
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .blur-label {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+    
+    .blur-slider {
+      width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.2);
+      outline: none;
+      -webkit-appearance: none;
+    }
+    
+    .blur-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #4CAF50;
+      cursor: pointer;
+    }
+    
+    .blur-slider::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #4CAF50;
+      cursor: pointer;
+      border: none;
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.2);
+      padding: 20px 30px;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>📹 Zoom Background Tester</h1>
+    <p class="subtitle">Look professional. Hide your mess.</p>
+    
+    <div class="video-container">
+      <div class="video-screen" id="videoScreen">
+        <div class="background" id="background">🏢</div>
+        <div class="person">🧑‍💼</div>
+      </div>
+      
+      <div class="blur-control">
+        <div class="blur-label">Background Blur: <span id="blurValue">0</span>px</div>
+        <input type="range" min="0" max="20" value="0" class="blur-slider" id="blurSlider">
+      </div>
+      
+      <div class="background-selector" id="backgroundSelector"></div>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="backgrounds">1</div>
+        <div class="stat-label">Backgrounds Tried</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="changes">0</div>
+        <div class="stat-label">Times Changed</div>
+      </div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    const backgrounds = [
+      { emoji: '🏢', label: 'Office', color: '#34495e' },
+      { emoji: '🏠', label: 'Home Office', color: '#8e44ad' },
+      { emoji: '🌴', label: 'Beach', color: '#00bcd4' },
+      { emoji: '🏔️', label: 'Mountains', color: '#607d8b' },
+      { emoji: '🌃', label: 'City Night', color: '#1a237e' },
+      { emoji: '📚', label: 'Library', color: '#5d4037' },
+      { emoji: '☕', label: 'Coffee Shop', color: '#6d4c41' },
+      { emoji: '🎨', label: 'Art Studio', color: '#f57c00' },
+      { emoji: '🚀', label: 'Space', color: '#0d47a1' },
+      { emoji: '🌺', label: 'Tropical', color: '#c2185b' },
+      { emoji: '🎭', label: 'Theater', color: '#d32f2f' },
+      { emoji: '🏛️', label: 'Museum', color: '#455a64' },
+      { emoji: '🌊', label: 'Ocean', color: '#006064' },
+      { emoji: '🏕️', label: 'Camping', color: '#33691e' },
+      { emoji: '🎪', label: 'Circus', color: '#e91e63' },
+      { emoji: '🌈', label: 'Rainbow', color: '#9c27b0' }
+    ];
+    
+    let currentBg = 0;
+    let backgroundsUsed = new Set([0]);
+    let changeCount = 0;
+    let currentBlur = 0;
+    
+    function renderBackgrounds() {
+      const selector = document.getElementById('backgroundSelector');
+      selector.innerHTML = '';
+      
+      backgrounds.forEach((bg, index) => {
+        const div = document.createElement('div');
+        div.className = 'bg-option' + (index === currentBg ? ' active' : '');
+        div.onclick = () => selectBackground(index);
+        div.innerHTML = `
+          ${bg.emoji}
+          <div class="bg-label">${bg.label}</div>
+        `;
+        selector.appendChild(div);
+      });
+    }
+    
+    function selectBackground(index) {
+      currentBg = index;
+      backgroundsUsed.add(index);
+      changeCount++;
+      
+      const bg = backgrounds[index];
+      const bgElement = document.getElementById('background');
+      const screen = document.getElementById('videoScreen');
+      
+      bgElement.textContent = bg.emoji;
+      screen.style.background = bg.color;
+      
+      renderBackgrounds();
+      updateStats();
+    }
+    
+    function updateBlur() {
+      const slider = document.getElementById('blurSlider');
+      currentBlur = slider.value;
+      
+      const bg = document.getElementById('background');
+      bg.style.filter = `blur(${currentBlur}px)`;
+      
+      document.getElementById('blurValue').textContent = currentBlur;
+    }
+    
+    function updateStats() {
+      document.getElementById('backgrounds').textContent = backgroundsUsed.size;
+      document.getElementById('changes').textContent = changeCount;
+    }
+    
+    // Blur slider
+    document.getElementById('blurSlider').addEventListener('input', updateBlur);
+    
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') {
+        selectBackground((currentBg + 1) % backgrounds.length);
+      } else if (e.key === 'ArrowLeft') {
+        selectBackground((currentBg - 1 + backgrounds.length) % backgrounds.length);
+      }
+    });
+    
+    // Load saved stats
+    const saved = localStorage.getItem('zoomBgStats');
+    if (saved) {
+      const stats = JSON.parse(saved);
+      changeCount = stats.changes || 0;
+      if (stats.backgrounds) {
+        backgroundsUsed = new Set(stats.backgrounds);
+      }
+    }
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('zoomBgStats', JSON.stringify({
+        changes: changeCount,
+        backgrounds: Array.from(backgroundsUsed)
+      }));
+    });
+    
+    renderBackgrounds();
+    updateStats();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

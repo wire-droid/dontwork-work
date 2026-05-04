@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Notification Dismisser - Swipe Away Everything | DontWork.work</title>
+  <meta name="description" content="Dismiss endless notifications. They never stop coming. Accept your fate!">
+  <meta name="keywords" content="notification game, swipe dismisser, notification spam, phone simulator, endless notifications">
+  
+  <meta property="og:title" content="Notification Dismisser - They Never Stop">
+  <meta property="og:description" content="Swipe away endless notifications. Futile but satisfying!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/notification-dismisser.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Notification Dismisser">
+  <meta name="twitter:description" content="Endless notifications. Endless swiping. Endless despair!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #5C258D 0%, #4389A2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      overflow: hidden;
+    }
+    
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2rem, 7vw, 3rem);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+    
+    .phone-container {
+      background: #1a1a1a;
+      border-radius: 40px;
+      padding: 20px 10px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      margin-bottom: 30px;
+      position: relative;
+      min-height: 600px;
+      max-height: 600px;
+      overflow: hidden;
+    }
+    
+    .notch {
+      background: #000;
+      width: 150px;
+      height: 25px;
+      border-radius: 0 0 15px 15px;
+      margin: 0 auto 10px;
+    }
+    
+    .screen {
+      background: #000;
+      border-radius: 30px;
+      padding: 20px 15px;
+      min-height: 540px;
+      position: relative;
+      overflow-y: auto;
+    }
+    
+    .notification {
+      background: rgba(30, 30, 30, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 15px;
+      padding: 15px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      animation: slideIn 0.3s;
+      position: relative;
+      user-select: none;
+    }
+    
+    @keyframes slideIn {
+      from {
+        transform: translateY(-100px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    .notification.dismissing {
+      animation: slideOut 0.3s forwards;
+    }
+    
+    @keyframes slideOut {
+      to {
+        transform: translateX(500px);
+        opacity: 0;
+      }
+    }
+    
+    .notification:hover {
+      background: rgba(40, 40, 40, 0.95);
+    }
+    
+    .notif-icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+    
+    .notif-content {
+      flex: 1;
+      text-align: left;
+    }
+    
+    .notif-app {
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #aaa;
+      margin-bottom: 3px;
+    }
+    
+    .notif-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: white;
+      margin-bottom: 3px;
+    }
+    
+    .notif-body {
+      font-size: 0.85rem;
+      color: #888;
+      line-height: 1.4;
+    }
+    
+    .notif-time {
+      font-size: 0.75rem;
+      color: #666;
+      margin-top: 5px;
+    }
+    
+    .dismiss-indicator {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 5rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    
+    .dismiss-indicator.show {
+      opacity: 1;
+    }
+    
+    .stats-panel {
+      background: rgba(255,255,255,0.1);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+    
+    .stat-item {
+      text-align: center;
+    }
+    
+    .stat-number {
+      font-size: 1.8rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.8rem;
+      opacity: 0.8;
+      margin-top: 3px;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    
+    .btn {
+      padding: 12px 25px;
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .clear-btn {
+      background: #E53935;
+      color: white;
+    }
+    
+    .pause-btn {
+      background: rgba(255,255,255,0.3);
+      color: white;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 12px 25px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 10px;
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>🔔 Notification Dismisser</h1>
+    <p class="subtitle">They never stop. Ever.</p>
+    
+    <div class="stats-panel">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-number" id="dismissed">0</div>
+          <div class="stat-label">Dismissed</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" id="active">0</div>
+          <div class="stat-label">Active</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" id="dps">0</div>
+          <div class="stat-label">DPS</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="phone-container">
+      <div class="notch"></div>
+      <div class="screen" id="screen"></div>
+    </div>
+    
+    <div class="controls">
+      <button class="btn clear-btn" onclick="clearAll()">🗑️ Clear All</button>
+      <button class="btn pause-btn" id="pauseBtn" onclick="togglePause()">⏸️ Pause</button>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <div class="dismiss-indicator" id="indicator">💨</div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    const notifications = [
+      { app: 'Slack', icon: '💬', title: 'New message from #general', body: '@channel Hey everyone...' },
+      { app: 'Email', icon: '📧', title: 'Meeting Reminder', body: 'Sync in 5 minutes' },
+      { app: 'LinkedIn', icon: '💼', title: 'Someone viewed your profile', body: 'Anonymous recruiter' },
+      { app: 'Instagram', icon: '📸', title: 'New follower', body: 'totally_real_person_123' },
+      { app: 'Twitter', icon: '🐦', title: 'Trending now', body: 'Something controversial' },
+      { app: 'Teams', icon: '👥', title: 'You have been mentioned', body: 'In 47 different channels' },
+      { app: 'Jira', icon: '📊', title: 'Issue assigned to you', body: 'URGENT: Production down' },
+      { app: 'Gmail', icon: '📬', title: 'Newsletter', body: 'You never subscribed to this' },
+      { app: 'Calendar', icon: '📅', title: 'Event starting soon', body: 'Another meeting' },
+      { app: 'Discord', icon: '🎮', title: '@everyone', body: 'You left the server muted for a reason' },
+      { app: 'WhatsApp', icon: '💚', title: 'Mom', body: 'Call me when you get this' },
+      { app: 'Reddit', icon: '🤖', title: 'Trending in r/...', body: 'You know you want to click' },
+      { app: 'GitHub', icon: '🐙', title: 'Pull request reviewed', body: '37 comments, 0 approvals' },
+      { app: 'Notion', icon: '📝', title: 'Reminder', body: 'You set this 6 months ago' },
+      { app: 'Spotify', icon: '🎵', title: 'New Release', body: 'Artist you listened to once' },
+      { app: 'App Store', icon: '📱', title: 'Update Available', body: '2.3 GB download' },
+      { app: 'News', icon: '📰', title: 'Breaking News', body: 'Something terrible happened' },
+      { app: 'Weather', icon: '⛈️', title: 'Severe Weather Alert', body: 'Probably fine though' },
+      { app: 'Banking', icon: '💳', title: 'Transaction Alert', body: 'Someone bought coffee' },
+      { app: 'Duolingo', icon: '🦉', title: 'Your streak is at risk!', body: 'Please come back' }
+    ];
+    
+    let activeNotifications = [];
+    let dismissedCount = 0;
+    let isPaused = false;
+    let notifInterval = null;
+    let dismissesThisSecond = 0;
+    let dps = 0;
+    
+    function createNotification() {
+      if (isPaused) return;
+      
+      const template = notifications[Math.floor(Math.random() * notifications.length)];
+      const now = new Date();
+      const timeStr = now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0');
+      
+      const notif = {
+        ...template,
+        id: Date.now() + Math.random(),
+        time: timeStr
+      };
+      
+      activeNotifications.unshift(notif);
+      renderNotifications();
+      updateStats();
+    }
+    
+    function renderNotifications() {
+      const screen = document.getElementById('screen');
+      screen.innerHTML = '';
+      
+      activeNotifications.forEach(notif => {
+        const div = document.createElement('div');
+        div.className = 'notification';
+        div.onclick = () => dismissNotification(notif.id);
+        div.innerHTML = `
+          <div class="notif-icon">${notif.icon}</div>
+          <div class="notif-content">
+            <div class="notif-app">${notif.app}</div>
+            <div class="notif-title">${notif.title}</div>
+            <div class="notif-body">${notif.body}</div>
+            <div class="notif-time">${notif.time}</div>
+          </div>
+        `;
+        screen.appendChild(div);
+      });
+    }
+    
+    function dismissNotification(id) {
+      const element = event.currentTarget;
+      element.classList.add('dismissing');
+      
+      setTimeout(() => {
+        activeNotifications = activeNotifications.filter(n => n.id !== id);
+        dismissedCount++;
+        dismissesThisSecond++;
+        renderNotifications();
+        updateStats();
+        showIndicator();
+      }, 300);
+    }
+    
+    function clearAll() {
+      const allElements = document.querySelectorAll('.notification');
+      allElements.forEach((el, index) => {
+        setTimeout(() => {
+          el.classList.add('dismissing');
+        }, index * 50);
+      });
+      
+      setTimeout(() => {
+        dismissedCount += activeNotifications.length;
+        activeNotifications = [];
+        renderNotifications();
+        updateStats();
+      }, allElements.length * 50 + 300);
+    }
+    
+    function togglePause() {
+      isPaused = !isPaused;
+      const btn = document.getElementById('pauseBtn');
+      btn.textContent = isPaused ? '▶️ Resume' : '⏸️ Pause';
+    }
+    
+    function showIndicator() {
+      const indicator = document.getElementById('indicator');
+      indicator.classList.add('show');
+      setTimeout(() => indicator.classList.remove('show'), 200);
+    }
+    
+    function updateStats() {
+      document.getElementById('dismissed').textContent = dismissedCount;
+      document.getElementById('active').textContent = activeNotifications.length;
+      document.getElementById('dps').textContent = dps;
+    }
+    
+    // Track DPS (Dismisses Per Second)
+    setInterval(() => {
+      dps = dismissesThisSecond;
+      dismissesThisSecond = 0;
+      updateStats();
+    }, 1000);
+    
+    // Generate notifications
+    notifInterval = setInterval(() => {
+      if (!isPaused) {
+        createNotification();
+        
+        // Increase spawn rate over time
+        if (activeNotifications.length < 15) {
+          if (Math.random() < 0.3) {
+            createNotification();
+          }
+        }
+      }
+    }, 3000);
+    
+    // Initial notifications
+    createNotification();
+    createNotification();
+    
+    // Load saved stats
+    const saved = localStorage.getItem('notifDismissed');
+    if (saved) dismissedCount = parseInt(saved);
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('notifDismissed', dismissedCount);
+    });
+    
+    updateStats();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

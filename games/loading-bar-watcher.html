@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Loading Bar Watcher - Watch Progress Bars | DontWork.work</title>
+  <meta name="description" content="Watch fake progress bars load. Oddly mesmerizing. Completely pointless!">
+  <meta name="keywords" content="loading bar, progress bar, watching paint dry, hypnotic, time waster">
+  
+  <meta property="og:title" content="Loading Bar Watcher - Hypnotic Progress">
+  <meta property="og:description" content="Watch bars load. That's it. That's the game!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/loading-bar-watcher.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Loading Bar Watcher">
+  <meta name="twitter:description" content="Hypnotic progress bars. Oddly satisfying!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #0F2027 0%, #203A43 50%, #2C5364 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+    
+    .loading-area {
+      background: rgba(255,255,255,0.05);
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 30px;
+      backdrop-filter: blur(10px);
+      min-height: 500px;
+    }
+    
+    .loading-item {
+      background: rgba(0,0,0,0.3);
+      border-radius: 15px;
+      padding: 25px;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeIn 0.5s forwards;
+    }
+    
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+    
+    .loading-item.completed {
+      opacity: 0.5;
+    }
+    
+    .loading-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      text-align: left;
+      color: rgba(255,255,255,0.9);
+    }
+    
+    .progress-bar-container {
+      background: rgba(255,255,255,0.1);
+      height: 30px;
+      border-radius: 15px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      transition: width 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      border-radius: 15px;
+    }
+    
+    .progress-time {
+      font-size: 0.85rem;
+      opacity: 0.7;
+      margin-top: 8px;
+      text-align: right;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+    
+    .btn {
+      padding: 18px 40px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .start-btn {
+      background: #4CAF50;
+      color: white;
+    }
+    
+    .stop-btn {
+      background: #F44336;
+      color: white;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.1);
+      padding: 20px 30px;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-top: 5px;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>⏳ Loading Bar Watcher</h1>
+    <p class="subtitle">Watch bars load. That's it. That's the whole game.</p>
+    
+    <div class="loading-area" id="loadingArea">
+      <p style="opacity: 0.7; font-size: 1.1rem;">Click "Start Watching" to begin...</p>
+    </div>
+    
+    <div class="controls">
+      <button class="btn start-btn" id="startBtn" onclick="startWatching()">▶ Start Watching</button>
+      <button class="btn stop-btn" id="stopBtn" onclick="stopWatching()" style="display: none;">■ Stop</button>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="barsWatched">0</div>
+        <div class="stat-label">Bars Watched</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="timeWasted">0s</div>
+        <div class="stat-label">Time Wasted</div>
+      </div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    const loadingTexts = [
+      "Installing updates...",
+      "Downloading files...",
+      "Processing data...",
+      "Initializing system...",
+      "Connecting to server...",
+      "Syncing files...",
+      "Analyzing results...",
+      "Compiling code...",
+      "Loading resources...",
+      "Optimizing performance...",
+      "Updating database...",
+      "Rendering graphics...",
+      "Applying changes...",
+      "Verifying integrity...",
+      "Extracting archives...",
+      "Scanning for viruses...",
+      "Installing dependencies...",
+      "Building project...",
+      "Running diagnostics...",
+      "Fetching data...",
+      "Calculating results...",
+      "Preparing workspace...",
+      "Loading modules...",
+      "Checking for updates...",
+      "Encrypting data...",
+      "Backing up files...",
+      "Restoring session...",
+      "Configuring settings...",
+      "Authenticating user...",
+      "Establishing connection..."
+    ];
+    
+    const colors = [
+      '#4CAF50', // Green
+      '#2196F3', // Blue
+      '#FF9800', // Orange
+      '#9C27B0', // Purple
+      '#00BCD4', // Cyan
+      '#F44336', // Red
+      '#FFEB3B', // Yellow
+      '#E91E63', // Pink
+      '#3F51B5', // Indigo
+      '#009688'  // Teal
+    ];
+    
+    let isWatching = false;
+    let barsCompleted = 0;
+    let totalTimeWasted = 0;
+    let activeLoadings = [];
+    let watchInterval = null;
+    let timeInterval = null;
+    
+    function createLoadingBar() {
+      if (!isWatching) return;
+      
+      const text = loadingTexts[Math.floor(Math.random() * loadingTexts.length)];
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      const duration = Math.floor(Math.random() * 10000) + 3000; // 3-13 seconds
+      
+      const loading = {
+        id: Date.now() + Math.random(),
+        text,
+        color,
+        duration,
+        progress: 0,
+        startTime: Date.now()
+      };
+      
+      activeLoadings.push(loading);
+      renderLoading(loading);
+      animateLoading(loading);
+    }
+    
+    function renderLoading(loading) {
+      const area = document.getElementById('loadingArea');
+      
+      const div = document.createElement('div');
+      div.className = 'loading-item';
+      div.id = 'loading-' + loading.id;
+      div.innerHTML = `
+        <div class="loading-title">${loading.text}</div>
+        <div class="progress-bar-container">
+          <div class="progress-bar" id="bar-${loading.id}" style="width: 0%; background: ${loading.color}">0%</div>
+        </div>
+        <div class="progress-time" id="time-${loading.id}">Remaining: ${Math.floor(loading.duration / 1000)}s</div>
+      `;
+      
+      area.appendChild(div);
+      
+      // Remove old completed items if too many
+      const items = area.querySelectorAll('.loading-item');
+      if (items.length > 8) {
+        items[0].remove();
+      }
+    }
+    
+    function animateLoading(loading) {
+      const startTime = loading.startTime;
+      const duration = loading.duration;
+      
+      const animate = () => {
+        if (!isWatching) return;
+        
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min((elapsed / duration) * 100, 100);
+        
+        const bar = document.getElementById('bar-' + loading.id);
+        const timeDisplay = document.getElementById('time-' + loading.id);
+        
+        if (bar) {
+          bar.style.width = progress + '%';
+          bar.textContent = Math.floor(progress) + '%';
+        }
+        
+        if (timeDisplay) {
+          const remaining = Math.max(0, Math.floor((duration - elapsed) / 1000));
+          timeDisplay.textContent = remaining > 0 ? `Remaining: ${remaining}s` : 'Complete!';
+        }
+        
+        if (progress < 100) {
+          requestAnimationFrame(animate);
+        } else {
+          completeLoading(loading);
+        }
+      };
+      
+      animate();
+    }
+    
+    function completeLoading(loading) {
+      const element = document.getElementById('loading-' + loading.id);
+      if (element) {
+        element.classList.add('completed');
+      }
+      
+      barsCompleted++;
+      activeLoadings = activeLoadings.filter(l => l.id !== loading.id);
+      updateStats();
+      
+      // Start a new one
+      setTimeout(() => {
+        if (isWatching && activeLoadings.length < 5) {
+          createLoadingBar();
+        }
+      }, 500);
+    }
+    
+    function startWatching() {
+      isWatching = true;
+      document.getElementById('startBtn').style.display = 'none';
+      document.getElementById('stopBtn').style.display = 'inline-block';
+      document.getElementById('loadingArea').innerHTML = '';
+      
+      // Start with 3 loading bars
+      createLoadingBar();
+      setTimeout(() => createLoadingBar(), 800);
+      setTimeout(() => createLoadingBar(), 1600);
+      
+      // Track time wasted
+      timeInterval = setInterval(() => {
+        totalTimeWasted++;
+        updateStats();
+      }, 1000);
+    }
+    
+    function stopWatching() {
+      isWatching = false;
+      document.getElementById('startBtn').style.display = 'inline-block';
+      document.getElementById('stopBtn').style.display = 'none';
+      clearInterval(timeInterval);
+    }
+    
+    function updateStats() {
+      document.getElementById('barsWatched').textContent = barsCompleted;
+      
+      const minutes = Math.floor(totalTimeWasted / 60);
+      const seconds = totalTimeWasted % 60;
+      if (minutes > 0) {
+        document.getElementById('timeWasted').textContent = `${minutes}m ${seconds}s`;
+      } else {
+        document.getElementById('timeWasted').textContent = `${seconds}s`;
+      }
+    }
+    
+    // Load saved stats
+    const saved = localStorage.getItem('loadingBarStats');
+    if (saved) {
+      const stats = JSON.parse(saved);
+      barsCompleted = stats.bars || 0;
+      totalTimeWasted = stats.time || 0;
+    }
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('loadingBarStats', JSON.stringify({
+        bars: barsCompleted,
+        time: totalTimeWasted
+      }));
+    });
+    
+    updateStats();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

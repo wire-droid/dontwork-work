@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Tab Hoarder - Browser Tab Collector | DontWork.work</title>
+  <meta name="description" content="Collect browser tabs until your browser crashes. How many can you hoard before the inevitable?">
+  <meta name="keywords" content="tab hoarder, browser tabs, tab collector, memory game, browser crash">
+  
+  <meta property="og:title" content="Tab Hoarder - Collect All The Tabs">
+  <meta property="og:description" content="Open tabs endlessly. Watch memory die. It's beautiful chaos!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/tab-hoarder.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tab Hoarder">
+  <meta name="twitter:description" content="Hoard tabs. Ignore warnings. Crash spectacularly!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #E53935 0%, #D32F2F 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    body.crashing {
+      animation: glitch 0.3s infinite;
+    }
+    
+    @keyframes glitch {
+      0%, 100% { transform: translate(0); }
+      20% { transform: translate(-5px, 5px); }
+      40% { transform: translate(5px, -5px); }
+      60% { transform: translate(-5px, -5px); }
+      80% { transform: translate(5px, 5px); }
+    }
+    
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+    
+    .browser-window {
+      background: #f5f5f5;
+      border-radius: 15px;
+      overflow: hidden;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    }
+    
+    .browser-bar {
+      background: #e0e0e0;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid #ccc;
+    }
+    
+    .browser-dots {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    
+    .dot.red { background: #FF5F56; }
+    .dot.yellow { background: #FFBD2E; }
+    .dot.green { background: #27C93F; }
+    
+    .tabs-container {
+      background: #fff;
+      padding: 20px;
+      min-height: 400px;
+      max-height: 500px;
+      overflow-y: auto;
+    }
+    
+    .tabs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+    }
+    
+    .tab {
+      background: #f0f0f0;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px 10px;
+      font-size: 0.8rem;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+      transition: all 0.2s;
+    }
+    
+    .tab:hover {
+      background: #e8e8e8;
+    }
+    
+    .tab-icon {
+      font-size: 1.2rem;
+    }
+    
+    .tab-close {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      cursor: pointer;
+      opacity: 0.5;
+      font-size: 1.2rem;
+    }
+    
+    .tab-close:hover {
+      opacity: 1;
+    }
+    
+    .memory-warning {
+      background: rgba(255,255,255,0.2);
+      border: 2px solid rgba(255,255,255,0.5);
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 30px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .memory-bar-container {
+      background: rgba(0,0,0,0.3);
+      height: 40px;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 15px;
+    }
+    
+    .memory-bar {
+      background: linear-gradient(90deg, #4CAF50 0%, #FFC107 50%, #F44336 100%);
+      height: 100%;
+      transition: width 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+    
+    .btn {
+      padding: 18px 40px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .open-btn {
+      background: white;
+      color: #E53935;
+    }
+    
+    .close-btn {
+      background: rgba(255,255,255,0.3);
+      color: white;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.2);
+      padding: 20px 30px;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .crash-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.95);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      animation: fadeIn 0.5s;
+    }
+    
+    .crash-overlay.show {
+      display: flex;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .crash-message {
+      background: white;
+      color: #333;
+      padding: 50px;
+      border-radius: 20px;
+      text-align: center;
+      max-width: 500px;
+    }
+    
+    .crash-message h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #E53935;
+    }
+    
+    .restart-btn {
+      background: #E53935;
+      color: white;
+      padding: 15px 40px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 20px;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>📑 Tab Hoarder</h1>
+    <p class="subtitle">Collect tabs. Ignore warnings. Crash spectacularly.</p>
+    
+    <div class="memory-warning">
+      <div style="font-size: 1.3rem; font-weight: 700; margin-bottom: 10px;">
+        MEMORY USAGE: <span id="memoryText">25%</span>
+      </div>
+      <div class="memory-bar-container">
+        <div class="memory-bar" id="memoryBar" style="width: 25%">25%</div>
+      </div>
+    </div>
+    
+    <div class="browser-window">
+      <div class="browser-bar">
+        <div class="browser-dots">
+          <div class="dot red"></div>
+          <div class="dot yellow"></div>
+          <div class="dot green"></div>
+        </div>
+        <div style="flex: 1; background: white; border-radius: 5px; padding: 5px 15px; color: #666; font-size: 0.9rem;">
+          🔒 Browser - <span id="tabCount">3</span> tabs open
+        </div>
+      </div>
+      
+      <div class="tabs-container">
+        <div class="tabs-grid" id="tabsGrid"></div>
+      </div>
+    </div>
+    
+    <div class="controls">
+      <button class="btn open-btn" onclick="openNewTab()">📂 Open New Tab</button>
+      <button class="btn close-btn" onclick="closeRandomTab()">❌ Close Random Tab</button>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="totalOpened">0</div>
+        <div class="stat-label">Tabs Opened</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="crashCount">0</div>
+        <div class="stat-label">Browser Crashes</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="maxTabs">0</div>
+        <div class="stat-label">Max Tabs (Record)</div>
+      </div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <div class="crash-overlay" id="crashOverlay">
+    <div class="crash-message">
+      <h2>💥 BROWSER CRASHED</h2>
+      <p style="font-size: 1.2rem; margin-bottom: 10px;">Too many tabs!</p>
+      <p style="opacity: 0.7;">You had <strong id="crashedTabs">0</strong> tabs open</p>
+      <button class="restart-btn" onclick="restartBrowser()">Restart Browser</button>
+    </div>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    const tabTitles = [
+      "GitHub - Important Repo",
+      "Stack Overflow - That One Answer",
+      "Documentation - Read Later",
+      "YouTube - Tutorial",
+      "Reddit - Quick Break",
+      "Amazon - Shopping",
+      "Gmail - 1,247 unread",
+      "Twitter - Doomscrolling",
+      "LinkedIn - Pretend Working",
+      "Slack - 15 notifications",
+      "Discord - Voice Chat",
+      "Spotify - Lo-fi Beats",
+      "Netflix - Background Noise",
+      "Wikipedia - Research Rabbit Hole",
+      "Medium - Article I'll Never Finish",
+      "Google Docs - Untitled",
+      "Figma - Design File",
+      "Notion - Life Organization",
+      "Trello - Project Board",
+      "ChatGPT - Conversation",
+      "AWS Console - Deploy Something",
+      "StackBlitz - Quick Demo",
+      "CodePen - CSS Animation",
+      "Dribbble - Design Inspiration",
+      "Product Hunt - New Tools",
+      "Hacker News - Tech News",
+      "Dev.to - Blog Post",
+      "MDN Web Docs - Reference",
+      "Can I Use - Browser Support",
+      "Font Awesome - Icons"
+    ];
+    
+    const tabIcons = ['🌐', '📄', '🎵', '🎬', '📧', '💬', '📊', '🎨', '📝', '🛒'];
+    
+    let tabs = [];
+    let totalOpened = 0;
+    let crashCount = 0;
+    let maxTabs = 0;
+    let memoryUsage = 25;
+    
+    function createTab() {
+      const title = tabTitles[Math.floor(Math.random() * tabTitles.length)];
+      const icon = tabIcons[Math.floor(Math.random() * tabIcons.length)];
+      return { title, icon, id: Date.now() + Math.random() };
+    }
+    
+    function renderTabs() {
+      const grid = document.getElementById('tabsGrid');
+      grid.innerHTML = '';
+      
+      tabs.forEach(tab => {
+        const div = document.createElement('div');
+        div.className = 'tab';
+        div.innerHTML = `
+          <span class="tab-icon">${tab.icon}</span>
+          <span style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${tab.title}</span>
+          <span class="tab-close" onclick="closeTab('${tab.id}')">×</span>
+        `;
+        grid.appendChild(div);
+      });
+      
+      document.getElementById('tabCount').textContent = tabs.length;
+      updateMemory();
+    }
+    
+    function openNewTab() {
+      tabs.push(createTab());
+      totalOpened++;
+      
+      if (tabs.length > maxTabs) {
+        maxTabs = tabs.length;
+      }
+      
+      renderTabs();
+      updateStats();
+      checkCrash();
+    }
+    
+    function closeTab(id) {
+      tabs = tabs.filter(t => t.id !== id);
+      renderTabs();
+    }
+    
+    function closeRandomTab() {
+      if (tabs.length > 0) {
+        const randomIndex = Math.floor(Math.random() * tabs.length);
+        tabs.splice(randomIndex, 1);
+        renderTabs();
+      }
+    }
+    
+    function updateMemory() {
+      memoryUsage = Math.min(100, 25 + (tabs.length * 3));
+      const bar = document.getElementById('memoryBar');
+      const text = document.getElementById('memoryText');
+      
+      bar.style.width = memoryUsage + '%';
+      bar.textContent = Math.floor(memoryUsage) + '%';
+      text.textContent = Math.floor(memoryUsage) + '%';
+    }
+    
+    function checkCrash() {
+      // Crash at 90%+ memory (30+ tabs)
+      if (memoryUsage >= 90) {
+        crashBrowser();
+      }
+    }
+    
+    function crashBrowser() {
+      crashCount++;
+      document.body.classList.add('crashing');
+      document.getElementById('crashedTabs').textContent = tabs.length;
+      
+      setTimeout(() => {
+        document.getElementById('crashOverlay').classList.add('show');
+      }, 1000);
+      
+      updateStats();
+    }
+    
+    function restartBrowser() {
+      document.body.classList.remove('crashing');
+      document.getElementById('crashOverlay').classList.remove('show');
+      tabs = [createTab(), createTab(), createTab()];
+      memoryUsage = 25;
+      renderTabs();
+    }
+    
+    function updateStats() {
+      document.getElementById('totalOpened').textContent = totalOpened;
+      document.getElementById('crashCount').textContent = crashCount;
+      document.getElementById('maxTabs').textContent = maxTabs;
+    }
+    
+    // Initialize with 3 tabs
+    tabs = [createTab(), createTab(), createTab()];
+    renderTabs();
+    
+    // Load saved stats
+    const saved = localStorage.getItem('tabHoarderStats');
+    if (saved) {
+      const stats = JSON.parse(saved);
+      totalOpened = stats.totalOpened || 0;
+      crashCount = stats.crashCount || 0;
+      maxTabs = stats.maxTabs || 0;
+    }
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('tabHoarderStats', JSON.stringify({
+        totalOpened,
+        crashCount,
+        maxTabs
+      }));
+    });
+    
+    updateStats();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

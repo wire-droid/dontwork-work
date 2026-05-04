@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Email Unsubscriber - Escape Newsletter Hell | DontWork.work</title>
+  <meta name="description" content="Unsubscribe from fake newsletters. They never stop coming. Inbox zero is a lie!">
+  <meta name="keywords" content="email unsubscriber, newsletter spam, inbox zero, email management, unsubscribe game">
+  
+  <meta property="og:title" content="Email Unsubscriber - Newsletter Hell">
+  <meta property="og:description" content="Unsubscribe from everything. They keep coming!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/email-unsubscriber.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Email Unsubscriber">
+  <meta name="twitter:description" content="Endless newsletters. Endless unsubscribing. Pure chaos!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #FC466B 0%, #3F5EFB 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 7vw, 3.5rem);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+    
+    .inbox {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      max-height: 600px;
+    }
+    
+    .inbox-header {
+      background: #f5f5f5;
+      padding: 20px;
+      border-bottom: 1px solid #e0e0e0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .inbox-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #333;
+    }
+    
+    .inbox-count {
+      background: #F44336;
+      color: white;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    
+    .emails-list {
+      max-height: 480px;
+      overflow-y: auto;
+    }
+    
+    .email {
+      padding: 20px;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      background: white;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    
+    .email:hover {
+      background: #f9f9f9;
+    }
+    
+    .email.unsubscribing {
+      animation: slideOut 0.4s forwards;
+    }
+    
+    @keyframes slideOut {
+      to {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+    }
+    
+    .email-icon {
+      font-size: 2.5rem;
+      flex-shrink: 0;
+    }
+    
+    .email-content {
+      flex: 1;
+      text-align: left;
+    }
+    
+    .email-from {
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 5px;
+      font-size: 0.95rem;
+    }
+    
+    .email-subject {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+    }
+    
+    .email-preview {
+      color: #999;
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+    
+    .unsubscribe-btn {
+      background: #F44336;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      flex-shrink: 0;
+      font-size: 0.85rem;
+    }
+    
+    .unsubscribe-btn:hover {
+      background: #D32F2F;
+      transform: scale(1.05);
+    }
+    
+    .controls {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+    
+    .btn {
+      padding: 15px 35px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .unsubscribe-all-btn {
+      background: #F44336;
+      color: white;
+    }
+    
+    .refresh-btn {
+      background: rgba(255,255,255,0.3);
+      color: white;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.2);
+      padding: 20px 30px;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>📧 Email Unsubscriber</h1>
+    <p class="subtitle">They never stop coming. Ever.</p>
+    
+    <div class="inbox">
+      <div class="inbox-header">
+        <div class="inbox-title">📥 Inbox</div>
+        <div class="inbox-count" id="emailCount">0</div>
+      </div>
+      <div class="emails-list" id="emailsList"></div>
+    </div>
+    
+    <div class="controls">
+      <button class="btn unsubscribe-all-btn" onclick="unsubscribeAll()">🗑️ Unsubscribe All</button>
+      <button class="btn refresh-btn" onclick="refreshInbox()">🔄 Refresh</button>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="unsubscribed">0</div>
+        <div class="stat-label">Unsubscribed</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="inboxSize">0</div>
+        <div class="stat-label">Current Inbox</div>
+      </div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    const newsletters = [
+      {
+        from: 'Daily Deals Newsletter',
+        subject: '🔥 50% OFF Everything (Again)',
+        preview: 'This is definitely not a scam. Buy our stuff now!',
+        icon: '🛍️'
+      },
+      {
+        from: 'Startup Weekly Digest',
+        subject: 'You subscribed 3 years ago',
+        preview: 'Here are 47 articles you will never read...',
+        icon: '📰'
+      },
+      {
+        from: 'LinkedIn',
+        subject: 'You have 23 new notifications',
+        preview: 'Someone you never met wants to connect...',
+        icon: '💼'
+      },
+      {
+        from: 'Medium Daily Digest',
+        subject: '10 Must-Read Articles',
+        preview: 'All clickbait. Every single one.',
+        icon: '📝'
+      },
+      {
+        from: 'GitHub',
+        subject: 'You were mentioned in 15 issues',
+        preview: 'None of them concern you directly...',
+        icon: '🐙'
+      },
+      {
+        from: 'Promotions - 20% OFF',
+        subject: 'Limited Time Offer!!!',
+        preview: 'Same offer as last week. And next week.',
+        icon: '🎁'
+      },
+      {
+        from: 'SaaS Tool You Forgot',
+        subject: 'Your free trial is ending',
+        preview: 'You signed up 2 years ago for a webinar...',
+        icon: '⚙️'
+      },
+      {
+        from: 'Marketing Guru Weekly',
+        subject: '7 Ways to Growth Hack',
+        preview: 'Synergize your paradigm shift today!',
+        icon: '📊'
+      },
+      {
+        from: 'Newsletter You Never Joined',
+        subject: 'How did we get your email?',
+        preview: 'Great question. We bought it from someone.',
+        icon: '❓'
+      },
+      {
+        from: 'Webinar Invitation',
+        subject: 'Join our exclusive webinar',
+        preview: 'It is not exclusive. 10,000 people invited.',
+        icon: '🎥'
+      },
+      {
+        from: 'App Update',
+        subject: 'New features you did not ask for',
+        preview: 'We redesigned everything. You will hate it.',
+        icon: '📱'
+      },
+      {
+        from: 'Job Board Alerts',
+        subject: '47 new jobs matching "senior developer"',
+        preview: 'None actually match. All require 10 years.',
+        icon: '💻'
+      },
+      {
+        from: 'Crypto Newsletter',
+        subject: 'Bitcoin is going to...',
+        preview: '[This email changes hourly based on price]',
+        icon: '₿'
+      },
+      {
+        from: 'Fitness App',
+        subject: 'You have not logged in for 287 days',
+        preview: 'We are disappointed but not surprised.',
+        icon: '💪'
+      },
+      {
+        from: 'Podcast Recommendations',
+        subject: '10 podcasts you should listen to',
+        preview: 'You will add them to your list. Never listen.',
+        icon: '🎙️'
+      }
+    ];
+    
+    let emails = [];
+    let unsubscribedCount = 0;
+    
+    function createEmail() {
+      const template = newsletters[Math.floor(Math.random() * newsletters.length)];
+      return {
+        id: Date.now() + Math.random(),
+        ...template
+      };
+    }
+    
+    function renderEmails() {
+      const list = document.getElementById('emailsList');
+      list.innerHTML = '';
+      
+      emails.forEach(email => {
+        const div = document.createElement('div');
+        div.className = 'email';
+        div.id = 'email-' + email.id;
+        div.innerHTML = `
+          <div class="email-icon">${email.icon}</div>
+          <div class="email-content">
+            <div class="email-from">${email.from}</div>
+            <div class="email-subject">${email.subject}</div>
+            <div class="email-preview">${email.preview}</div>
+          </div>
+          <button class="unsubscribe-btn" onclick="unsubscribe('${email.id}', event)">
+            Unsubscribe
+          </button>
+        `;
+        list.appendChild(div);
+      });
+      
+      updateStats();
+    }
+    
+    function unsubscribe(id, event) {
+      event.stopPropagation();
+      const element = document.getElementById('email-' + id);
+      element.classList.add('unsubscribing');
+      
+      setTimeout(() => {
+        emails = emails.filter(e => e.id != id);
+        unsubscribedCount++;
+        renderEmails();
+      }, 400);
+    }
+    
+    function unsubscribeAll() {
+      const allEmails = [...emails];
+      allEmails.forEach((email, index) => {
+        setTimeout(() => {
+          const element = document.getElementById('email-' + email.id);
+          if (element) {
+            element.classList.add('unsubscribing');
+          }
+        }, index * 80);
+      });
+      
+      setTimeout(() => {
+        unsubscribedCount += emails.length;
+        emails = [];
+        renderEmails();
+        
+        // New emails arrive immediately
+        setTimeout(addNewEmails, 1000);
+      }, allEmails.length * 80 + 400);
+    }
+    
+    function refreshInbox() {
+      addNewEmails();
+    }
+    
+    function addNewEmails() {
+      const count = Math.floor(Math.random() * 3) + 2; // 2-4 new emails
+      for (let i = 0; i < count; i++) {
+        emails.push(createEmail());
+      }
+      renderEmails();
+    }
+    
+    function updateStats() {
+      document.getElementById('emailCount').textContent = emails.length;
+      document.getElementById('unsubscribed').textContent = unsubscribedCount;
+      document.getElementById('inboxSize').textContent = emails.length;
+    }
+    
+    // Auto-add emails periodically
+    setInterval(() => {
+      if (emails.length < 20) {
+        emails.push(createEmail());
+        renderEmails();
+      }
+    }, 5000);
+    
+    // Initialize with some emails
+    for (let i = 0; i < 8; i++) {
+      emails.push(createEmail());
+    }
+    renderEmails();
+    
+    // Load saved stats
+    const saved = localStorage.getItem('emailUnsubscribed');
+    if (saved) unsubscribedCount = parseInt(saved);
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('emailUnsubscribed', unsubscribedCount);
+    });
+    
+    updateStats();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

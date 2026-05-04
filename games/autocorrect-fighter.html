@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Autocorrect Fighter - Battle Your Phone | DontWork.work</title>
+  <meta name="description" content="Fight autocorrect suggestions. Type what you mean. Your phone thinks it knows better!">
+  <meta name="keywords" content="autocorrect, typing game, phone keyboard, text messaging, autocorrect fail">
+  
+  <meta property="og:title" content="Autocorrect Fighter - Type vs AI">
+  <meta property="og:description" content="Fight autocorrect. Win the typing war!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/autocorrect-fighter.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Autocorrect Fighter">
+  <meta name="twitter:description" content="Battle autocorrect. Type what you actually mean!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #F093FB 0%, #F5576C 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 7vw, 3.5rem);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+    
+    .phone-container {
+      background: #1a1a1a;
+      border-radius: 40px;
+      padding: 15px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      margin-bottom: 30px;
+    }
+    
+    .phone-notch {
+      background: #000;
+      height: 30px;
+      border-radius: 0 0 15px 15px;
+      width: 150px;
+      margin: 0 auto 10px;
+    }
+    
+    .phone-screen {
+      background: #000;
+      border-radius: 30px;
+      padding: 20px 15px;
+      min-height: 500px;
+      position: relative;
+    }
+    
+    .message-area {
+      background: rgba(30, 30, 30, 0.9);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 15px;
+      min-height: 350px;
+      max-height: 350px;
+      overflow-y: auto;
+    }
+    
+    .target-word {
+      background: rgba(100, 100, 100, 0.5);
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      font-size: 1rem;
+      color: #aaa;
+    }
+    
+    .target-label {
+      font-size: 0.75rem;
+      opacity: 0.6;
+      margin-bottom: 8px;
+    }
+    
+    .target-text {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: white;
+    }
+    
+    .message {
+      background: #0084ff;
+      color: white;
+      padding: 12px 16px;
+      border-radius: 18px;
+      margin-bottom: 8px;
+      display: inline-block;
+      max-width: 80%;
+      text-align: left;
+      animation: slideIn 0.3s;
+    }
+    
+    @keyframes slideIn {
+      from {
+        transform: translateX(-20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    .message.wrong {
+      background: #f44336;
+    }
+    
+    .message.correct {
+      background: #4CAF50;
+    }
+    
+    .input-area {
+      background: rgba(50, 50, 50, 0.9);
+      border-radius: 25px;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .text-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 1.1rem;
+      outline: none;
+    }
+    
+    .send-btn {
+      background: #0084ff;
+      color: white;
+      border: none;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+    
+    .send-btn:hover {
+      transform: scale(1.1);
+      background: #0073e6;
+    }
+    
+    .autocorrect-suggestion {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 20px;
+      padding: 8px 16px;
+      margin-top: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+    }
+    
+    .suggestion-text {
+      opacity: 0.7;
+    }
+    
+    .suggestion-word {
+      background: rgba(255,255,255,0.2);
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-weight: 700;
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.2);
+      padding: 20px 30px;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>⌨️ Autocorrect Fighter</h1>
+    <p class="subtitle">Type what you mean. Not what it thinks.</p>
+    
+    <div class="phone-container">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="message-area" id="messageArea">
+          <div class="target-word">
+            <div class="target-label">TYPE THIS:</div>
+            <div class="target-text" id="targetWord">hello</div>
+          </div>
+        </div>
+        
+        <div class="autocorrect-suggestion" id="suggestion">
+          <span class="suggestion-text">Autocorrect suggests:</span>
+          <span class="suggestion-word" id="suggestionWord">helo</span>
+        </div>
+        
+        <div class="input-area">
+          <input type="text" class="text-input" id="textInput" placeholder="Type here...">
+          <button class="send-btn" onclick="sendMessage()">➤</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="correct">0</div>
+        <div class="stat-label">Fought Off</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="failed">0</div>
+        <div class="stat-label">Autocorrected</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="winRate">0%</div>
+        <div class="stat-label">Win Rate</div>
+      </div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    const wordPairs = [
+      { target: 'definitely', wrong: 'defiantly' },
+      { target: 'their', wrong: 'there' },
+      { target: 'its', wrong: "it's" },
+      { target: 'youre', wrong: "you're" },
+      { target: 'your', wrong: "you're" },
+      { target: 'cant', wrong: "can't" },
+      { target: 'wont', wrong: "won't" },
+      { target: 'dont', wrong: "don't" },
+      { target: 'yeah', wrong: 'yes' },
+      { target: 'ok', wrong: 'okay' },
+      { target: 'lol', wrong: 'LOL' },
+      { target: 'omg', wrong: 'OMG' },
+      { target: 'brb', wrong: 'be right back' },
+      { target: 'btw', wrong: 'by the way' },
+      { target: 'idk', wrong: "I don't know" },
+      { target: 'tbh', wrong: 'to be honest' },
+      { target: 'tho', wrong: 'though' },
+      { target: 'gonna', wrong: 'going to' },
+      { target: 'wanna', wrong: 'want to' },
+      { target: 'kinda', wrong: 'kind of' },
+      { target: 'sorta', wrong: 'sort of' },
+      { target: 'lemme', wrong: 'let me' },
+      { target: 'gimme', wrong: 'give me' },
+      { target: 'yep', wrong: 'yes' },
+      { target: 'nope', wrong: 'no' }
+    ];
+    
+    let currentPair = null;
+    let correctCount = 0;
+    let failedCount = 0;
+    let messages = [];
+    
+    function newChallenge() {
+      currentPair = wordPairs[Math.floor(Math.random() * wordPairs.length)];
+      document.getElementById('targetWord').textContent = currentPair.target;
+      document.getElementById('suggestionWord').textContent = currentPair.wrong;
+      document.getElementById('textInput').value = '';
+      document.getElementById('textInput').focus();
+    }
+    
+    function sendMessage() {
+      const input = document.getElementById('textInput').value.trim().toLowerCase();
+      
+      if (!input) return;
+      
+      const area = document.getElementById('messageArea');
+      const target = currentPair.target.toLowerCase();
+      const wrong = currentPair.wrong.toLowerCase();
+      
+      let messageClass = '';
+      let messageText = input;
+      
+      if (input === target) {
+        // Typed correctly!
+        correctCount++;
+        messageClass = 'correct';
+        messageText = '✓ ' + input;
+      } else if (input === wrong) {
+        // Got autocorrected
+        failedCount++;
+        messageClass = 'wrong';
+        messageText = '✗ ' + input + ' (autocorrected!)';
+      } else {
+        // Typo
+        failedCount++;
+        messageClass = 'wrong';
+        messageText = '✗ ' + input + ' (typo!)';
+      }
+      
+      const message = document.createElement('div');
+      message.className = 'message ' + messageClass;
+      message.textContent = messageText;
+      area.appendChild(message);
+      
+      // Scroll to bottom
+      area.scrollTop = area.scrollHeight;
+      
+      // Keep only last 10 messages
+      const allMessages = area.querySelectorAll('.message');
+      if (allMessages.length > 10) {
+        allMessages[0].remove();
+      }
+      
+      updateStats();
+      newChallenge();
+    }
+    
+    function updateStats() {
+      document.getElementById('correct').textContent = correctCount;
+      document.getElementById('failed').textContent = failedCount;
+      
+      const total = correctCount + failedCount;
+      const rate = total > 0 ? Math.round((correctCount / total) * 100) : 0;
+      document.getElementById('winRate').textContent = rate + '%';
+    }
+    
+    // Enter key to send
+    document.getElementById('textInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        sendMessage();
+      }
+    });
+    
+    // Load saved stats
+    const saved = localStorage.getItem('autocorrectStats');
+    if (saved) {
+      const stats = JSON.parse(saved);
+      correctCount = stats.correct || 0;
+      failedCount = stats.failed || 0;
+    }
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('autocorrectStats', JSON.stringify({
+        correct: correctCount,
+        failed: failedCount
+      }));
+    });
+    
+    newChallenge();
+    updateStats();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

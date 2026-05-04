@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>File Renamer - Procrastinate With Files | DontWork.work</title>
+  <meta name="description" content="Rename files endlessly. Perfect names don't exist. Accept your fate!">
+  <meta name="keywords" content="file renamer, organization, procrastination, perfectionism, file management">
+  
+  <meta property="og:title" content="File Renamer - Perfect Names Don't Exist">
+  <meta property="og:description" content="Rename files forever. Never quite right. Pure procrastination!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/file-renamer.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="File Renamer">
+  <meta name="twitter:description" content="Rename files endlessly. The perfect name is always one more try away!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #5F2C82 0%, #49A09D 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+    
+    .file-area {
+      background: rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 30px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .file-icon {
+      font-size: 8rem;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+    }
+    
+    .file-name-display {
+      background: rgba(0,0,0,0.3);
+      padding: 20px;
+      border-radius: 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 1.3rem;
+      margin-bottom: 25px;
+      word-break: break-all;
+    }
+    
+    .rename-input {
+      width: 100%;
+      padding: 18px;
+      font-size: 1.1rem;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 12px;
+      background: rgba(0,0,0,0.3);
+      color: white;
+      margin-bottom: 15px;
+      font-family: 'Courier New', monospace;
+    }
+    
+    .rename-input:focus {
+      outline: none;
+      border-color: #4CAF50;
+    }
+    
+    .suggestion-chips {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    
+    .chip {
+      background: rgba(255,255,255,0.2);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: 2px solid transparent;
+    }
+    
+    .chip:hover {
+      background: rgba(255,255,255,0.3);
+      transform: scale(1.05);
+    }
+    
+    .controls {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    
+    .btn {
+      padding: 15px 35px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .rename-btn {
+      background: #4CAF50;
+      color: white;
+    }
+    
+    .undo-btn {
+      background: #FF9800;
+      color: white;
+    }
+    
+    .new-btn {
+      background: rgba(255,255,255,0.3);
+      color: white;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+    
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .history {
+      background: rgba(0,0,0,0.3);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 20px;
+      max-height: 200px;
+      overflow-y: auto;
+      text-align: left;
+    }
+    
+    .history-title {
+      font-weight: 700;
+      margin-bottom: 10px;
+      opacity: 0.8;
+      font-size: 0.9rem;
+    }
+    
+    .history-item {
+      padding: 8px 12px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 6px;
+      margin-bottom: 5px;
+      font-size: 0.85rem;
+      font-family: 'Courier New', monospace;
+      opacity: 0.7;
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.1);
+      padding: 20px 30px;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-top: 5px;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>📁 File Renamer</h1>
+    <p class="subtitle">The perfect name is always one more rename away.</p>
+    
+    <div class="file-area">
+      <div class="file-icon" id="fileIcon">📄</div>
+      
+      <div class="file-name-display" id="currentName">untitled_document_final_final_v2.docx</div>
+      
+      <input type="text" class="rename-input" id="renameInput" placeholder="Enter new file name...">
+      
+      <div class="suggestion-chips" id="suggestions"></div>
+      
+      <div class="controls">
+        <button class="btn rename-btn" onclick="renameFile()">✓ Rename</button>
+        <button class="btn undo-btn" onclick="undoRename()" id="undoBtn" disabled>↶ Undo</button>
+        <button class="btn new-btn" onclick="newFile()">📄 New File</button>
+      </div>
+      
+      <div class="history">
+        <div class="history-title">RENAME HISTORY:</div>
+        <div id="historyList"></div>
+      </div>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="renameCount">0</div>
+        <div class="stat-label">Total Renames</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="fileCount">1</div>
+        <div class="stat-label">Files Renamed</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="avgRenames">0</div>
+        <div class="stat-label">Avg Per File</div>
+      </div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    const fileIcons = ['📄', '📁', '🖼️', '🎵', '🎬', '📊', '📝', '💾'];
+    
+    const nameSuffixes = [
+      '_final',
+      '_v2',
+      '_NEW',
+      '_copy',
+      '_FINAL_FINAL',
+      '_revised',
+      '_edited',
+      '_backup',
+      '_draft',
+      '_WIP',
+      '_old',
+      '_archive',
+      '_temp',
+      '(1)',
+      '(2)',
+      '_latest',
+      '_updated'
+    ];
+    
+    const nameModifiers = [
+      'Add date',
+      'Add initials',
+      'Add version',
+      'Add FINAL',
+      'Capitalize',
+      'Lowercase',
+      'Add underscore',
+      'Remove spaces'
+    ];
+    
+    let currentFileName = 'untitled_document_final_final_v2.docx';
+    let renameHistory = [currentFileName];
+    let currentHistoryIndex = 0;
+    let totalRenames = 0;
+    let totalFiles = 1;
+    
+    function generateSuggestions() {
+      const base = currentFileName.split('.')[0];
+      const ext = currentFileName.split('.')[1] || 'txt';
+      
+      const suggestions = [];
+      
+      // Random suffixes
+      for (let i = 0; i < 4; i++) {
+        const suffix = nameSuffixes[Math.floor(Math.random() * nameSuffixes.length)];
+        suggestions.push(base + suffix + '.' + ext);
+      }
+      
+      const container = document.getElementById('suggestions');
+      container.innerHTML = '';
+      
+      suggestions.forEach(suggestion => {
+        const chip = document.createElement('div');
+        chip.className = 'chip';
+        chip.textContent = suggestion;
+        chip.onclick = () => {
+          document.getElementById('renameInput').value = suggestion;
+        };
+        container.appendChild(chip);
+      });
+    }
+    
+    function renameFile() {
+      const newName = document.getElementById('renameInput').value.trim();
+      
+      if (!newName) {
+        return;
+      }
+      
+      // Add to history
+      renameHistory.push(newName);
+      currentHistoryIndex = renameHistory.length - 1;
+      currentFileName = newName;
+      
+      totalRenames++;
+      
+      updateDisplay();
+      updateHistory();
+      updateStats();
+      generateSuggestions();
+      
+      document.getElementById('renameInput').value = '';
+      document.getElementById('undoBtn').disabled = false;
+    }
+    
+    function undoRename() {
+      if (currentHistoryIndex > 0) {
+        currentHistoryIndex--;
+        currentFileName = renameHistory[currentHistoryIndex];
+        updateDisplay();
+        updateHistory();
+      }
+      
+      if (currentHistoryIndex === 0) {
+        document.getElementById('undoBtn').disabled = true;
+      }
+    }
+    
+    function newFile() {
+      const randomIcon = fileIcons[Math.floor(Math.random() * fileIcons.length)];
+      const extensions = ['txt', 'docx', 'pdf', 'jpg', 'mp3', 'mp4', 'xlsx'];
+      const randomExt = extensions[Math.floor(Math.random() * extensions.length)];
+      
+      currentFileName = `untitled.${randomExt}`;
+      renameHistory = [currentFileName];
+      currentHistoryIndex = 0;
+      totalFiles++;
+      
+      document.getElementById('fileIcon').textContent = randomIcon;
+      document.getElementById('undoBtn').disabled = true;
+      
+      updateDisplay();
+      updateHistory();
+      updateStats();
+      generateSuggestions();
+    }
+    
+    function updateDisplay() {
+      document.getElementById('currentName').textContent = currentFileName;
+    }
+    
+    function updateHistory() {
+      const list = document.getElementById('historyList');
+      list.innerHTML = '';
+      
+      // Show last 10 renames
+      const recentHistory = renameHistory.slice(-10).reverse();
+      
+      recentHistory.forEach((name, index) => {
+        const div = document.createElement('div');
+        div.className = 'history-item';
+        div.textContent = name;
+        if (index === 0 && currentHistoryIndex === renameHistory.length - 1) {
+          div.style.opacity = '1';
+          div.style.background = 'rgba(76, 175, 80, 0.2)';
+        }
+        list.appendChild(div);
+      });
+    }
+    
+    function updateStats() {
+      document.getElementById('renameCount').textContent = totalRenames;
+      document.getElementById('fileCount').textContent = totalFiles;
+      document.getElementById('avgRenames').textContent = Math.floor(totalRenames / totalFiles);
+    }
+    
+    // Enter key to rename
+    document.getElementById('renameInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        renameFile();
+      }
+    });
+    
+    // Load saved stats
+    const saved = localStorage.getItem('fileRenamerStats');
+    if (saved) {
+      const stats = JSON.parse(saved);
+      totalRenames = stats.renames || 0;
+      totalFiles = stats.files || 1;
+    }
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('fileRenamerStats', JSON.stringify({
+        renames: totalRenames,
+        files: totalFiles
+      }));
+    });
+    
+    generateSuggestions();
+    updateDisplay();
+    updateHistory();
+    updateStats();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

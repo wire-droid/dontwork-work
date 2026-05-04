@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Window Minimizer - Satisfying Clicks | DontWork.work</title>
+  <meta name="description" content="Minimize windows endlessly. That satisfying click. Pure organization bliss!">
+  <meta name="keywords" content="window minimizer, desktop organization, satisfying clicks, window management, productivity theater">
+  
+  <meta property="og:title" content="Window Minimizer - Click Click Click">
+  <meta property="og:description" content="Minimize all the windows. Oddly satisfying!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/window-minimizer.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Window Minimizer">
+  <meta name="twitter:description" content="Endless window minimizing. Pure satisfaction!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      text-align: center;
+      color: #333;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      margin-bottom: 10px;
+      color: #2c3e50;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.8;
+      margin-bottom: 30px;
+      color: #34495e;
+    }
+    
+    .desktop {
+      background: rgba(255,255,255,0.6);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 30px;
+      min-height: 600px;
+      position: relative;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+    
+    .windows-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 15px;
+    }
+    
+    .window {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    
+    .window:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    }
+    
+    .window.minimizing {
+      animation: minimize 0.4s forwards;
+    }
+    
+    @keyframes minimize {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(0.1) translateY(50px); opacity: 0; }
+    }
+    
+    .window-titlebar {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 12px 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .window-dots {
+      display: flex;
+      gap: 6px;
+    }
+    
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .dot:hover {
+      transform: scale(1.2);
+    }
+    
+    .dot.close { background: #FF5F56; }
+    .dot.minimize { background: #FFBD2E; }
+    .dot.maximize { background: #27C93F; }
+    
+    .window-title {
+      flex: 1;
+      color: white;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    
+    .window-content {
+      padding: 20px;
+      background: #fafafa;
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .window-icon {
+      font-size: 3rem;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+    
+    .btn {
+      padding: 18px 40px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Fraunces', serif;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .minimize-all-btn {
+      background: #FFBD2E;
+      color: #333;
+    }
+    
+    .restore-btn {
+      background: #27C93F;
+      color: white;
+    }
+    
+    .new-btn {
+      background: #667eea;
+      color: white;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.7);
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+      color: #2c3e50;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.7;
+      margin-top: 5px;
+      color: #34495e;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: #2c3e50;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.7);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.9);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>🗔 Window Minimizer</h1>
+    <p class="subtitle">That satisfying click. Over and over.</p>
+    
+    <div class="desktop">
+      <div class="windows-container" id="windowsContainer"></div>
+    </div>
+    
+    <div class="controls">
+      <button class="btn minimize-all-btn" onclick="minimizeAll()">⬇ Minimize All</button>
+      <button class="btn restore-btn" onclick="restoreAll()">⬆ Restore All</button>
+      <button class="btn new-btn" onclick="openNewWindow()">➕ New Window</button>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="minimized">0</div>
+        <div class="stat-label">Windows Minimized</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="active">6</div>
+        <div class="stat-label">Active Windows</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="total">6</div>
+        <div class="stat-label">Total Opened</div>
+      </div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    const windowTypes = [
+      { title: 'Chrome - 47 tabs', icon: '🌐' },
+      { title: 'VS Code - project.js', icon: '💻' },
+      { title: 'Spotify', icon: '🎵' },
+      { title: 'Slack - 15 unread', icon: '💬' },
+      { title: 'Email - Inbox (243)', icon: '📧' },
+      { title: 'Terminal', icon: '⌨️' },
+      { title: 'Figma - Design', icon: '🎨' },
+      { title: 'Zoom Meeting', icon: '📹' },
+      { title: 'Discord', icon: '🎮' },
+      { title: 'Notes', icon: '📝' },
+      { title: 'Calendar', icon: '📅' },
+      { title: 'Finder', icon: '📁' },
+      { title: 'Preview - image.png', icon: '🖼️' },
+      { title: 'Activity Monitor', icon: '📊' },
+      { title: 'Settings', icon: '⚙️' }
+    ];
+    
+    let windows = [];
+    let minimizedCount = 0;
+    let totalOpened = 0;
+    
+    function createWindow() {
+      const template = windowTypes[Math.floor(Math.random() * windowTypes.length)];
+      const window = {
+        id: Date.now() + Math.random(),
+        title: template.title,
+        icon: template.icon,
+        minimized: false
+      };
+      windows.push(window);
+      totalOpened++;
+      return window;
+    }
+    
+    function renderWindows() {
+      const container = document.getElementById('windowsContainer');
+      container.innerHTML = '';
+      
+      windows.forEach(win => {
+        if (win.minimized) return;
+        
+        const div = document.createElement('div');
+        div.className = 'window';
+        div.id = 'window-' + win.id;
+        div.innerHTML = `
+          <div class="window-titlebar">
+            <div class="window-dots">
+              <div class="dot close" onclick="closeWindow('${win.id}', event)"></div>
+              <div class="dot minimize" onclick="minimizeWindow('${win.id}', event)"></div>
+              <div class="dot maximize"></div>
+            </div>
+            <div class="window-title">${win.title}</div>
+          </div>
+          <div class="window-content">
+            <div class="window-icon">${win.icon}</div>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+      
+      updateStats();
+    }
+    
+    function minimizeWindow(id, event) {
+      event.stopPropagation();
+      const element = document.getElementById('window-' + id);
+      element.classList.add('minimizing');
+      
+      setTimeout(() => {
+        const window = windows.find(w => w.id == id);
+        if (window) {
+          window.minimized = true;
+          minimizedCount++;
+        }
+        renderWindows();
+      }, 400);
+    }
+    
+    function closeWindow(id, event) {
+      event.stopPropagation();
+      windows = windows.filter(w => w.id != id);
+      renderWindows();
+    }
+    
+    function minimizeAll() {
+      const activeWindows = windows.filter(w => !w.minimized);
+      activeWindows.forEach((win, index) => {
+        setTimeout(() => {
+          const element = document.getElementById('window-' + win.id);
+          if (element) {
+            element.classList.add('minimizing');
+            setTimeout(() => {
+              win.minimized = true;
+              minimizedCount++;
+              renderWindows();
+            }, 400);
+          }
+        }, index * 100);
+      });
+    }
+    
+    function restoreAll() {
+      windows.forEach(win => {
+        win.minimized = false;
+      });
+      renderWindows();
+    }
+    
+    function openNewWindow() {
+      createWindow();
+      renderWindows();
+    }
+    
+    function updateStats() {
+      const activeCount = windows.filter(w => !w.minimized).length;
+      document.getElementById('minimized').textContent = minimizedCount;
+      document.getElementById('active').textContent = activeCount;
+      document.getElementById('total').textContent = totalOpened;
+    }
+    
+    // Initialize with 6 windows
+    for (let i = 0; i < 6; i++) {
+      createWindow();
+    }
+    renderWindows();
+    
+    // Load saved stats
+    const saved = localStorage.getItem('windowMinimizerStats');
+    if (saved) {
+      const stats = JSON.parse(saved);
+      minimizedCount = stats.minimized || 0;
+      totalOpened = Math.max(totalOpened, stats.total || 6);
+    }
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('windowMinimizerStats', JSON.stringify({
+        minimized: minimizedCount,
+        total: totalOpened
+      }));
+    });
+    
+    updateStats();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Cookie Banner Reject - Decline Everything | DontWork.work</title>
+  <meta name="description" content="Reject cookie banners endlessly. They never stop asking. Click NO forever!">
+  <meta name="keywords" content="cookie banner, reject cookies, GDPR, privacy game, cookie consent">
+  
+  <meta property="og:title" content="Cookie Banner Reject - Say NO">
+  <meta property="og:description" content="Endless cookie banners. Endless rejecting. Pure chaos!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/cookie-reject.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Cookie Banner Reject">
+  <meta name="twitter:description" content="Reject all cookies. Forever. They never learn!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+      position: relative;
+      z-index: 1;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+    
+    .browser-window {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      min-height: 500px;
+      position: relative;
+    }
+    
+    .browser-bar {
+      background: #f5f5f5;
+      padding: 15px;
+      border-bottom: 1px solid #e0e0e0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .browser-dots {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ddd;
+    }
+    
+    .browser-content {
+      padding: 40px;
+      min-height: 420px;
+      color: #333;
+      position: relative;
+      background: #fafafa;
+    }
+    
+    .fake-content {
+      opacity: 0.3;
+      text-align: left;
+    }
+    
+    .fake-content h2 {
+      margin-bottom: 15px;
+      color: #333;
+    }
+    
+    .fake-content p {
+      line-height: 1.8;
+      margin-bottom: 15px;
+      color: #666;
+    }
+    
+    .cookie-banner {
+      position: absolute;
+      background: white;
+      border: 2px solid #333;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      max-width: 500px;
+      animation: slideUp 0.4s;
+      z-index: 10;
+    }
+    
+    @keyframes slideUp {
+      from {
+        transform: translateY(100px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    .cookie-banner.rejecting {
+      animation: fadeOut 0.3s forwards;
+    }
+    
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+    }
+    
+    .banner-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #333;
+    }
+    
+    .banner-text {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      color: #666;
+    }
+    
+    .banner-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .banner-btn {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    
+    .accept-btn {
+      background: #4CAF50;
+      color: white;
+    }
+    
+    .reject-btn {
+      background: #F44336;
+      color: white;
+    }
+    
+    .settings-btn {
+      background: #f0f0f0;
+      color: #333;
+    }
+    
+    .banner-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.2);
+      padding: 20px 30px;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>🍪 Cookie Banner Reject</h1>
+    <p class="subtitle">They never stop asking. Just say NO.</p>
+    
+    <div class="browser-window">
+      <div class="browser-bar">
+        <div class="browser-dots">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
+      
+      <div class="browser-content" id="browserContent">
+        <div class="fake-content">
+          <h2>Welcome to Our Website</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="rejected">0</div>
+        <div class="stat-label">Banners Rejected</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="accidentally">0</div>
+        <div class="stat-label">Accidentally Accepted</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="rps">0</div>
+        <div class="stat-label">Rejects Per Second</div>
+      </div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    const bannerTypes = [
+      {
+        title: '🍪 We Value Your Privacy',
+        text: 'We and our 847 partners use cookies to personalize ads and analyze traffic. Click "Accept All" to consent.',
+        position: 'bottom'
+      },
+      {
+        title: 'Cookie Notice',
+        text: 'This website uses cookies to improve your experience. By continuing to browse, you accept all cookies.',
+        position: 'bottom'
+      },
+      {
+        title: '🔒 Privacy Settings',
+        text: 'We care about your privacy! (Just kidding, we sell your data to everyone.) Accept cookies?',
+        position: 'center'
+      },
+      {
+        title: 'GDPR Compliance',
+        text: 'Legal mumbo jumbo about cookies. TL;DR: We track everything. Accept?',
+        position: 'top'
+      },
+      {
+        title: '🍪 Cookie Policy Update',
+        text: 'We updated our cookie policy to make it even more confusing. Agree to continue.',
+        position: 'bottom'
+      },
+      {
+        title: 'Essential Cookies Required',
+        text: 'These "essential" cookies are totally necessary. Trust us. We promise. Accept all?',
+        position: 'center'
+      },
+      {
+        title: 'Personalized Experience',
+        text: 'Let us track you for a "better experience" (aka targeted ads). Sound good?',
+        position: 'bottom'
+      },
+      {
+        title: '🔐 Your Privacy Matters',
+        text: 'Which is why we are asking you to give it all away. Click accept!',
+        position: 'top'
+      },
+      {
+        title: 'Cookie Consent',
+        text: 'We respect your right to privacy. Now give us permission to violate it.',
+        position: 'center'
+      },
+      {
+        title: 'Manage Preferences',
+        text: 'You can manage your cookie preferences! (But the reject button is hidden on page 47)',
+        position: 'bottom'
+      }
+    ];
+    
+    let rejectedCount = 0;
+    let acceptedCount = 0;
+    let rejectsThisSecond = 0;
+    let rps = 0;
+    let currentBanner = null;
+    
+    function createBanner() {
+      if (currentBanner) return;
+      
+      const template = bannerTypes[Math.floor(Math.random() * bannerTypes.length)];
+      const content = document.getElementById('browserContent');
+      
+      const banner = document.createElement('div');
+      banner.className = 'cookie-banner';
+      banner.id = 'currentBanner';
+      
+      // Position banner
+      if (template.position === 'bottom') {
+        banner.style.bottom = '20px';
+        banner.style.left = '20px';
+      } else if (template.position === 'top') {
+        banner.style.top = '20px';
+        banner.style.left = '20px';
+      } else {
+        banner.style.top = '50%';
+        banner.style.left = '50%';
+        banner.style.transform = 'translate(-50%, -50%)';
+      }
+      
+      banner.innerHTML = `
+        <div class="banner-title">${template.title}</div>
+        <div class="banner-text">${template.text}</div>
+        <div class="banner-buttons">
+          <button class="banner-btn accept-btn" onclick="acceptCookies()">Accept All</button>
+          <button class="banner-btn reject-btn" onclick="rejectCookies()">Reject All</button>
+          <button class="banner-btn settings-btn" onclick="openSettings()">Settings</button>
+        </div>
+      `;
+      
+      content.appendChild(banner);
+      currentBanner = banner;
+    }
+    
+    function rejectCookies() {
+      if (!currentBanner) return;
+      
+      currentBanner.classList.add('rejecting');
+      rejectedCount++;
+      rejectsThisSecond++;
+      
+      setTimeout(() => {
+        if (currentBanner) {
+          currentBanner.remove();
+          currentBanner = null;
+        }
+        updateStats();
+        
+        // New banner appears quickly
+        setTimeout(createBanner, 800);
+      }, 300);
+    }
+    
+    function acceptCookies() {
+      if (!currentBanner) return;
+      
+      currentBanner.classList.add('rejecting');
+      acceptedCount++;
+      
+      setTimeout(() => {
+        if (currentBanner) {
+          currentBanner.remove();
+          currentBanner = null;
+        }
+        updateStats();
+        
+        // Oops, clicked accept. New banner immediately!
+        setTimeout(createBanner, 500);
+      }, 300);
+    }
+    
+    function openSettings() {
+      // Settings button just spawns a new banner immediately
+      if (!currentBanner) return;
+      
+      currentBanner.classList.add('rejecting');
+      
+      setTimeout(() => {
+        if (currentBanner) {
+          currentBanner.remove();
+          currentBanner = null;
+        }
+        // Two banners appear as punishment
+        setTimeout(createBanner, 200);
+        setTimeout(createBanner, 500);
+      }, 300);
+    }
+    
+    function updateStats() {
+      document.getElementById('rejected').textContent = rejectedCount;
+      document.getElementById('accidentally').textContent = acceptedCount;
+      document.getElementById('rps').textContent = rps;
+    }
+    
+    // Track RPS
+    setInterval(() => {
+      rps = rejectsThisSecond;
+      rejectsThisSecond = 0;
+      updateStats();
+    }, 1000);
+    
+    // Auto-spawn banners if none exist
+    setInterval(() => {
+      if (!currentBanner) {
+        createBanner();
+      }
+    }, 3000);
+    
+    // Initial banner
+    setTimeout(createBanner, 1000);
+    
+    // Load saved stats
+    const saved = localStorage.getItem('cookieRejectStats');
+    if (saved) {
+      const stats = JSON.parse(saved);
+      rejectedCount = stats.rejected || 0;
+      acceptedCount = stats.accepted || 0;
+    }
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('cookieRejectStats', JSON.stringify({
+        rejected: rejectedCount,
+        accepted: acceptedCount
+      }));
+    });
+    
+    updateStats();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>
