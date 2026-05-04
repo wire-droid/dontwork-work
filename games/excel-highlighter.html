@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Excel Cell Highlighter - Satisfying Colors | DontWork.work</title>
+  <meta name="description" content="Highlight spreadsheet cells in rainbow colors. Oddly satisfying virtual Excel!">
+  <meta name="keywords" content="excel highlighter, spreadsheet game, cell coloring, satisfying colors, office game">
+  
+  <meta property="og:title" content="Excel Cell Highlighter - Rainbow Spreadsheets">
+  <meta property="og:description" content="Highlight cells. Change colors. Pure satisfaction!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/excel-highlighter.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Excel Cell Highlighter">
+  <meta name="twitter:description" content="Virtual Excel highlighting. Infinitely satisfying!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #1DB954 0%, #1ED760 100%);
+      min-height: 100vh;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+    
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+    
+    .spreadsheet-container {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      overflow-x: auto;
+    }
+    
+    .spreadsheet {
+      display: inline-grid;
+      grid-template-columns: 40px repeat(10, 80px);
+      gap: 2px;
+      background: #e0e0e0;
+      padding: 2px;
+      border-radius: 10px;
+    }
+    
+    .cell {
+      background: white;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #333;
+      user-select: none;
+    }
+    
+    .cell.header {
+      background: #f5f5f5;
+      cursor: default;
+      font-weight: 700;
+      color: #666;
+    }
+    
+    .cell:not(.header):hover {
+      transform: scale(1.05);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    
+    .color-palette {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+    
+    .color-btn {
+      width: 50px;
+      height: 50px;
+      border: 3px solid white;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+    }
+    
+    .color-btn:hover {
+      transform: scale(1.15);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    }
+    
+    .color-btn.active {
+      border-width: 5px;
+      transform: scale(1.2);
+    }
+    
+    .controls {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+    
+    .btn {
+      padding: 15px 35px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .clear-btn {
+      background: #FF5252;
+      color: white;
+    }
+    
+    .rainbow-btn {
+      background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 50%, #FFE66D 100%);
+      color: white;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.2);
+      padding: 20px 30px;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>📊 Excel Cell Highlighter</h1>
+    <p class="subtitle">Color your world, one cell at a time.</p>
+    
+    <div class="color-palette" id="colorPalette"></div>
+    
+    <div class="spreadsheet-container">
+      <div class="spreadsheet" id="spreadsheet"></div>
+    </div>
+    
+    <div class="controls">
+      <button class="btn rainbow-btn" onclick="rainbowFill()">🌈 Rainbow Fill</button>
+      <button class="btn clear-btn" onclick="clearAll()">🗑️ Clear All</button>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="cellsHighlighted">0</div>
+        <div class="stat-label">Cells Highlighted</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="colorsUsed">0</div>
+        <div class="stat-label">Colors Used</div>
+      </div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    const colors = [
+      '#FFEB3B', // Yellow
+      '#FF9800', // Orange
+      '#FF5252', // Red
+      '#E91E63', // Pink
+      '#9C27B0', // Purple
+      '#3F51B5', // Indigo
+      '#2196F3', // Blue
+      '#00BCD4', // Cyan
+      '#4CAF50', // Green
+      '#8BC34A', // Light Green
+      '#FFFFFF'  // White (eraser)
+    ];
+    
+    let currentColor = colors[0];
+    let cellsHighlighted = 0;
+    let usedColors = new Set();
+    let cells = [];
+    
+    const rows = 15;
+    const cols = 10;
+    const columnHeaders = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+    
+    function createColorPalette() {
+      const palette = document.getElementById('colorPalette');
+      colors.forEach((color, index) => {
+        const btn = document.createElement('div');
+        btn.className = 'color-btn' + (index === 0 ? ' active' : '');
+        btn.style.background = color;
+        if (color === '#FFFFFF') {
+          btn.style.border = '3px solid #333';
+        }
+        btn.onclick = () => selectColor(color, btn);
+        palette.appendChild(btn);
+      });
+    }
+    
+    function selectColor(color, btn) {
+      currentColor = color;
+      document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+    
+    function createSpreadsheet() {
+      const spreadsheet = document.getElementById('spreadsheet');
+      cells = [];
+      
+      // Empty corner
+      const corner = document.createElement('div');
+      corner.className = 'cell header';
+      spreadsheet.appendChild(corner);
+      
+      // Column headers
+      columnHeaders.forEach(header => {
+        const cell = document.createElement('div');
+        cell.className = 'cell header';
+        cell.textContent = header;
+        spreadsheet.appendChild(cell);
+      });
+      
+      // Rows
+      for (let r = 1; r <= rows; r++) {
+        // Row header
+        const rowHeader = document.createElement('div');
+        rowHeader.className = 'cell header';
+        rowHeader.textContent = r;
+        spreadsheet.appendChild(rowHeader);
+        
+        // Data cells
+        for (let c = 0; c < cols; c++) {
+          const cell = document.createElement('div');
+          cell.className = 'cell';
+          cell.dataset.row = r;
+          cell.dataset.col = c;
+          cell.onclick = () => highlightCell(cell);
+          spreadsheet.appendChild(cell);
+          cells.push(cell);
+        }
+      }
+    }
+    
+    function highlightCell(cell) {
+      const oldColor = cell.style.background;
+      cell.style.background = currentColor;
+      
+      if (!oldColor || oldColor === '' || oldColor === 'white') {
+        cellsHighlighted++;
+      }
+      
+      if (currentColor !== '#FFFFFF') {
+        usedColors.add(currentColor);
+      }
+      
+      updateStats();
+    }
+    
+    function rainbowFill() {
+      cells.forEach((cell, index) => {
+        setTimeout(() => {
+          const colorIndex = index % (colors.length - 1); // Exclude white
+          cell.style.background = colors[colorIndex];
+          usedColors.add(colors[colorIndex]);
+        }, index * 10);
+      });
+      
+      cellsHighlighted = cells.length;
+      setTimeout(updateStats, cells.length * 10);
+    }
+    
+    function clearAll() {
+      cells.forEach(cell => {
+        cell.style.background = '';
+      });
+      cellsHighlighted = 0;
+      usedColors.clear();
+      updateStats();
+    }
+    
+    function updateStats() {
+      document.getElementById('cellsHighlighted').textContent = cellsHighlighted;
+      document.getElementById('colorsUsed').textContent = usedColors.size;
+    }
+    
+    // Load saved stats
+    const savedHighlights = localStorage.getItem('cellsHighlighted');
+    if (savedHighlights) cellsHighlighted = parseInt(savedHighlights);
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('cellsHighlighted', cellsHighlighted);
+    });
+    
+    createColorPalette();
+    createSpreadsheet();
+    updateStats();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

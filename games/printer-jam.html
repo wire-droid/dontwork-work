@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Printer Jam Simulator - Office Frustration | DontWork.work</title>
+  <meta name="description" content="Experience the joy of printer problems without the actual stress. PC LOAD LETTER? What does that mean?!">
+  <meta name="keywords" content="printer jam, office simulator, printer problems, PC LOAD LETTER, office frustration">
+  
+  <meta property="og:title" content="Printer Jam Simulator - PC LOAD LETTER">
+  <meta property="og:description" content="All the printer frustration, none of the consequences!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/printer-jam.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Printer Jam Simulator">
+  <meta name="twitter:description" content="PC LOAD LETTER. Cyan ink low. Paper jam. The full experience!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #434343 0%, #000000 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+    
+    .printer-container {
+      background: rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 50px;
+      margin-bottom: 30px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .printer {
+      font-size: 10rem;
+      margin-bottom: 30px;
+      animation: shake 0.5s infinite;
+      animation-play-state: paused;
+    }
+    
+    .printer.jamming {
+      animation-play-state: running;
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0) rotate(0deg); }
+      25% { transform: translateX(-10px) rotate(-2deg); }
+      50% { transform: translateX(10px) rotate(2deg); }
+      75% { transform: translateX(-10px) rotate(-1deg); }
+    }
+    
+    .error-display {
+      background: #D32F2F;
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      font-family: 'Courier New', monospace;
+      font-size: 1.2rem;
+      font-weight: 700;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 5px 20px rgba(211, 47, 47, 0.5);
+    }
+    
+    .controls {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+    
+    .btn {
+      padding: 18px 35px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .print-btn {
+      background: #1976D2;
+      color: white;
+    }
+    
+    .fix-btn {
+      background: #F57C00;
+      color: white;
+    }
+    
+    .rage-btn {
+      background: #D32F2F;
+      color: white;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+    
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .ink-levels {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin: 30px 0;
+    }
+    
+    .ink-bar {
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 15px;
+    }
+    
+    .ink-label {
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    
+    .ink-level-container {
+      background: rgba(0,0,0,0.3);
+      height: 100px;
+      border-radius: 5px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .ink-level-fill {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      transition: height 0.5s;
+      border-radius: 5px 5px 0 0;
+    }
+    
+    .cyan { background: #00BCD4; }
+    .magenta { background: #E91E63; }
+    .yellow { background: #FFC107; }
+    .black { background: #212121; }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.1);
+      padding: 20px 30px;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-top: 5px;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+    
+    @media (max-width: 768px) {
+      .ink-levels {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>🖨️ Printer Jam Simulator</h1>
+    <p class="subtitle">All the frustration, none of the consequences.</p>
+    
+    <div class="printer-container">
+      <div class="printer" id="printer">🖨️</div>
+      
+      <div class="error-display" id="errorDisplay">
+        Ready to print...
+      </div>
+      
+      <div class="ink-levels">
+        <div class="ink-bar">
+          <div class="ink-label">CYAN</div>
+          <div class="ink-level-container">
+            <div class="ink-level-fill cyan" id="cyanLevel" style="height: 100%"></div>
+          </div>
+        </div>
+        <div class="ink-bar">
+          <div class="ink-label">MAGENTA</div>
+          <div class="ink-level-container">
+            <div class="ink-level-fill magenta" id="magentaLevel" style="height: 100%"></div>
+          </div>
+        </div>
+        <div class="ink-bar">
+          <div class="ink-label">YELLOW</div>
+          <div class="ink-level-container">
+            <div class="ink-level-fill yellow" id="yellowLevel" style="height: 100%"></div>
+          </div>
+        </div>
+        <div class="ink-bar">
+          <div class="ink-label">BLACK</div>
+          <div class="ink-level-container">
+            <div class="ink-level-fill black" id="blackLevel" style="height: 100%"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="controls">
+        <button class="btn print-btn" id="printBtn" onclick="attemptPrint()">🖨️ PRINT</button>
+        <button class="btn fix-btn" id="fixBtn" onclick="fixPrinter()" disabled>🔧 FIX JAM</button>
+        <button class="btn rage-btn" onclick="ragePrinter()">😡 RAGE QUIT</button>
+      </div>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="jamCount">0</div>
+        <div class="stat-label">Paper Jams</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="fixCount">0</div>
+        <div class="stat-label">Jams Fixed</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="rageCount">0</div>
+        <div class="stat-label">Rage Quits</div>
+      </div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    const errorMessages = [
+      "PC LOAD LETTER",
+      "PAPER JAM IN TRAY 2",
+      "CYAN INK LOW",
+      "MAGENTA INK LOW",
+      "YELLOW INK LOW",
+      "BLACK INK LOW",
+      "OUT OF PAPER",
+      "PRINTER OFFLINE",
+      "ERROR CODE: 0x0000052",
+      "REPLACE CYAN CARTRIDGE",
+      "DOOR OPEN",
+      "PAPER MISFEED",
+      "PRINTER NOT RESPONDING",
+      "ALIGNMENT REQUIRED",
+      "MAINTENANCE REQUIRED",
+      "COMMUNICATION ERROR",
+      "TONER LOW",
+      "DUPLEX ERROR",
+      "PRINT HEAD ERROR",
+      "FATAL ERROR: RESTART PRINTER"
+    ];
+    
+    let isJammed = false;
+    let jamCount = 0;
+    let fixCount = 0;
+    let rageCount = 0;
+    let inkLevels = { cyan: 100, magenta: 100, yellow: 100, black: 100 };
+    
+    function attemptPrint() {
+      const printer = document.getElementById('printer');
+      const errorDisplay = document.getElementById('errorDisplay');
+      const printBtn = document.getElementById('printBtn');
+      const fixBtn = document.getElementById('fixBtn');
+      
+      // Random chance of jam (60%)
+      if (Math.random() < 0.6) {
+        isJammed = true;
+        jamCount++;
+        
+        printer.classList.add('jamming');
+        const randomError = errorMessages[Math.floor(Math.random() * errorMessages.length)];
+        errorDisplay.textContent = randomError;
+        errorDisplay.style.background = '#D32F2F';
+        
+        printBtn.disabled = true;
+        fixBtn.disabled = false;
+        
+        // Decrease ink levels
+        if (randomError.includes('CYAN')) inkLevels.cyan = Math.max(0, inkLevels.cyan - 20);
+        if (randomError.includes('MAGENTA')) inkLevels.magenta = Math.max(0, inkLevels.magenta - 20);
+        if (randomError.includes('YELLOW')) inkLevels.yellow = Math.max(0, inkLevels.yellow - 20);
+        if (randomError.includes('BLACK')) inkLevels.black = Math.max(0, inkLevels.black - 20);
+        
+        updateInkLevels();
+      } else {
+        errorDisplay.textContent = "✓ PRINTING... (Just kidding, it jammed)";
+        errorDisplay.style.background = '#388E3C';
+        
+        setTimeout(() => {
+          isJammed = true;
+          jamCount++;
+          printer.classList.add('jamming');
+          errorDisplay.textContent = "PAPER JAM DETECTED";
+          errorDisplay.style.background = '#D32F2F';
+          printBtn.disabled = true;
+          fixBtn.disabled = false;
+        }, 1500);
+        
+        // Use random ink
+        const randomInk = Math.random();
+        if (randomInk < 0.25) inkLevels.cyan -= 5;
+        else if (randomInk < 0.5) inkLevels.magenta -= 5;
+        else if (randomInk < 0.75) inkLevels.yellow -= 5;
+        else inkLevels.black -= 5;
+        
+        updateInkLevels();
+      }
+      
+      updateStats();
+    }
+    
+    function fixPrinter() {
+      const printer = document.getElementById('printer');
+      const errorDisplay = document.getElementById('errorDisplay');
+      const printBtn = document.getElementById('printBtn');
+      const fixBtn = document.getElementById('fixBtn');
+      
+      fixCount++;
+      isJammed = false;
+      
+      printer.classList.remove('jamming');
+      errorDisplay.textContent = "JAM CLEARED. Ready to print...";
+      errorDisplay.style.background = '#388E3C';
+      
+      setTimeout(() => {
+        errorDisplay.textContent = "Ready to print...";
+        errorDisplay.style.background = '#1976D2';
+      }, 2000);
+      
+      printBtn.disabled = false;
+      fixBtn.disabled = true;
+      
+      updateStats();
+    }
+    
+    function ragePrinter() {
+      const printer = document.getElementById('printer');
+      const errorDisplay = document.getElementById('errorDisplay');
+      
+      rageCount++;
+      
+      errorDisplay.textContent = "😡😡😡 RAGE MODE ACTIVATED 😡😡😡";
+      errorDisplay.style.background = '#C62828';
+      
+      printer.style.animation = 'shake 0.1s infinite';
+      
+      setTimeout(() => {
+        printer.style.animation = '';
+        errorDisplay.textContent = "Ready to print...";
+        errorDisplay.style.background = '#1976D2';
+        printer.classList.remove('jamming');
+        isJammed = false;
+        document.getElementById('printBtn').disabled = false;
+        document.getElementById('fixBtn').disabled = true;
+      }, 3000);
+      
+      updateStats();
+    }
+    
+    function updateInkLevels() {
+      document.getElementById('cyanLevel').style.height = inkLevels.cyan + '%';
+      document.getElementById('magentaLevel').style.height = inkLevels.magenta + '%';
+      document.getElementById('yellowLevel').style.height = inkLevels.yellow + '%';
+      document.getElementById('blackLevel').style.height = inkLevels.black + '%';
+    }
+    
+    function updateStats() {
+      document.getElementById('jamCount').textContent = jamCount;
+      document.getElementById('fixCount').textContent = fixCount;
+      document.getElementById('rageCount').textContent = rageCount;
+    }
+    
+    // Load saved stats
+    const savedJams = localStorage.getItem('printerJams');
+    const savedFixes = localStorage.getItem('printerFixes');
+    const savedRages = localStorage.getItem('printerRages');
+    if (savedJams) jamCount = parseInt(savedJams);
+    if (savedFixes) fixCount = parseInt(savedFixes);
+    if (savedRages) rageCount = parseInt(savedRages);
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('printerJams', jamCount);
+      localStorage.setItem('printerFixes', fixCount);
+      localStorage.setItem('printerRages', rageCount);
+    });
+    
+    updateStats();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

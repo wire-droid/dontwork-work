@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Paper Shredder Simulator - Destroy Documents | DontWork.work</title>
+  <meta name="description" content="Shred confidential documents virtually. Satisfying paper shredding simulator. No evidence left behind!">
+  <meta name="keywords" content="paper shredder, document destroyer, office game, stress relief, procrastination">
+  
+  <meta property="og:title" content="Paper Shredder Simulator - Destroy Documents">
+  <meta property="og:description" content="Shred confidential documents. Satisfying and therapeutic. No paper jams!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/paper-shredder.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Paper Shredder Simulator">
+  <meta name="twitter:description" content="Shred documents virtually. Oddly satisfying.">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+      min-height: 100vh;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+    
+    .shredder-area {
+      background: #34495e;
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .shredder-slot {
+      background: #2c3e50;
+      border: 3px dashed rgba(255,255,255,0.3);
+      border-radius: 15px;
+      padding: 60px 40px;
+      margin-bottom: 30px;
+      transition: all 0.3s;
+      cursor: pointer;
+      position: relative;
+    }
+    
+    .shredder-slot:hover {
+      border-color: #3498db;
+      background: rgba(52, 152, 219, 0.1);
+    }
+    
+    .shredder-slot.shredding {
+      border-color: #e74c3c;
+      animation: shake 0.3s;
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+    
+    .document {
+      background: white;
+      color: #2c3e50;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 10px;
+      cursor: grab;
+      display: inline-block;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+      max-width: 200px;
+    }
+    
+    .document:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    
+    .document.shredded {
+      animation: shred 0.8s forwards;
+    }
+    
+    @keyframes shred {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      50% { transform: translateY(30px) scale(0.8) rotate(5deg); opacity: 0.7; }
+      100% { transform: translateY(60px) scale(0.3) rotate(15deg); opacity: 0; }
+    }
+    
+    .shred-btn {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      padding: 20px 40px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .shred-btn:hover {
+      background: #c0392b;
+      transform: scale(1.05);
+    }
+    
+    .shred-btn:active {
+      transform: scale(0.95);
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.1);
+      padding: 20px 30px;
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-top: 5px;
+    }
+    
+    .documents-pile {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      min-height: 150px;
+      margin-top: 20px;
+    }
+    
+    .achievement {
+      background: rgba(46, 204, 113, 0.2);
+      border: 2px solid #2ecc71;
+      padding: 15px 25px;
+      border-radius: 10px;
+      margin: 10px;
+      display: inline-block;
+      animation: popIn 0.5s;
+    }
+    
+    @keyframes popIn {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>🗄️ Paper Shredder Simulator</h1>
+    <p class="subtitle">Destroy evidence. I mean... organize your files.</p>
+    
+    <div class="shredder-area">
+      <div class="shredder-slot" id="shredderSlot">
+        <h2 style="font-size: 1.5rem; margin-bottom: 15px;">Drop Documents Here</h2>
+        <p style="opacity: 0.7;">Click documents below to shred them</p>
+      </div>
+      
+      <button class="shred-btn" onclick="shredAll()">🗑️ SHRED EVERYTHING</button>
+      
+      <div class="documents-pile" id="documentsPile"></div>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="shredCount">0</div>
+        <div class="stat-label">Documents Destroyed</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="evidenceLevel">100%</div>
+        <div class="stat-label">Evidence Remaining</div>
+      </div>
+    </div>
+    
+    <div id="achievements"></div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    const documentNames = [
+      "Performance Review 2023",
+      "Boss's Private Emails",
+      "Expense Report (Modified)",
+      "Confidential HR Notes",
+      "Meeting Minutes (Boring)",
+      "Annual Budget Plan",
+      "Complaint About Karen",
+      "Personal Internet History",
+      "Vacation Request (Rejected)",
+      "Salary Comparison Sheet",
+      "Project Failure Report",
+      "LinkedIn Job Search",
+      "Resume (Updated at Work)",
+      "Passive-Aggressive Email",
+      "Evidence of Procrastination",
+      "Time Theft Documentation",
+      "CEO's Secret Strategy",
+      "Competitor Research",
+      "Exit Interview Notes",
+      "Whistleblower Report"
+    ];
+    
+    let shredCount = 0;
+    let totalDocs = 10;
+    let currentDocs = [];
+    
+    const achievements = [
+      { at: 1, text: "🏆 First Shred" },
+      { at: 5, text: "🔥 Paper Trail Erased" },
+      { at: 10, text: "💼 Office Ninja" },
+      { at: 25, text: "🗑️ Destruction Expert" },
+      { at: 50, text: "⚡ Evidence Eliminator" },
+      { at: 100, text: "🎯 Professional Shredder" },
+      { at: 200, text: "🌟 Master of Secrets" },
+      { at: 500, text: "👑 Shred King/Queen" },
+      { at: 1000, text: "🚀 Legendary Destroyer" },
+      { at: 2000, text: "💎 Ultimate Shredder" }
+    ];
+    
+    function createDocuments() {
+      const pile = document.getElementById('documentsPile');
+      pile.innerHTML = '';
+      currentDocs = [];
+      
+      for (let i = 0; i < totalDocs; i++) {
+        const doc = document.createElement('div');
+        doc.className = 'document';
+        const randomName = documentNames[Math.floor(Math.random() * documentNames.length)];
+        doc.textContent = randomName;
+        doc.onclick = () => shredDocument(doc);
+        pile.appendChild(doc);
+        currentDocs.push(doc);
+      }
+    }
+    
+    function shredDocument(doc) {
+      if (doc.classList.contains('shredded')) return;
+      
+      doc.classList.add('shredded');
+      shredCount++;
+      
+      // Sound effect (visual feedback)
+      const slot = document.getElementById('shredderSlot');
+      slot.classList.add('shredding');
+      setTimeout(() => slot.classList.remove('shredding'), 300);
+      
+      setTimeout(() => {
+        doc.remove();
+        currentDocs = currentDocs.filter(d => d !== doc);
+        if (currentDocs.length === 0) {
+          setTimeout(createDocuments, 500);
+        }
+      }, 800);
+      
+      updateStats();
+      checkAchievements();
+    }
+    
+    function shredAll() {
+      currentDocs.forEach((doc, index) => {
+        setTimeout(() => shredDocument(doc), index * 100);
+      });
+    }
+    
+    function updateStats() {
+      document.getElementById('shredCount').textContent = shredCount;
+      const evidenceLeft = Math.max(0, 100 - (shredCount * 2));
+      document.getElementById('evidenceLevel').textContent = evidenceLeft + '%';
+    }
+    
+    function checkAchievements() {
+      const unlocked = localStorage.getItem('shredderAchievements') || '';
+      achievements.forEach(ach => {
+        if (shredCount >= ach.at && !unlocked.includes(ach.at.toString())) {
+          showAchievement(ach.text);
+          localStorage.setItem('shredderAchievements', unlocked + ',' + ach.at);
+        }
+      });
+    }
+    
+    function showAchievement(text) {
+      const div = document.createElement('div');
+      div.className = 'achievement';
+      div.textContent = text;
+      document.getElementById('achievements').appendChild(div);
+      setTimeout(() => div.remove(), 5000);
+    }
+    
+    // Load saved count
+    const saved = localStorage.getItem('totalShredCount');
+    if (saved) shredCount = parseInt(saved);
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('totalShredCount', shredCount);
+    });
+    
+    createDocuments();
+    updateStats();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

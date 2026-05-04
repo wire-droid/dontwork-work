@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Keyboard Smasher - Release Your Anger | DontWork.work</title>
+  <meta name="description" content="Smash your keyboard virtually. Type angry gibberish. Auto-deletes after 10 seconds. No HR violations!">
+  <meta name="keywords" content="keyboard smasher, rage typing, stress relief, anger management, office frustration">
+  
+  <meta property="og:title" content="Keyboard Smasher - Type Your Rage Away">
+  <meta property="og:description" content="Smash keyboard, release anger. Auto-deletes. Therapeutic!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/keyboard-smasher.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Keyboard Smasher">
+  <meta name="twitter:description" content="Release your rage. Type angry gibberish. Auto-deletes.">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #c0392b 0%, #8e44ad 100%);
+      min-height: 100vh;
+      padding: 20px;
+      overflow: hidden;
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      margin-bottom: 10px;
+      animation: shake 0.5s infinite;
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+      20%, 40%, 60%, 80% { transform: translateX(2px); }
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+    
+    .typing-area {
+      background: rgba(0,0,0,0.3);
+      border: 3px solid rgba(255,255,255,0.2);
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 30px;
+      min-height: 300px;
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      font-weight: 700;
+      font-family: 'Courier New', monospace;
+      color: #e74c3c;
+      text-align: left;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      line-height: 1.4;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      position: relative;
+    }
+    
+    .typing-area.raging {
+      animation: rage 0.2s;
+      border-color: #e74c3c;
+    }
+    
+    @keyframes rage {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+    
+    .rage-meter {
+      background: rgba(255,255,255,0.1);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .rage-label {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    
+    .rage-bar-container {
+      background: rgba(0,0,0,0.3);
+      height: 40px;
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .rage-bar {
+      background: linear-gradient(90deg, #f39c12 0%, #e74c3c 50%, #c0392b 100%);
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.1);
+      padding: 20px 30px;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-top: 5px;
+    }
+    
+    .warning {
+      background: rgba(231, 76, 60, 0.2);
+      border: 2px solid #e74c3c;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 20px;
+      font-size: 0.9rem;
+    }
+    
+    .clear-btn {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      border: 2px solid white;
+      padding: 15px 30px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: all 0.3s;
+    }
+    
+    .clear-btn:hover {
+      background: rgba(255,255,255,0.3);
+      transform: scale(1.05);
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>⌨️ Keyboard Smasher</h1>
+    <p class="subtitle">Type your rage. Auto-deletes in 10 seconds. No evidence.</p>
+    
+    <div class="rage-meter">
+      <div class="rage-label">RAGE LEVEL: <span id="rageText">CALM</span></div>
+      <div class="rage-bar-container">
+        <div class="rage-bar" id="rageBar"></div>
+      </div>
+    </div>
+    
+    <div class="typing-area" id="typingArea" contenteditable="true" autofocus>
+      START TYPING YOUR FRUSTRATION...
+    </div>
+    
+    <button class="clear-btn" onclick="clearText()">🗑️ CLEAR RAGE</button>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="keyCount">0</div>
+        <div class="stat-label">Keys Smashed</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="rageLevel">0%</div>
+        <div class="stat-label">Rage Meter</div>
+      </div>
+    </div>
+    
+    <div class="warning">
+      ⚠️ Auto-deletes after 10 seconds of inactivity. No permanent record of your rage.
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    let keyCount = 0;
+    let ragePercentage = 0;
+    let deleteTimer = null;
+    let lastKeyTime = Date.now();
+    
+    const typingArea = document.getElementById('typingArea');
+    const rageBar = document.getElementById('rageBar');
+    const rageText = document.getElementById('rageText');
+    
+    const rageLevels = [
+      { at: 0, text: 'CALM', color: '#2ecc71' },
+      { at: 20, text: 'ANNOYED', color: '#f39c12' },
+      { at: 40, text: 'FRUSTRATED', color: '#e67e22' },
+      { at: 60, text: 'ANGRY', color: '#e74c3c' },
+      { at: 80, text: 'FURIOUS', color: '#c0392b' },
+      { at: 95, text: 'MAXIMUM RAGE', color: '#8e44ad' }
+    ];
+    
+    // Clear placeholder on first focus
+    typingArea.addEventListener('focus', function() {
+      if (this.textContent === 'START TYPING YOUR FRUSTRATION...') {
+        this.textContent = '';
+      }
+    });
+    
+    // Track typing
+    typingArea.addEventListener('keydown', function(e) {
+      keyCount++;
+      lastKeyTime = Date.now();
+      
+      // Increase rage
+      ragePercentage = Math.min(100, ragePercentage + 2);
+      
+      // Visual feedback
+      typingArea.classList.add('raging');
+      setTimeout(() => typingArea.classList.remove('raging'), 200);
+      
+      updateStats();
+      resetDeleteTimer();
+    });
+    
+    function updateStats() {
+      document.getElementById('keyCount').textContent = keyCount.toLocaleString();
+      document.getElementById('rageLevel').textContent = Math.floor(ragePercentage) + '%';
+      
+      rageBar.style.width = ragePercentage + '%';
+      
+      // Update rage text and color
+      for (let i = rageLevels.length - 1; i >= 0; i--) {
+        if (ragePercentage >= rageLevels[i].at) {
+          rageText.textContent = rageLevels[i].text;
+          rageBar.style.background = rageLevels[i].color;
+          break;
+        }
+      }
+    }
+    
+    function clearText() {
+      typingArea.textContent = '';
+      ragePercentage = Math.max(0, ragePercentage - 30);
+      updateStats();
+      typingArea.focus();
+    }
+    
+    function autoDelete() {
+      const timeSinceLastKey = Date.now() - lastKeyTime;
+      if (timeSinceLastKey >= 10000 && typingArea.textContent.length > 0) {
+        typingArea.style.transition = 'opacity 1s';
+        typingArea.style.opacity = '0';
+        setTimeout(() => {
+          typingArea.textContent = 'RAGE DELETED. START OVER.';
+          typingArea.style.opacity = '1';
+          setTimeout(() => {
+            typingArea.textContent = '';
+            typingArea.style.transition = 'none';
+          }, 2000);
+        }, 1000);
+      }
+    }
+    
+    function resetDeleteTimer() {
+      clearInterval(deleteTimer);
+      deleteTimer = setInterval(autoDelete, 1000);
+    }
+    
+    // Decay rage over time
+    setInterval(() => {
+      if (ragePercentage > 0) {
+        ragePercentage = Math.max(0, ragePercentage - 0.5);
+        updateStats();
+      }
+    }, 1000);
+    
+    // Load saved stats
+    const savedKeys = localStorage.getItem('totalKeysSmashed');
+    if (savedKeys) keyCount = parseInt(savedKeys);
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('totalKeysSmashed', keyCount);
+    });
+    
+    resetDeleteTimer();
+    updateStats();
+    
+    // Auto-focus
+    setTimeout(() => typingArea.focus(), 100);
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

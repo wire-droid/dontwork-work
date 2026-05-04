@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Meeting Timer - This Could Have Been an Email | DontWork.work</title>
+  <meta name="description" content="Track how long you've been stuck in a meeting. Generates corporate buzzwords. Includes buzzword bingo!">
+  <meta name="keywords" content="meeting timer, corporate buzzwords, office meetings, time waster, work meetings">
+  
+  <meta property="og:title" content="Meeting Timer - Could Have Been an Email">
+  <meta property="og:description" content="Time your pointless meetings. Generate buzzwords. Play bingo!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/meeting-timer.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Meeting Timer">
+  <meta name="twitter:description" content="Track meeting time. Corporate buzzword generator included!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.8;
+      margin-bottom: 30px;
+      font-style: italic;
+    }
+    
+    .timer-display {
+      background: rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 50px;
+      margin-bottom: 30px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .time {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(3rem, 12vw, 8rem);
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 20px;
+      color: #e74c3c;
+    }
+    
+    .waste-message {
+      font-size: 1.3rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+    
+    .btn {
+      padding: 15px 35px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .start-btn {
+      background: #27ae60;
+      color: white;
+    }
+    
+    .stop-btn {
+      background: #e74c3c;
+      color: white;
+    }
+    
+    .reset-btn {
+      background: rgba(255,255,255,0.2);
+      color: white;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+    
+    .buzzword-section {
+      background: rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 30px;
+    }
+    
+    .buzzword-display {
+      background: rgba(0,0,0,0.3);
+      padding: 30px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+      min-height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      font-style: italic;
+    }
+    
+    .bingo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+      margin-top: 20px;
+    }
+    
+    .bingo-cell {
+      background: rgba(255,255,255,0.1);
+      padding: 15px 10px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: 2px solid transparent;
+    }
+    
+    .bingo-cell:hover {
+      background: rgba(255,255,255,0.2);
+    }
+    
+    .bingo-cell.checked {
+      background: #27ae60;
+      border-color: #2ecc71;
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 30px 0;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.1);
+      padding: 20px 30px;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-top: 5px;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>⏱️ Meeting Timer</h1>
+    <p class="subtitle">"This could have been an email."</p>
+    
+    <div class="timer-display">
+      <div class="time" id="timerDisplay">00:00:00</div>
+      <div class="waste-message" id="wasteMessage">Ready to waste time?</div>
+      
+      <div class="controls">
+        <button class="btn start-btn" id="startBtn" onclick="startTimer()">START MEETING</button>
+        <button class="btn stop-btn" id="stopBtn" onclick="stopTimer()" style="display:none;">END MEETING</button>
+        <button class="btn reset-btn" onclick="resetTimer()">RESET</button>
+      </div>
+    </div>
+    
+    <div class="buzzword-section">
+      <h2 style="margin-bottom: 20px; font-family: 'Fraunces', serif;">Corporate Buzzword Generator</h2>
+      <div class="buzzword-display" id="buzzwordDisplay">
+        "Let's circle back and touch base offline..."
+      </div>
+      
+      <h3 style="margin: 30px 0 15px; font-size: 1.3rem;">Meeting Bingo</h3>
+      <p style="opacity: 0.8; margin-bottom: 15px; font-size: 0.9rem;">Click when you hear these in your meeting!</p>
+      <div class="bingo-grid" id="bingoGrid"></div>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="meetingCount">0</div>
+        <div class="stat-label">Meetings Endured</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="totalTime">0h 0m</div>
+        <div class="stat-label">Total Time Wasted</div>
+      </div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    const buzzwords = [
+      "Let's circle back on that",
+      "Touch base offline",
+      "Synergize our core competencies",
+      "Think outside the box",
+      "Move the needle",
+      "Low-hanging fruit",
+      "Paradigm shift",
+      "Deep dive into the metrics",
+      "Run it up the flagpole",
+      "Peel back the onion",
+      "Bandwidth permitting",
+      "Take this offline",
+      "Loop you in",
+      "Quick win opportunity",
+      "Leverage our assets",
+      "Best practices going forward",
+      "Actionable insights",
+      "Scalable solution",
+      "At the end of the day",
+      "From a high level",
+      "Drill down into details",
+      "Move forward strategically",
+      "Align stakeholders",
+      "Maximize ROI",
+      "Pivot to plan B"
+    ];
+    
+    const bingoWords = [
+      "Synergy",
+      "Pivot",
+      "Circle Back",
+      "Alignment",
+      "Bandwidth",
+      "Deep Dive",
+      "Touch Base",
+      "Offline",
+      "Action Items",
+      "Leverage",
+      "ROI",
+      "Scalable",
+      "Agile",
+      "Ecosystem",
+      "Stakeholders",
+      "Best Practices"
+    ];
+    
+    let seconds = 0;
+    let timerInterval = null;
+    let totalMeetings = 0;
+    let totalSeconds = 0;
+    let buzzwordInterval = null;
+    
+    function startTimer() {
+      if (timerInterval) return;
+      
+      timerInterval = setInterval(() => {
+        seconds++;
+        updateDisplay();
+      }, 1000);
+      
+      buzzwordInterval = setInterval(showRandomBuzzword, 10000);
+      showRandomBuzzword();
+      
+      document.getElementById('startBtn').style.display = 'none';
+      document.getElementById('stopBtn').style.display = 'inline-block';
+    }
+    
+    function stopTimer() {
+      if (!timerInterval) return;
+      
+      clearInterval(timerInterval);
+      clearInterval(buzzwordInterval);
+      timerInterval = null;
+      buzzwordInterval = null;
+      
+      totalMeetings++;
+      totalSeconds += seconds;
+      
+      document.getElementById('startBtn').style.display = 'inline-block';
+      document.getElementById('stopBtn').style.display = 'none';
+      
+      updateStats();
+    }
+    
+    function resetTimer() {
+      stopTimer();
+      seconds = 0;
+      updateDisplay();
+    }
+    
+    function updateDisplay() {
+      const h = Math.floor(seconds / 3600);
+      const m = Math.floor((seconds % 3600) / 60);
+      const s = seconds % 60;
+      
+      document.getElementById('timerDisplay').textContent = 
+        `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+      
+      const minutes = Math.floor(seconds / 60);
+      const messages = [
+        { at: 0, text: "Ready to waste time?" },
+        { at: 5, text: "5 minutes... could still be an email." },
+        { at: 15, text: "15 minutes of your life, gone." },
+        { at: 30, text: "Half an hour. Definitely should've been an email." },
+        { at: 45, text: "45 minutes. This is corporate torture." },
+        { at: 60, text: "1 HOUR. You'll never get this back." },
+        { at: 90, text: "90 minutes. Are we being held hostage?" },
+        { at: 120, text: "2 HOURS. This is a crime against humanity." }
+      ];
+      
+      let msg = messages[0].text;
+      for (let i = messages.length - 1; i >= 0; i--) {
+        if (minutes >= messages[i].at) {
+          msg = messages[i].text;
+          break;
+        }
+      }
+      document.getElementById('wasteMessage').textContent = msg;
+    }
+    
+    function showRandomBuzzword() {
+      const word = buzzwords[Math.floor(Math.random() * buzzwords.length)];
+      document.getElementById('buzzwordDisplay').textContent = `"${word}"`;
+    }
+    
+    function createBingoGrid() {
+      const grid = document.getElementById('bingoGrid');
+      bingoWords.forEach(word => {
+        const cell = document.createElement('div');
+        cell.className = 'bingo-cell';
+        cell.textContent = word;
+        cell.onclick = () => cell.classList.toggle('checked');
+        grid.appendChild(cell);
+      });
+    }
+    
+    function updateStats() {
+      document.getElementById('meetingCount').textContent = totalMeetings;
+      const hours = Math.floor(totalSeconds / 3600);
+      const mins = Math.floor((totalSeconds % 3600) / 60);
+      document.getElementById('totalTime').textContent = `${hours}h ${mins}m`;
+    }
+    
+    // Load saved stats
+    const savedMeetings = localStorage.getItem('totalMeetings');
+    const savedTime = localStorage.getItem('totalMeetingTime');
+    if (savedMeetings) totalMeetings = parseInt(savedMeetings);
+    if (savedTime) totalSeconds = parseInt(savedTime);
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('totalMeetings', totalMeetings);
+      localStorage.setItem('totalMeetingTime', totalSeconds);
+    });
+    
+    createBingoGrid();
+    updateStats();
+    updateDisplay();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

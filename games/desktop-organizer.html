@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Desktop Icon Organizer - Satisfying Cleanup | DontWork.work</title>
+  <meta name="description" content="Drag and drop desktop icons into perfect order. Oddly satisfying digital cleanup!">
+  <meta name="keywords" content="icon organizer, desktop cleanup, drag and drop, satisfying game, organization">
+  
+  <meta property="og:title" content="Desktop Icon Organizer - Perfect Order">
+  <meta property="og:description" content="Organize virtual desktop icons. Drag, drop, align. Pure satisfaction!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/desktop-organizer.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Desktop Icon Organizer">
+  <meta name="twitter:description" content="Drag and drop icons into perfect order. Oddly satisfying!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #00B4DB 0%, #0083B0 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+    
+    .desktop {
+      background: rgba(0,0,0,0.3);
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 30px;
+      min-height: 500px;
+      position: relative;
+      backdrop-filter: blur(10px);
+    }
+    
+    .icons-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+    
+    .icon {
+      background: rgba(255,255,255,0.2);
+      border-radius: 15px;
+      padding: 20px 10px;
+      cursor: move;
+      transition: all 0.3s;
+      border: 2px solid transparent;
+      user-select: none;
+    }
+    
+    .icon:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-5px);
+    }
+    
+    .icon.dragging {
+      opacity: 0.5;
+      transform: scale(0.9);
+    }
+    
+    .icon.organized {
+      border-color: #00C853;
+      animation: organize 0.5s;
+    }
+    
+    @keyframes organize {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    .icon-emoji {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+    
+    .icon-name {
+      font-size: 0.8rem;
+      opacity: 0.9;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+    
+    .btn {
+      padding: 15px 35px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .shuffle-btn {
+      background: #FF6B35;
+      color: white;
+    }
+    
+    .auto-btn {
+      background: #00C853;
+      color: white;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.1);
+      padding: 20px 30px;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-top: 5px;
+    }
+    
+    .satisfaction-meter {
+      background: rgba(0,0,0,0.3);
+      border-radius: 15px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    
+    .satisfaction-bar-container {
+      background: rgba(255,255,255,0.1);
+      height: 30px;
+      border-radius: 15px;
+      overflow: hidden;
+    }
+    
+    .satisfaction-bar {
+      background: linear-gradient(90deg, #FF6B35 0%, #F7C548 50%, #00C853 100%);
+      height: 100%;
+      width: 0%;
+      transition: width 0.5s;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>🖥️ Desktop Icon Organizer</h1>
+    <p class="subtitle">Drag. Drop. Align. Perfection.</p>
+    
+    <div class="satisfaction-meter">
+      <div style="font-size: 1.1rem; font-weight: 700; margin-bottom: 10px;">
+        ORGANIZATION LEVEL: <span id="orgText">CHAOS</span>
+      </div>
+      <div class="satisfaction-bar-container">
+        <div class="satisfaction-bar" id="satisfactionBar"></div>
+      </div>
+    </div>
+    
+    <div class="desktop">
+      <div class="icons-grid" id="iconsGrid"></div>
+    </div>
+    
+    <div class="controls">
+      <button class="btn shuffle-btn" onclick="shuffleIcons()">🔀 Shuffle Icons</button>
+      <button class="btn auto-btn" onclick="autoOrganize()">✨ Auto-Organize</button>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="organizeCount">0</div>
+        <div class="stat-label">Times Organized</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="dragCount">0</div>
+        <div class="stat-label">Icons Dragged</div>
+      </div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    const iconData = [
+      { emoji: '📁', name: 'Documents' },
+      { emoji: '🎵', name: 'Music' },
+      { emoji: '🖼️', name: 'Pictures' },
+      { emoji: '🎬', name: 'Videos' },
+      { emoji: '💼', name: 'Work' },
+      { emoji: '🎮', name: 'Games' },
+      { emoji: '📧', name: 'Email' },
+      { emoji: '🌐', name: 'Browser' },
+      { emoji: '💬', name: 'Chat' },
+      { emoji: '📊', name: 'Excel' },
+      { emoji: '📝', name: 'Notes' },
+      { emoji: '🗑️', name: 'Trash' }
+    ];
+    
+    let icons = [];
+    let draggedElement = null;
+    let organizeCount = 0;
+    let dragCount = 0;
+    let satisfactionLevel = 0;
+    
+    function createIcons() {
+      const grid = document.getElementById('iconsGrid');
+      grid.innerHTML = '';
+      icons = [];
+      
+      iconData.forEach((data, index) => {
+        const icon = document.createElement('div');
+        icon.className = 'icon';
+        icon.draggable = true;
+        icon.dataset.index = index;
+        icon.innerHTML = `
+          <div class="icon-emoji">${data.emoji}</div>
+          <div class="icon-name">${data.name}</div>
+        `;
+        
+        icon.addEventListener('dragstart', handleDragStart);
+        icon.addEventListener('dragend', handleDragEnd);
+        icon.addEventListener('dragover', handleDragOver);
+        icon.addEventListener('drop', handleDrop);
+        
+        grid.appendChild(icon);
+        icons.push(icon);
+      });
+    }
+    
+    function handleDragStart(e) {
+      draggedElement = this;
+      this.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+      dragCount++;
+      updateStats();
+    }
+    
+    function handleDragEnd(e) {
+      this.classList.remove('dragging');
+      draggedElement = null;
+    }
+    
+    function handleDragOver(e) {
+      if (e.preventDefault) {
+        e.preventDefault();
+      }
+      e.dataTransfer.dropEffect = 'move';
+      return false;
+    }
+    
+    function handleDrop(e) {
+      if (e.stopPropagation) {
+        e.stopPropagation();
+      }
+      
+      if (draggedElement !== this) {
+        const grid = document.getElementById('iconsGrid');
+        const allIcons = [...grid.children];
+        const draggedIndex = allIcons.indexOf(draggedElement);
+        const targetIndex = allIcons.indexOf(this);
+        
+        if (draggedIndex < targetIndex) {
+          this.parentNode.insertBefore(draggedElement, this.nextSibling);
+        } else {
+          this.parentNode.insertBefore(draggedElement, this);
+        }
+        
+        this.classList.add('organized');
+        setTimeout(() => this.classList.remove('organized'), 500);
+        
+        checkOrganization();
+      }
+      
+      return false;
+    }
+    
+    function shuffleIcons() {
+      const grid = document.getElementById('iconsGrid');
+      const iconElements = [...grid.children];
+      
+      // Fisher-Yates shuffle
+      for (let i = iconElements.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        grid.appendChild(iconElements[j]);
+      }
+      
+      satisfactionLevel = 0;
+      updateSatisfaction();
+    }
+    
+    function autoOrganize() {
+      const grid = document.getElementById('iconsGrid');
+      const sorted = iconData.map((data, i) => {
+        const icon = document.createElement('div');
+        icon.className = 'icon organized';
+        icon.draggable = true;
+        icon.dataset.index = i;
+        icon.innerHTML = `
+          <div class="icon-emoji">${data.emoji}</div>
+          <div class="icon-name">${data.name}</div>
+        `;
+        
+        icon.addEventListener('dragstart', handleDragStart);
+        icon.addEventListener('dragend', handleDragEnd);
+        icon.addEventListener('dragover', handleDragOver);
+        icon.addEventListener('drop', handleDrop);
+        
+        return icon;
+      });
+      
+      grid.innerHTML = '';
+      sorted.forEach(icon => grid.appendChild(icon));
+      
+      setTimeout(() => {
+        sorted.forEach(icon => icon.classList.remove('organized'));
+      }, 500);
+      
+      organizeCount++;
+      satisfactionLevel = 100;
+      updateStats();
+      updateSatisfaction();
+    }
+    
+    function checkOrganization() {
+      const grid = document.getElementById('iconsGrid');
+      const currentOrder = [...grid.children].map(icon => icon.dataset.index);
+      const correctOrder = iconData.map((_, i) => String(i));
+      
+      let correctPositions = 0;
+      currentOrder.forEach((val, idx) => {
+        if (val === correctOrder[idx]) correctPositions++;
+      });
+      
+      satisfactionLevel = Math.floor((correctPositions / iconData.length) * 100);
+      
+      if (satisfactionLevel === 100) {
+        organizeCount++;
+        updateStats();
+      }
+      
+      updateSatisfaction();
+    }
+    
+    function updateSatisfaction() {
+      const bar = document.getElementById('satisfactionBar');
+      const text = document.getElementById('orgText');
+      
+      bar.style.width = satisfactionLevel + '%';
+      bar.textContent = satisfactionLevel + '%';
+      
+      if (satisfactionLevel === 0) text.textContent = 'CHAOS';
+      else if (satisfactionLevel < 30) text.textContent = 'MESSY';
+      else if (satisfactionLevel < 60) text.textContent = 'GETTING THERE';
+      else if (satisfactionLevel < 90) text.textContent = 'ALMOST PERFECT';
+      else if (satisfactionLevel < 100) text.textContent = 'SO CLOSE!';
+      else text.textContent = 'PERFECTION ✨';
+    }
+    
+    function updateStats() {
+      document.getElementById('organizeCount').textContent = organizeCount;
+      document.getElementById('dragCount').textContent = dragCount;
+    }
+    
+    // Load saved stats
+    const savedOrganize = localStorage.getItem('timesOrganized');
+    const savedDrags = localStorage.getItem('iconsDragged');
+    if (savedOrganize) organizeCount = parseInt(savedOrganize);
+    if (savedDrags) dragCount = parseInt(savedDrags);
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('timesOrganized', organizeCount);
+      localStorage.setItem('iconsDragged', dragCount);
+    });
+    
+    createIcons();
+    shuffleIcons();
+    updateStats();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

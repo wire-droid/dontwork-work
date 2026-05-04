@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Thumbs Up Giver - Passive Aggressive Approval | DontWork.work</title>
+  <meta name="description" content="Give thumbs up to everything. Track your enthusiasm level. Master the art of passive-aggressive approval!">
+  <meta name="keywords" content="thumbs up, passive aggressive, approval game, emoji clicker, office politics">
+  
+  <meta property="og:title" content="Thumbs Up Giver - React to Everything">
+  <meta property="og:description" content="👍👍👍 React to everything with varying enthusiasm!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/thumbs-up-giver.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Thumbs Up Giver">
+  <meta name="twitter:description" content="Master passive-aggressive approval. One thumbs up at a time!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+    
+    .thumbs-area {
+      background: rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 60px 40px;
+      margin-bottom: 30px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .thumbs-container {
+      cursor: pointer;
+      transition: all 0.3s;
+      display: inline-block;
+      margin-bottom: 30px;
+    }
+    
+    .thumbs-container:hover {
+      transform: scale(1.1);
+    }
+    
+    .thumbs-container:active {
+      transform: scale(0.9);
+    }
+    
+    .thumbs {
+      font-size: 12rem;
+      line-height: 1;
+      filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3));
+      transition: all 0.3s;
+    }
+    
+    .thumbs.clicking {
+      animation: bounce 0.4s;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      25% { transform: translateY(-30px); }
+      50% { transform: translateY(-15px); }
+      75% { transform: translateY(-25px); }
+    }
+    
+    .message-display {
+      background: rgba(0,0,0,0.3);
+      padding: 30px;
+      border-radius: 15px;
+      margin-bottom: 30px;
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      font-style: italic;
+      line-height: 1.6;
+    }
+    
+    .enthusiasm-meter {
+      background: rgba(0,0,0,0.3);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .enthusiasm-label {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+    
+    .enthusiasm-bar-container {
+      background: rgba(255,255,255,0.1);
+      height: 40px;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    
+    .enthusiasm-bar {
+      background: linear-gradient(90deg, #e74c3c 0%, #f39c12 30%, #f1c40f 60%, #2ecc71 100%);
+      height: 100%;
+      width: 50%;
+      transition: width 0.5s;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+    
+    .btn {
+      padding: 15px 35px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .scenario-btn {
+      background: rgba(255,255,255,0.3);
+      color: white;
+    }
+    
+    .scenario-btn:hover {
+      background: rgba(255,255,255,0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+    
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.1);
+      padding: 20px;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.85rem;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>👍 Thumbs Up Giver</h1>
+    <p class="subtitle">Passive-aggressive approval at its finest.</p>
+    
+    <div class="thumbs-area">
+      <div class="thumbs-container" onclick="giveThumbsUp()">
+        <div class="thumbs" id="thumbsEmoji">👍</div>
+      </div>
+      
+      <div class="enthusiasm-meter">
+        <div class="enthusiasm-label">ENTHUSIASM: <span id="enthusiasmText">NEUTRAL</span></div>
+        <div class="enthusiasm-bar-container">
+          <div class="enthusiasm-bar" id="enthusiasmBar">50%</div>
+        </div>
+      </div>
+      
+      <div class="message-display" id="messageDisplay">
+        "Great idea! 👍"
+      </div>
+    </div>
+    
+    <div class="controls">
+      <button class="btn scenario-btn" onclick="newScenario()">📋 New Scenario</button>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="totalThumbs">0</div>
+        <div class="stat-label">Total Thumbs</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="enthusiasticCount">0</div>
+        <div class="stat-label">Enthusiastic</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="passiveCount">0</div>
+        <div class="stat-label">Passive-Aggressive</div>
+      </div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    const scenarios = [
+      "Boss wants everyone in office on Friday",
+      "Another mandatory team building exercise",
+      "Email about the new expense policy",
+      "Invitation to 6am yoga session",
+      "\"Let's circle back on Monday\"",
+      "Colleague's vacation photos (300 slides)",
+      "Notification: All-hands meeting moved to 7am",
+      "\"Just checking in...\"",
+      "Group chat at 11pm about tomorrow's meeting",
+      "\"Per my last email...\"",
+      "Free pizza in the break room (but it's pineapple)",
+      "Suggestion box idea: \"More meetings!\"",
+      "Email: \"Hope you had a restful weekend!\"",
+      "\"Let's take this offline\"",
+      "Mandatory fun committee signup",
+      "\"Thoughts on working this weekend?\"",
+      "Office karaoke night announcement",
+      "\"Quick question...\" (followed by essay)",
+      "Reply-all about the reply-all problem",
+      "\"Let's schedule a sync to discuss the meeting about the other meeting\"",
+      "Corporate jargon training webinar",
+      "\"Touching base to loop you in\"",
+      "Team photo in matching t-shirts",
+      "\"FYI cc'ing everyone\"",
+      "Inspirational quote Monday email"
+    ];
+    
+    const responses = {
+      low: [
+        "Sure... 👍",
+        "Noted. 👍",
+        "👍",
+        "K. 👍",
+        "Sounds... great. 👍"
+      ],
+      medium: [
+        "Great idea! 👍",
+        "Works for me 👍",
+        "Let's do it 👍",
+        "I'm on board 👍",
+        "Looks good 👍"
+      ],
+      high: [
+        "ABSOLUTELY LOVE THIS! 👍👍👍",
+        "BEST IDEA EVER! 👍",
+        "THIS IS AMAZING! 👍👍",
+        "COUNT ME IN!!! 👍👍👍",
+        "SO EXCITED ABOUT THIS! 👍👍"
+      ]
+    };
+    
+    let totalThumbs = 0;
+    let enthusiasticCount = 0;
+    let passiveCount = 0;
+    let currentEnthusiasm = 50;
+    let currentScenario = scenarios[0];
+    
+    function giveThumbsUp() {
+      totalThumbs++;
+      
+      const thumbs = document.getElementById('thumbsEmoji');
+      thumbs.classList.add('clicking');
+      setTimeout(() => thumbs.classList.remove('clicking'), 400);
+      
+      // Vary enthusiasm randomly
+      const change = Math.random() * 40 - 20;
+      currentEnthusiasm = Math.max(0, Math.min(100, currentEnthusiasm + change));
+      
+      // Determine response type
+      let response;
+      if (currentEnthusiasm < 30) {
+        response = responses.low[Math.floor(Math.random() * responses.low.length)];
+        passiveCount++;
+      } else if (currentEnthusiasm < 70) {
+        response = responses.medium[Math.floor(Math.random() * responses.medium.length)];
+      } else {
+        response = responses.high[Math.floor(Math.random() * responses.high.length)];
+        enthusiasticCount++;
+      }
+      
+      document.getElementById('messageDisplay').textContent = response;
+      updateEnthusiasm();
+      updateStats();
+    }
+    
+    function newScenario() {
+      currentScenario = scenarios[Math.floor(Math.random() * scenarios.length)];
+      document.getElementById('messageDisplay').textContent = `"${currentScenario}"`;
+      
+      // Reset enthusiasm to neutral
+      currentEnthusiasm = 50;
+      updateEnthusiasm();
+    }
+    
+    function updateEnthusiasm() {
+      const bar = document.getElementById('enthusiasmBar');
+      const text = document.getElementById('enthusiasmText');
+      
+      bar.style.width = currentEnthusiasm + '%';
+      bar.textContent = Math.floor(currentEnthusiasm) + '%';
+      
+      if (currentEnthusiasm < 20) text.textContent = 'EXTREMELY PASSIVE';
+      else if (currentEnthusiasm < 40) text.textContent = 'PASSIVE-AGGRESSIVE';
+      else if (currentEnthusiasm < 60) text.textContent = 'NEUTRAL';
+      else if (currentEnthusiasm < 80) text.textContent = 'ENTHUSIASTIC';
+      else text.textContent = 'OVER-THE-TOP!';
+    }
+    
+    function updateStats() {
+      document.getElementById('totalThumbs').textContent = totalThumbs;
+      document.getElementById('enthusiasticCount').textContent = enthusiasticCount;
+      document.getElementById('passiveCount').textContent = passiveCount;
+    }
+    
+    // Load saved stats
+    const savedThumbs = localStorage.getItem('totalThumbsUp');
+    const savedEnthusiastic = localStorage.getItem('enthusiasticThumbs');
+    const savedPassive = localStorage.getItem('passiveThumbs');
+    if (savedThumbs) totalThumbs = parseInt(savedThumbs);
+    if (savedEnthusiastic) enthusiasticCount = parseInt(savedEnthusiastic);
+    if (savedPassive) passiveCount = parseInt(savedPassive);
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('totalThumbsUp', totalThumbs);
+      localStorage.setItem('enthusiasticThumbs', enthusiasticCount);
+      localStorage.setItem('passiveThumbs', passiveCount);
+    });
+    
+    // Keyboard support
+    document.addEventListener('keydown', (e) => {
+      if (e.code === 'Space' || e.code === 'Enter') {
+        e.preventDefault();
+        giveThumbsUp();
+      }
+    });
+    
+    newScenario();
+    updateStats();
+    updateEnthusiasm();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

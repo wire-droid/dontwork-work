@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Email Reply Generator - Corporate Communication | DontWork.work</title>
+  <meta name="description" content="Generate perfectly corporate email replies. Sound professional without trying. Copy-paste genius!">
+  <meta name="keywords" content="email generator, corporate emails, reply templates, work emails, office communication">
+  
+  <meta property="og:title" content="Email Reply Generator - Sound Professional">
+  <meta property="og:description" content="Corporate email templates. One-click professionalism. Copy and go!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/email-reply-generator.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Email Reply Generator">
+  <meta name="twitter:description" content="Professional email templates at your fingertips!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #4A148C 0%, #1A237E 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+    
+    .email-display {
+      background: white;
+      color: #333;
+      border-radius: 15px;
+      padding: 40px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      text-align: left;
+      min-height: 300px;
+    }
+    
+    .email-subject {
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      color: #4A148C;
+    }
+    
+    .email-body {
+      line-height: 1.8;
+      white-space: pre-wrap;
+      font-size: 1rem;
+    }
+    
+    .email-signature {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #e0e0e0;
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+    
+    .category-selector {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+    
+    .category-btn {
+      padding: 12px 25px;
+      background: rgba(255,255,255,0.2);
+      border: 2px solid rgba(255,255,255,0.3);
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 600;
+    }
+    
+    .category-btn:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+    
+    .category-btn.active {
+      background: white;
+      color: #4A148C;
+      border-color: white;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+    
+    .btn {
+      padding: 18px 40px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .generate-btn {
+      background: #7C4DFF;
+      color: white;
+    }
+    
+    .copy-btn {
+      background: #00C853;
+      color: white;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.1);
+      padding: 20px 30px;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-top: 5px;
+    }
+    
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #00C853;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s;
+    }
+    
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>📧 Email Reply Generator</h1>
+    <p class="subtitle">Sound professional without thinking about it.</p>
+    
+    <div class="category-selector">
+      <button class="category-btn active" onclick="setCategory('positive')">Positive</button>
+      <button class="category-btn" onclick="setCategory('neutral')">Neutral</button>
+      <button class="category-btn" onclick="setCategory('decline')">Decline</button>
+      <button class="category-btn" onclick="setCategory('delay')">Delay/Avoid</button>
+      <button class="category-btn" onclick="setCategory('passive')">Passive-Aggressive</button>
+    </div>
+    
+    <div class="email-display">
+      <div class="email-subject" id="emailSubject">Re: Your Request</div>
+      <div class="email-body" id="emailBody">Click "Generate Email" to create a professional reply...</div>
+      <div class="email-signature">
+Best regards,<br>
+[Your Name]<br>
+[Your Title]<br>
+[Company Name]
+      </div>
+    </div>
+    
+    <div class="controls">
+      <button class="btn generate-btn" onclick="generateEmail()">📧 Generate Email</button>
+      <button class="btn copy-btn" onclick="copyEmail()">📋 Copy to Clipboard</button>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="emailCount">0</div>
+        <div class="stat-label">Emails Generated</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="copiedCount">0</div>
+        <div class="stat-label">Emails Copied</div>
+      </div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <div class="toast" id="toast">✓ Copied to clipboard!</div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    let currentCategory = 'positive';
+    let emailsGenerated = 0;
+    let emailsCopied = 0;
+    let currentEmail = '';
+    
+    const emails = {
+      positive: [
+        { subject: 'Re: Your Proposal', body: 'Thank you for sharing this with me. I appreciate the thorough approach you\'ve taken.\n\nThis looks great overall. I\'m excited to move forward with this initiative. Let\'s schedule a kickoff meeting to discuss next steps.\n\nPlease let me know your availability this week.' },
+        { subject: 'Re: Project Update', body: 'Thanks for the update! This is excellent progress.\n\nI\'m impressed with how the team has handled the challenges. The solutions you\'ve implemented are exactly what we needed.\n\nKeep up the great work. Looking forward to the next milestone.' },
+        { subject: 'Re: Your Question', body: 'Absolutely! I\'d be happy to help with this.\n\nYour approach makes sense. I think we should definitely explore this further. Let me know if you need any additional resources or support.\n\nFeel free to reach out anytime if you have more questions.' }
+      ],
+      neutral: [
+        { subject: 'Re: Meeting Request', body: 'Thank you for reaching out.\n\nI\'ve reviewed your request and can confirm receipt. I\'ll need to check with the team and get back to you with a more detailed response.\n\nExpect to hear from me by end of week.' },
+        { subject: 'Re: Your Email', body: 'Thanks for bringing this to my attention.\n\nI\'ve noted your points and will review them carefully. There are several factors we need to consider before moving forward.\n\nI\'ll circle back once I have more information.' },
+        { subject: 'Re: Following Up', body: 'Thank you for the follow-up.\n\nThis is on my radar. I\'m currently gathering the necessary information to provide you with a comprehensive response.\n\nI appreciate your patience.' }
+      ],
+      decline: [
+        { subject: 'Re: Your Request', body: 'Thank you for thinking of me for this opportunity.\n\nUnfortunately, I won\'t be able to accommodate this request at this time due to current commitments and priorities.\n\nI appreciate your understanding and hope we can collaborate on future initiatives.' },
+        { subject: 'Re: Proposal', body: 'I appreciate you sharing this with me.\n\nAfter careful consideration, I don\'t think this aligns with our current strategic priorities. While I can see the potential value, we need to focus our resources elsewhere at this time.\n\nThank you for your understanding.' },
+        { subject: 'Re: Meeting Invitation', body: 'Thanks for the invitation.\n\nUnfortunately, I have a scheduling conflict and won\'t be able to attend. If there are any materials or notes from the meeting, I\'d appreciate being looped in.\n\nWishing you a productive session.' }
+      ],
+      delay: [
+        { subject: 'Re: Urgent Request', body: 'Thanks for reaching out.\n\nThis is an interesting proposal. However, I\'d like to take some time to review this properly before providing feedback. Can we revisit this next quarter when I have more bandwidth?\n\nI appreciate your patience.' },
+        { subject: 'Re: Action Items', body: 'I\'ve received your email regarding the action items.\n\nGiven current priorities, I\'ll need to push this to a future sprint. Let\'s touch base next month to reassess the timeline.\n\nThanks for your understanding.' },
+        { subject: 'Re: Your Question', body: 'Great question!\n\nI don\'t have the full picture on this yet. Let me sync with the team and circle back to you. This might take a few weeks as we\'re currently heads-down on the Q2 deliverables.\n\nI\'ll keep you posted.' }
+      ],
+      passive: [
+        { subject: 'Re: Your Suggestion', body: 'Thanks for the input.\n\nPer my last email, we\'ve already addressed this in the original plan. As discussed in our previous conversation, the current approach was decided after thorough consideration.\n\nLet me know if you need me to forward those earlier emails for reference.' },
+        { subject: 'Re: Missing Information', body: 'Just wanted to follow up on this.\n\nAs mentioned in my earlier message (see below), I\'ll need additional information before I can proceed. Once I receive what was requested, I\'ll be happy to help.\n\nLooking forward to your response.' },
+        { subject: 'Re: Feedback Request', body: 'Thanks for asking for my input.\n\nI\'ll defer to your expertise on this one. I trust you\'ll make the right decision given your deep knowledge of the situation.\n\nPlease loop me in once you\'ve finalized the approach.' }
+      ]
+    };
+    
+    function setCategory(cat) {
+      currentCategory = cat;
+      document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+    }
+    
+    function generateEmail() {
+      const categoryEmails = emails[currentCategory];
+      const randomEmail = categoryEmails[Math.floor(Math.random() * categoryEmails.length)];
+      
+      document.getElementById('emailSubject').textContent = randomEmail.subject;
+      document.getElementById('emailBody').textContent = randomEmail.body;
+      
+      currentEmail = randomEmail.subject + '\n\n' + randomEmail.body + '\n\nBest regards,\n[Your Name]\n[Your Title]\n[Company Name]';
+      
+      emailsGenerated++;
+      updateStats();
+    }
+    
+    function copyEmail() {
+      if (!currentEmail) {
+        generateEmail();
+      }
+      
+      navigator.clipboard.writeText(currentEmail).then(() => {
+        emailsCopied++;
+        updateStats();
+        showToast();
+      });
+    }
+    
+    function updateStats() {
+      document.getElementById('emailCount').textContent = emailsGenerated;
+      document.getElementById('copiedCount').textContent = emailsCopied;
+    }
+    
+    function showToast() {
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+    
+    // Load saved stats
+    const savedGenerated = localStorage.getItem('emailsGenerated');
+    const savedCopied = localStorage.getItem('emailsCopied');
+    if (savedGenerated) emailsGenerated = parseInt(savedGenerated);
+    if (savedCopied) emailsCopied = parseInt(savedCopied);
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('emailsGenerated', emailsGenerated);
+      localStorage.setItem('emailsCopied', emailsCopied);
+    });
+    
+    updateStats();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>
