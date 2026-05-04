@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Copy-Paste Tester - Test Clipboard Forever | DontWork.work</title>
+  <meta name="description" content="Test copy-paste endlessly. Did it copy? Better paste to check. Copy again!">
+  <meta name="keywords" content="copy paste, clipboard test, ctrl c ctrl v, copy paste game">
+  
+  <meta property="og:title" content="Copy-Paste Tester - Did It Copy?">
+  <meta property="og:description" content="Test clipboard endlessly. Copy. Paste. Repeat!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/copy-paste-tester.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Copy-Paste Tester">
+  <meta name="twitter:description" content="Test your clipboard obsessively!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .container {
+      max-width: 700px;
+      width: 100%;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 40px;
+    }
+    
+    .test-area {
+      background: rgba(255,255,255,0.15);
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 30px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .source-box, .dest-box {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .box-label {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #666;
+      margin-bottom: 10px;
+      text-align: left;
+    }
+    
+    .text-area {
+      width: 100%;
+      min-height: 120px;
+      padding: 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: 'DM Sans', sans-serif;
+      resize: vertical;
+    }
+    
+    .text-area:focus {
+      outline: none;
+      border-color: #11998e;
+    }
+    
+    .text-display {
+      min-height: 120px;
+      padding: 15px;
+      border: 2px dashed #e0e0e0;
+      border-radius: 8px;
+      color: #333;
+      text-align: left;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    
+    .text-display.empty {
+      color: #999;
+      font-style: italic;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      padding: 18px 40px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .copy-btn {
+      background: #11998e;
+      color: white;
+    }
+    
+    .paste-btn {
+      background: #38ef7d;
+      color: white;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+    
+    .btn:active {
+      transform: translateY(0);
+    }
+    
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: rgba(0,0,0,0.8);
+      color: white;
+      padding: 15px 25px;
+      border-radius: 10px;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s;
+      font-weight: 600;
+    }
+    
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.2);
+      padding: 20px 30px;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>📋 Copy-Paste Tester</h1>
+    <p class="subtitle">Did it copy? Better paste to check.</p>
+    
+    <div class="test-area">
+      <div class="source-box">
+        <div class="box-label">SOURCE TEXT:</div>
+        <textarea class="text-area" id="sourceText" placeholder="Type something to copy...">Hello World! This is a test of the copy-paste functionality.</textarea>
+      </div>
+      
+      <div class="controls">
+        <button class="btn copy-btn" onclick="copyText()">📄 Copy</button>
+        <button class="btn paste-btn" onclick="pasteText()">📋 Paste</button>
+      </div>
+      
+      <div class="dest-box">
+        <div class="box-label">PASTED TEXT:</div>
+        <div class="text-display empty" id="destText">Nothing pasted yet...</div>
+      </div>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="copyCount">0</div>
+        <div class="stat-label">Times Copied</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="pasteCount">0</div>
+        <div class="stat-label">Times Pasted</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="matchCount">0</div>
+        <div class="stat-label">Successful Matches</div>
+      </div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <div class="toast" id="toast">✓ Copied!</div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    let copyCount = 0;
+    let pasteCount = 0;
+    let matchCount = 0;
+    let copiedText = '';
+    
+    function copyText() {
+      const source = document.getElementById('sourceText').value;
+      copiedText = source;
+      copyCount++;
+      
+      // Copy to actual clipboard
+      navigator.clipboard.writeText(source).then(() => {
+        showToast('✓ Copied to clipboard!');
+      }).catch(() => {
+        showToast('✓ Copied!');
+      });
+      
+      updateStats();
+    }
+    
+    function pasteText() {
+      pasteCount++;
+      const destElement = document.getElementById('destText');
+      
+      // Try to read from actual clipboard
+      navigator.clipboard.readText().then(text => {
+        destElement.textContent = text;
+        destElement.classList.remove('empty');
+        
+        // Check if it matches
+        if (text === copiedText) {
+          matchCount++;
+          showToast('✓ Perfect match!');
+        }
+      }).catch(() => {
+        // Fallback to our stored text
+        destElement.textContent = copiedText;
+        destElement.classList.remove('empty');
+        
+        if (copiedText) {
+          matchCount++;
+          showToast('✓ Pasted!');
+        }
+      });
+      
+      updateStats();
+    }
+    
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+    
+    function updateStats() {
+      document.getElementById('copyCount').textContent = copyCount;
+      document.getElementById('pasteCount').textContent = pasteCount;
+      document.getElementById('matchCount').textContent = matchCount;
+    }
+    
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'c' && document.activeElement.id === 'sourceText') {
+        setTimeout(() => {
+          copyCount++;
+          updateStats();
+        }, 100);
+      }
+    });
+    
+    // Load saved stats
+    const saved = localStorage.getItem('copyPasteStats');
+    if (saved) {
+      const stats = JSON.parse(saved);
+      copyCount = stats.copy || 0;
+      pasteCount = stats.paste || 0;
+      matchCount = stats.match || 0;
+    }
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('copyPasteStats', JSON.stringify({
+        copy: copyCount,
+        paste: pasteCount,
+        match: matchCount
+      }));
+    });
+    
+    updateStats();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Browser History Deleter - Clear Everything | DontWork.work</title>
+  <meta name="description" content="Delete browser history obsessively. Clear it all. Every hour. Just to be safe!">
+  <meta name="keywords" content="browser history, delete history, privacy game, incognito mode, clear data">
+  
+  <meta property="og:title" content="Browser History Deleter - Privacy Paranoia">
+  <meta property="og:description" content="Delete history endlessly. Better safe than sorry!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/history-deleter.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Browser History Deleter">
+  <meta name="twitter:description" content="Paranoid about privacy? Delete forever!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #2C3E50 0%, #34495E 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+    
+    .browser-window {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    }
+    
+    .browser-titlebar {
+      background: #f0f0f0;
+      padding: 12px 15px;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .browser-dots {
+      display: flex;
+      gap: 6px;
+    }
+    
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ddd;
+    }
+    
+    .browser-title {
+      flex: 1;
+      color: #666;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    
+    .browser-content {
+      padding: 40px;
+      color: #333;
+      min-height: 400px;
+    }
+    
+    .history-icon {
+      font-size: 6rem;
+      margin-bottom: 20px;
+    }
+    
+    .history-count {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #E74C3C;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .history-message {
+      font-size: 1rem;
+      color: #666;
+      margin-bottom: 30px;
+    }
+    
+    .delete-btn {
+      background: #E74C3C;
+      color: white;
+      border: none;
+      padding: 20px 50px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Fraunces', serif;
+      margin-bottom: 20px;
+    }
+    
+    .delete-btn:hover {
+      background: #C0392B;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(231, 76, 60, 0.4);
+    }
+    
+    .delete-btn:active {
+      transform: translateY(0);
+    }
+    
+    .delete-btn.deleting {
+      background: #95A5A6;
+      cursor: not-allowed;
+    }
+    
+    .progress-container {
+      background: #f0f0f0;
+      height: 30px;
+      border-radius: 15px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      display: none;
+    }
+    
+    .progress-bar {
+      background: linear-gradient(90deg, #E74C3C 0%, #C0392B 100%);
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+    
+    .paranoia-meter {
+      background: rgba(255,255,255,0.2);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .paranoia-label {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+    
+    .paranoia-bar-container {
+      background: rgba(0,0,0,0.2);
+      height: 40px;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    
+    .paranoia-bar {
+      background: linear-gradient(90deg, #4CAF50 0%, #FF9800 50%, #E74C3C 100%);
+      height: 100%;
+      width: 0%;
+      transition: width 0.5s;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.2);
+      padding: 20px 30px;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>🕵️ Browser History Deleter</h1>
+    <p class="subtitle">Delete it. Delete it again. Just to be safe.</p>
+    
+    <div class="paranoia-meter">
+      <div class="paranoia-label">PRIVACY PARANOIA: <span id="paranoiaText">NORMAL</span></div>
+      <div class="paranoia-bar-container">
+        <div class="paranoia-bar" id="paranoiaBar">0%</div>
+      </div>
+    </div>
+    
+    <div class="browser-window">
+      <div class="browser-titlebar">
+        <div class="browser-dots">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+        <div class="browser-title">Clear browsing data</div>
+      </div>
+      
+      <div class="browser-content">
+        <div class="history-icon">📜</div>
+        <div class="history-count" id="historyCount">247 items</div>
+        <div class="history-message" id="historyMessage">
+          You have browsing history saved. Better delete it.
+        </div>
+        
+        <button class="delete-btn" id="deleteBtn" onclick="deleteHistory()">
+          🗑️ Clear Data
+        </button>
+        
+        <div class="progress-container" id="progressContainer">
+          <div class="progress-bar" id="progressBar">0%</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="timesDeleted">0</div>
+        <div class="stat-label">Times Deleted</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="itemsCleared">0</div>
+        <div class="stat-label">Items Cleared</div>
+      </div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    let historyItems = 247;
+    let timesDeleted = 0;
+    let totalItemsCleared = 0;
+    let paranoiaLevel = 0;
+    let isDeleting = false;
+    
+    function deleteHistory() {
+      if (isDeleting) return;
+      
+      isDeleting = true;
+      const btn = document.getElementById('deleteBtn');
+      const progressContainer = document.getElementById('progressContainer');
+      const progressBar = document.getElementById('progressBar');
+      
+      btn.textContent = 'Deleting...';
+      btn.classList.add('deleting');
+      progressContainer.style.display = 'block';
+      
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += Math.random() * 20;
+        
+        if (progress >= 100) {
+          progress = 100;
+          progressBar.style.width = '100%';
+          progressBar.textContent = '100%';
+          
+          setTimeout(() => {
+            completeDelete();
+            clearInterval(interval);
+          }, 500);
+        } else {
+          progressBar.style.width = Math.floor(progress) + '%';
+          progressBar.textContent = Math.floor(progress) + '%';
+        }
+      }, 200);
+    }
+    
+    function completeDelete() {
+      timesDeleted++;
+      totalItemsCleared += historyItems;
+      paranoiaLevel = Math.min(100, paranoiaLevel + 15);
+      
+      // "New" history accumulates
+      historyItems = Math.floor(Math.random() * 100) + 50;
+      
+      const btn = document.getElementById('deleteBtn');
+      const progressContainer = document.getElementById('progressContainer');
+      const progressBar = document.getElementById('progressBar');
+      
+      btn.textContent = '✓ Cleared!';
+      
+      setTimeout(() => {
+        btn.textContent = '🗑️ Clear Data';
+        btn.classList.remove('deleting');
+        progressContainer.style.display = 'none';
+        progressBar.style.width = '0%';
+        isDeleting = false;
+        
+        updateDisplay();
+      }, 1500);
+      
+      updateStats();
+      updateParanoia();
+    }
+    
+    function updateDisplay() {
+      document.getElementById('historyCount').textContent = historyItems + ' items';
+      
+      const messages = [
+        'You have browsing history saved. Better delete it.',
+        'More history has accumulated. Delete again?',
+        'Someone could see this. Delete now!',
+        'Your search history is showing. Clear it!',
+        'Privacy at risk! Delete everything!',
+        'They\'re watching. Clear your tracks!'
+      ];
+      
+      document.getElementById('historyMessage').textContent = 
+        messages[Math.floor(Math.random() * messages.length)];
+    }
+    
+    function updateParanoia() {
+      const bar = document.getElementById('paranoiaBar');
+      const text = document.getElementById('paranoiaText');
+      
+      bar.style.width = paranoiaLevel + '%';
+      bar.textContent = Math.floor(paranoiaLevel) + '%';
+      
+      if (paranoiaLevel < 30) text.textContent = 'NORMAL';
+      else if (paranoiaLevel < 60) text.textContent = 'CONCERNED';
+      else if (paranoiaLevel < 80) text.textContent = 'PARANOID';
+      else text.textContent = 'MAXIMUM PARANOIA';
+    }
+    
+    function updateStats() {
+      document.getElementById('timesDeleted').textContent = timesDeleted;
+      document.getElementById('itemsCleared').textContent = totalItemsCleared;
+    }
+    
+    // Decrease paranoia slowly
+    setInterval(() => {
+      paranoiaLevel = Math.max(0, paranoiaLevel - 0.5);
+      updateParanoia();
+    }, 1000);
+    
+    // Add new history periodically
+    setInterval(() => {
+      historyItems += Math.floor(Math.random() * 5) + 1;
+      updateDisplay();
+    }, 5000);
+    
+    // Load saved stats
+    const saved = localStorage.getItem('historyDeleterStats');
+    if (saved) {
+      const stats = JSON.parse(saved);
+      timesDeleted = stats.deleted || 0;
+      totalItemsCleared = stats.items || 0;
+    }
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('historyDeleterStats', JSON.stringify({
+        deleted: timesDeleted,
+        items: totalItemsCleared
+      }));
+    });
+    
+    updateStats();
+    updateParanoia();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

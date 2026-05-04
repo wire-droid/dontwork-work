@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Update Postponer - Delay Updates Forever | DontWork.work</title>
+  <meta name="description" content="Postpone system updates endlessly. Remind me later. Always later. Never now!">
+  <meta name="keywords" content="update postponer, system updates, remind me later, windows updates, update delay">
+  
+  <meta property="og:title" content="Update Postponer - Not Today">
+  <meta property="og:description" content="Click 'Remind Me Later' forever. Updates can wait!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/update-postponer.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Update Postponer">
+  <meta name="twitter:description" content="Postpone updates forever. Not now. Not ever!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #0575E6 0%, #021B79 100%);
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .container {
+      max-width: 600px;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 40px;
+    }
+    
+    .update-window {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+    
+    .window-titlebar {
+      background: #f0f0f0;
+      padding: 12px 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    .window-title {
+      color: #333;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    
+    .window-close {
+      color: #999;
+      font-size: 1.2rem;
+      cursor: not-allowed;
+      opacity: 0.3;
+    }
+    
+    .window-content {
+      padding: 40px;
+      color: #333;
+    }
+    
+    .update-icon {
+      font-size: 5rem;
+      margin-bottom: 20px;
+    }
+    
+    .update-title {
+      font-family: 'Fraunces', serif;
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      color: #0575E6;
+    }
+    
+    .update-message {
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-bottom: 30px;
+      color: #666;
+    }
+    
+    .progress-bar-container {
+      background: #f0f0f0;
+      height: 30px;
+      border-radius: 15px;
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+    
+    .progress-bar {
+      background: linear-gradient(90deg, #0575E6 0%, #021B79 100%);
+      height: 100%;
+      width: 0%;
+      transition: width 0.5s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+    
+    .btn {
+      padding: 15px 30px;
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    
+    .update-btn {
+      background: #0575E6;
+      color: white;
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .postpone-btn {
+      background: #f0f0f0;
+      color: #333;
+      border: 2px solid #ddd;
+    }
+    
+    .postpone-btn:hover {
+      background: #e0e0e0;
+      transform: translateY(-2px);
+    }
+    
+    .postpone-btn:active {
+      transform: translateY(0);
+    }
+    
+    .postpone-count {
+      margin-top: 20px;
+      font-size: 0.85rem;
+      color: #999;
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 40px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.2);
+      padding: 20px 30px;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>🔄 Update Postponer</h1>
+    <p class="subtitle">Not now. Not ever. Always later.</p>
+    
+    <div class="update-window">
+      <div class="window-titlebar">
+        <div class="window-title">System Update</div>
+        <div class="window-close">×</div>
+      </div>
+      
+      <div class="window-content">
+        <div class="update-icon">💿</div>
+        <h2 class="update-title" id="updateTitle">Update Available</h2>
+        <p class="update-message" id="updateMessage">
+          Important security updates are ready to install. Your computer needs to restart to complete the installation.
+        </p>
+        
+        <div class="progress-bar-container" id="progressContainer" style="display: none;">
+          <div class="progress-bar" id="progressBar">0%</div>
+        </div>
+        
+        <div class="button-group">
+          <button class="btn update-btn" onclick="attemptUpdate()">Update Now</button>
+          <button class="btn postpone-btn" onclick="postpone()">⏰ Remind Me Later</button>
+        </div>
+        
+        <div class="postpone-count" id="postponeCount">
+          You've postponed this update 0 times
+        </div>
+      </div>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="totalPostponed">0</div>
+        <div class="stat-label">Times Postponed</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="daysAvoided">0</div>
+        <div class="stat-label">Days Avoided</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="updateAttempts">0</div>
+        <div class="stat-label">Update Attempts</div>
+      </div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    const updateMessages = [
+      {
+        title: 'Critical Security Update',
+        message: 'Important security patches are available. Install now to protect your system.',
+        urgency: 'high'
+      },
+      {
+        title: 'Feature Update Available',
+        message: 'New features and improvements are ready. Restart to apply changes.',
+        urgency: 'medium'
+      },
+      {
+        title: 'Mandatory Update Required',
+        message: 'This update is required for your system to continue functioning properly.',
+        urgency: 'critical'
+      },
+      {
+        title: 'Optional Update',
+        message: 'Minor bug fixes and performance improvements available.',
+        urgency: 'low'
+      },
+      {
+        title: 'Windows Update',
+        message: 'Updates are ready to install. This may take several hours.',
+        urgency: 'high'
+      },
+      {
+        title: 'Restart Required',
+        message: 'Your computer needs to restart to finish installing updates.',
+        urgency: 'medium'
+      },
+      {
+        title: 'Update Overdue',
+        message: 'This update has been delayed for 47 days. Please install immediately.',
+        urgency: 'critical'
+      },
+      {
+        title: 'Security Patch',
+        message: 'Critical vulnerabilities have been discovered. Update now.',
+        urgency: 'critical'
+      }
+    ];
+    
+    let postponeCount = 0;
+    let totalPostponed = 0;
+    let updateAttempts = 0;
+    let currentUpdate = null;
+    
+    function showNewUpdate() {
+      currentUpdate = updateMessages[Math.floor(Math.random() * updateMessages.length)];
+      document.getElementById('updateTitle').textContent = currentUpdate.title;
+      document.getElementById('updateMessage').textContent = currentUpdate.message;
+      document.getElementById('progressContainer').style.display = 'none';
+      postponeCount = 0;
+      updatePostponeCount();
+    }
+    
+    function postpone() {
+      postponeCount++;
+      totalPostponed++;
+      
+      updatePostponeCount();
+      updateStats();
+      
+      // Show new update with increasing frequency
+      const delay = Math.max(1000, 3000 - (postponeCount * 200));
+      setTimeout(showNewUpdate, delay);
+    }
+    
+    function attemptUpdate() {
+      updateAttempts++;
+      updateStats();
+      
+      const progressContainer = document.getElementById('progressContainer');
+      const progressBar = document.getElementById('progressBar');
+      
+      progressContainer.style.display = 'block';
+      
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += Math.random() * 15;
+        
+        if (progress >= 100) {
+          progress = 100;
+          progressBar.style.width = '100%';
+          progressBar.textContent = '100%';
+          
+          setTimeout(() => {
+            // "Error" - show new update
+            alert('Update failed! Please try again later.');
+            clearInterval(interval);
+            showNewUpdate();
+          }, 500);
+        } else {
+          progressBar.style.width = Math.floor(progress) + '%';
+          progressBar.textContent = Math.floor(progress) + '%';
+        }
+      }, 200);
+    }
+    
+    function updatePostponeCount() {
+      const countEl = document.getElementById('postponeCount');
+      if (postponeCount === 0) {
+        countEl.textContent = 'You\'ve postponed this update 0 times';
+      } else if (postponeCount === 1) {
+        countEl.textContent = 'You\'ve postponed this update once';
+      } else {
+        countEl.textContent = `You've postponed this update ${postponeCount} times`;
+      }
+    }
+    
+    function updateStats() {
+      document.getElementById('totalPostponed').textContent = totalPostponed;
+      document.getElementById('daysAvoided').textContent = Math.floor(totalPostponed / 3);
+      document.getElementById('updateAttempts').textContent = updateAttempts;
+    }
+    
+    // Load saved stats
+    const saved = localStorage.getItem('updatePostponeStats');
+    if (saved) {
+      const stats = JSON.parse(saved);
+      totalPostponed = stats.postponed || 0;
+      updateAttempts = stats.attempts || 0;
+    }
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('updatePostponeStats', JSON.stringify({
+        postponed: totalPostponed,
+        attempts: updateAttempts
+      }));
+    });
+    
+    showNewUpdate();
+    updateStats();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

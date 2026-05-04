@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Refresh Page Clicker - F5 Forever | DontWork.work</title>
+  <meta name="description" content="Refresh the page endlessly. Maybe something changed? Better refresh again!">
+  <meta name="keywords" content="refresh page, F5 game, reload page, refresh clicker, page reload">
+  
+  <meta property="og:title" content="Refresh Page Clicker - F5 Forever">
+  <meta property="og:description" content="Click refresh endlessly. Did it change? Refresh again!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/refresh-clicker.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Refresh Page Clicker">
+  <meta name="twitter:description" content="F5 spam simulator!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    body.refreshing {
+      animation: flash 0.3s;
+    }
+    
+    @keyframes flash {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    
+    .container {
+      max-width: 700px;
+      width: 100%;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 40px;
+    }
+    
+    .browser-window {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    }
+    
+    .browser-bar {
+      background: #f0f0f0;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    .refresh-icon {
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: transform 0.3s;
+      user-select: none;
+    }
+    
+    .refresh-icon:hover {
+      transform: rotate(180deg);
+    }
+    
+    .refresh-icon.spinning {
+      animation: spin 0.5s linear;
+    }
+    
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    .address-bar {
+      flex: 1;
+      background: white;
+      border: 1px solid #ddd;
+      padding: 8px 15px;
+      border-radius: 20px;
+      color: #666;
+      font-size: 0.9rem;
+    }
+    
+    .page-content {
+      padding: 50px 40px;
+      color: #333;
+      min-height: 300px;
+    }
+    
+    .page-icon {
+      font-size: 6rem;
+      margin-bottom: 20px;
+      transition: all 0.3s;
+    }
+    
+    .page-title {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+      margin-bottom: 15px;
+    }
+    
+    .page-message {
+      font-size: 1.1rem;
+      color: #666;
+      margin-bottom: 30px;
+    }
+    
+    .last-refresh {
+      font-size: 0.9rem;
+      color: #999;
+    }
+    
+    .refresh-btn {
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 20px 60px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Fraunces', serif;
+      margin-bottom: 30px;
+    }
+    
+    .refresh-btn:hover {
+      background: #2980b9;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(52, 152, 219, 0.4);
+    }
+    
+    .refresh-btn:active {
+      transform: translateY(0);
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.2);
+      padding: 20px 30px;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>🔄 Refresh Page Clicker</h1>
+    <p class="subtitle">Did it change? Better refresh again.</p>
+    
+    <div class="browser-window">
+      <div class="browser-bar">
+        <div class="refresh-icon" id="refreshIcon" onclick="refresh()">🔄</div>
+        <div class="address-bar">https://totally-real-website.com</div>
+      </div>
+      
+      <div class="page-content">
+        <div class="page-icon" id="pageIcon">📄</div>
+        <h2 class="page-title" id="pageTitle">Welcome to the Internet</h2>
+        <p class="page-message" id="pageMessage">
+          Nothing has changed. But refresh anyway, just to be sure.
+        </p>
+        <p class="last-refresh" id="lastRefresh">Never refreshed</p>
+      </div>
+    </div>
+    
+    <button class="refresh-btn" onclick="refresh()">🔄 Refresh (F5)</button>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="refreshes">0</div>
+        <div class="stat-label">Total Refreshes</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="perMinute">0</div>
+        <div class="stat-label">Per Minute</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="maxStreak">0</div>
+        <div class="stat-label">Max Streak</div>
+      </div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    const messages = [
+      "Nothing has changed. But refresh anyway.",
+      "Still the same. Maybe next time?",
+      "Yep, still here. Same as before.",
+      "Did you expect something different?",
+      "Nothing to see here. Refresh again?",
+      "Same page. Different refresh count.",
+      "Everything's the same. Keep trying!",
+      "No updates available. Refresh anyway.",
+      "Page loaded successfully. Nothing changed.",
+      "Content unchanged. Better check again soon."
+    ];
+    
+    const icons = ['📄', '📃', '📋', '📰', '📑', '🗒️'];
+    
+    let refreshCount = 0;
+    let maxStreak = 0;
+    let currentStreak = 0;
+    let lastRefreshTime = Date.now();
+    let refreshHistory = [];
+    
+    function refresh() {
+      refreshCount++;
+      currentStreak++;
+      maxStreak = Math.max(maxStreak, currentStreak);
+      
+      const now = Date.now();
+      refreshHistory.push(now);
+      
+      // Keep only last minute
+      refreshHistory = refreshHistory.filter(time => now - time < 60000);
+      
+      // Visual effects
+      document.body.classList.add('refreshing');
+      const icon = document.getElementById('refreshIcon');
+      icon.classList.add('spinning');
+      
+      setTimeout(() => {
+        document.body.classList.remove('refreshing');
+        icon.classList.remove('spinning');
+      }, 300);
+      
+      // Update content
+      const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+      const randomIcon = icons[Math.floor(Math.random() * icons.length)];
+      
+      document.getElementById('pageMessage').textContent = randomMessage;
+      document.getElementById('pageIcon').textContent = randomIcon;
+      
+      const timeAgo = formatTimeAgo(now);
+      document.getElementById('lastRefresh').textContent = `Last refreshed: just now`;
+      
+      lastRefreshTime = now;
+      updateStats();
+    }
+    
+    function formatTimeAgo(time) {
+      const seconds = Math.floor((Date.now() - time) / 1000);
+      if (seconds < 60) return 'just now';
+      if (seconds < 3600) return Math.floor(seconds / 60) + ' minutes ago';
+      return Math.floor(seconds / 3600) + ' hours ago';
+    }
+    
+    function updateStats() {
+      document.getElementById('refreshes').textContent = refreshCount;
+      document.getElementById('perMinute').textContent = refreshHistory.length;
+      document.getElementById('maxStreak').textContent = maxStreak;
+    }
+    
+    // Reset streak if idle for 5 seconds
+    setInterval(() => {
+      const timeSinceRefresh = Date.now() - lastRefreshTime;
+      if (timeSinceRefresh > 5000) {
+        currentStreak = 0;
+      }
+      
+      // Update time ago
+      const timeAgo = formatTimeAgo(lastRefreshTime);
+      if (refreshCount > 0) {
+        document.getElementById('lastRefresh').textContent = `Last refreshed: ${timeAgo}`;
+      }
+      
+      // Update per-minute count
+      const now = Date.now();
+      refreshHistory = refreshHistory.filter(time => now - time < 60000);
+      document.getElementById('perMinute').textContent = refreshHistory.length;
+    }, 1000);
+    
+    // F5 and Ctrl+R keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'F5' || (e.ctrlKey && e.key === 'r')) {
+        e.preventDefault();
+        refresh();
+      }
+    });
+    
+    // Load saved stats
+    const saved = localStorage.getItem('refreshClickerStats');
+    if (saved) {
+      const stats = JSON.parse(saved);
+      refreshCount = stats.refreshes || 0;
+      maxStreak = stats.maxStreak || 0;
+    }
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('refreshClickerStats', JSON.stringify({
+        refreshes: refreshCount,
+        maxStreak: maxStreak
+      }));
+    });
+    
+    updateStats();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

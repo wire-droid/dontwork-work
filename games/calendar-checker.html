@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Calendar Checker - Obsessive Schedule Viewing | DontWork.work</title>
+  <meta name="description" content="Check your calendar obsessively. What's tomorrow? What about next week? Check again!">
+  <meta name="keywords" content="calendar checker, schedule anxiety, calendar game, meeting checker">
+  
+  <meta property="og:title" content="Calendar Checker - Check It Again">
+  <meta property="og:description" content="View your calendar endlessly. Did something change? Better check!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/calendar-checker.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Calendar Checker">
+  <meta name="twitter:description" content="Calendar anxiety simulator. Check forever!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+    
+    .calendar-app {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    }
+    
+    .calendar-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 25px;
+      color: white;
+    }
+    
+    .current-date {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+      margin-bottom: 5px;
+    }
+    
+    .check-count {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+    
+    .calendar-body {
+      padding: 30px;
+      color: #333;
+    }
+    
+    .events-list {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    
+    .event {
+      background: #f5f5f5;
+      border-left: 4px solid #667eea;
+      padding: 20px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      text-align: left;
+      transition: all 0.3s;
+    }
+    
+    .event:hover {
+      background: #ececec;
+      transform: translateX(5px);
+    }
+    
+    .event-time {
+      font-weight: 700;
+      color: #667eea;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+    }
+    
+    .event-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    
+    .event-details {
+      font-size: 0.9rem;
+      color: #666;
+    }
+    
+    .event.urgent {
+      border-left-color: #F44336;
+      background: #ffebee;
+    }
+    
+    .event.urgent .event-time {
+      color: #F44336;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+    
+    .btn {
+      padding: 18px 40px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .check-btn {
+      background: #667eea;
+      color: white;
+    }
+    
+    .refresh-btn {
+      background: #4CAF50;
+      color: white;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+    
+    .anxiety-meter {
+      background: rgba(255,255,255,0.2);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .anxiety-label {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+    
+    .anxiety-bar-container {
+      background: rgba(0,0,0,0.2);
+      height: 40px;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    
+    .anxiety-bar {
+      background: linear-gradient(90deg, #4CAF50 0%, #FF9800 50%, #F44336 100%);
+      height: 100%;
+      width: 0%;
+      transition: width 0.5s;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.2);
+      padding: 20px 30px;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>📅 Calendar Checker</h1>
+    <p class="subtitle">Check it. Check it again. What's tomorrow?</p>
+    
+    <div class="anxiety-meter">
+      <div class="anxiety-label">CALENDAR ANXIETY: <span id="anxietyText">LOW</span></div>
+      <div class="anxiety-bar-container">
+        <div class="anxiety-bar" id="anxietyBar">0%</div>
+      </div>
+    </div>
+    
+    <div class="calendar-app">
+      <div class="calendar-header">
+        <div class="current-date" id="currentDate">Today</div>
+        <div class="check-count" id="checkCount">Checked 0 times today</div>
+      </div>
+      
+      <div class="calendar-body">
+        <div class="events-list" id="eventsList"></div>
+      </div>
+    </div>
+    
+    <div class="controls">
+      <button class="btn check-btn" onclick="checkCalendar()">👀 Check Again</button>
+      <button class="btn refresh-btn" onclick="refreshEvents()">🔄 Refresh Events</button>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="totalChecks">0</div>
+        <div class="stat-label">Total Checks</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="checksToday">0</div>
+        <div class="stat-label">Checks Today</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="avgPerDay">0</div>
+        <div class="stat-label">Avg Per Day</div>
+      </div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    const eventTemplates = [
+      { time: '9:00 AM', title: 'Team Standup', details: 'Daily sync with the team', urgent: false },
+      { time: '10:30 AM', title: 'Coffee Break', details: 'Essential caffeine time', urgent: false },
+      { time: '11:00 AM', title: 'Client Meeting', details: 'Prepare slides beforehand', urgent: true },
+      { time: '1:00 PM', title: 'Lunch', details: 'Finally.', urgent: false },
+      { time: '2:00 PM', title: '1-on-1 with Boss', details: 'Performance review?', urgent: true },
+      { time: '3:30 PM', title: 'Project Review', details: 'Bring updated numbers', urgent: true },
+      { time: '4:00 PM', title: 'Email Catchup', details: 'Clear inbox (good luck)', urgent: false },
+      { time: '5:00 PM', title: 'Another Meeting', details: 'This could have been an email', urgent: false },
+      { time: '2:00 PM', title: 'Dentist Appointment', details: 'Don\'t forget!', urgent: true },
+      { time: '6:00 PM', title: 'Gym', details: 'You won\'t go', urgent: false },
+      { time: '12:00 PM', title: 'Product Demo', details: 'Pray it works', urgent: true },
+      { time: '3:00 PM', title: 'Budget Review', details: 'Prepare explanations', urgent: true }
+    ];
+    
+    let events = [];
+    let totalChecks = 0;
+    let checksToday = 0;
+    let anxietyLevel = 0;
+    let daysTracked = 1;
+    
+    function generateEvents() {
+      events = [];
+      const numEvents = Math.floor(Math.random() * 4) + 3; // 3-6 events
+      
+      for (let i = 0; i < numEvents; i++) {
+        const template = eventTemplates[Math.floor(Math.random() * eventTemplates.length)];
+        events.push({...template});
+      }
+      
+      // Sort by time
+      events.sort((a, b) => {
+        const timeA = parseInt(a.time);
+        const timeB = parseInt(b.time);
+        return timeA - timeB;
+      });
+      
+      renderEvents();
+    }
+    
+    function renderEvents() {
+      const list = document.getElementById('eventsList');
+      list.innerHTML = '';
+      
+      if (events.length === 0) {
+        list.innerHTML = '<p style="text-align: center; color: #999; padding: 40px;">No events today. Enjoy the calm.</p>';
+        return;
+      }
+      
+      events.forEach(event => {
+        const div = document.createElement('div');
+        div.className = 'event' + (event.urgent ? ' urgent' : '');
+        div.innerHTML = `
+          <div class="event-time">${event.time}</div>
+          <div class="event-title">${event.title}</div>
+          <div class="event-details">${event.details}</div>
+        `;
+        list.appendChild(div);
+      });
+    }
+    
+    function checkCalendar() {
+      totalChecks++;
+      checksToday++;
+      
+      // Increase anxiety
+      anxietyLevel = Math.min(100, anxietyLevel + 8);
+      
+      updateAnxiety();
+      updateStats();
+      updateCheckCount();
+    }
+    
+    function refreshEvents() {
+      generateEvents();
+      checkCalendar();
+    }
+    
+    function updateAnxiety() {
+      const bar = document.getElementById('anxietyBar');
+      const text = document.getElementById('anxietyText');
+      
+      bar.style.width = anxietyLevel + '%';
+      bar.textContent = Math.floor(anxietyLevel) + '%';
+      
+      if (anxietyLevel < 30) text.textContent = 'LOW';
+      else if (anxietyLevel < 60) text.textContent = 'MODERATE';
+      else if (anxietyLevel < 80) text.textContent = 'HIGH';
+      else text.textContent = 'EXTREME';
+    }
+    
+    function updateCheckCount() {
+      document.getElementById('checkCount').textContent = `Checked ${checksToday} time${checksToday !== 1 ? 's' : ''} today`;
+    }
+    
+    function updateStats() {
+      document.getElementById('totalChecks').textContent = totalChecks;
+      document.getElementById('checksToday').textContent = checksToday;
+      document.getElementById('avgPerDay').textContent = Math.floor(totalChecks / daysTracked);
+    }
+    
+    // Decrease anxiety slowly
+    setInterval(() => {
+      anxietyLevel = Math.max(0, anxietyLevel - 0.5);
+      updateAnxiety();
+    }, 1000);
+    
+    // Get current date
+    const today = new Date();
+    const dateStr = today.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    document.getElementById('currentDate').textContent = dateStr;
+    
+    // Load saved stats
+    const saved = localStorage.getItem('calendarCheckerStats');
+    if (saved) {
+      const stats = JSON.parse(saved);
+      totalChecks = stats.total || 0;
+      daysTracked = stats.days || 1;
+    }
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('calendarCheckerStats', JSON.stringify({
+        total: totalChecks,
+        days: daysTracked
+      }));
+    });
+    
+    generateEvents();
+    updateStats();
+    updateCheckCount();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

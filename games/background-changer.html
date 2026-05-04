@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Desktop Background Changer - Endless Wallpapers | DontWork.work</title>
+  <meta name="description" content="Change desktop backgrounds endlessly. Find the perfect one. Never settle!">
+  <meta name="keywords" content="wallpaper changer, desktop background, background switcher, wallpaper game">
+  
+  <meta property="og:title" content="Desktop Background Changer - Perfect Wallpaper">
+  <meta property="og:description" content="Change backgrounds forever. Never quite right!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/background-changer.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Desktop Background Changer">
+  <meta name="twitter:description" content="Endless wallpaper switching!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #1a1a1a;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+    
+    .desktop-preview {
+      background: #2a2a2a;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+      position: relative;
+    }
+    
+    .desktop-screen {
+      aspect-ratio: 16/9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8rem;
+      transition: all 0.5s;
+      position: relative;
+    }
+    
+    .wallpaper-name {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(0,0,0,0.6);
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    
+    .wallpaper-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    
+    .wallpaper-option {
+      aspect-ratio: 16/9;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: 3px solid transparent;
+    }
+    
+    .wallpaper-option:hover {
+      transform: scale(1.05);
+      border-color: rgba(255,255,255,0.5);
+    }
+    
+    .wallpaper-option.active {
+      border-color: #4CAF50;
+      box-shadow: 0 0 20px rgba(76, 175, 80, 0.5);
+    }
+    
+    .controls {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+    
+    .btn {
+      padding: 15px 35px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .random-btn {
+      background: #9C27B0;
+      color: white;
+    }
+    
+    .cycle-btn {
+      background: #FF9800;
+      color: white;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.1);
+      padding: 20px 30px;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>🖼️ Desktop Background Changer</h1>
+    <p class="subtitle">Find the perfect wallpaper. Never settle.</p>
+    
+    <div class="desktop-preview">
+      <div class="desktop-screen" id="desktopScreen">
+        🌄
+        <div class="wallpaper-name" id="wallpaperName">Mountain Sunrise</div>
+      </div>
+    </div>
+    
+    <div class="wallpaper-grid" id="wallpaperGrid"></div>
+    
+    <div class="controls">
+      <button class="btn random-btn" onclick="randomWallpaper()">🎲 Random</button>
+      <button class="btn cycle-btn" onclick="autoCycle()">🔄 Auto Cycle</button>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="changes">0</div>
+        <div class="stat-label">Changes</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="wallpapers">0</div>
+        <div class="stat-label">Wallpapers Tried</div>
+      </div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    const wallpapers = [
+      { emoji: '🌄', name: 'Mountain Sunrise', bg: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' },
+      { emoji: '🌊', name: 'Ocean Wave', bg: 'linear-gradient(135deg, #00B4DB 0%, #0083B0 100%)' },
+      { emoji: '🌲', name: 'Forest Path', bg: 'linear-gradient(135deg, #134E5E 0%, #71B280 100%)' },
+      { emoji: '🌃', name: 'City Night', bg: 'linear-gradient(135deg, #0F2027 0%, #203A43 50%, #2C5364 100%)' },
+      { emoji: '🌅', name: 'Beach Sunset', bg: 'linear-gradient(135deg, #FF512F 0%, #F09819 100%)' },
+      { emoji: '🌌', name: 'Galaxy Space', bg: 'linear-gradient(135deg, #141E30 0%, #243B55 100%)' },
+      { emoji: '🏔️', name: 'Snow Mountain', bg: 'linear-gradient(135deg, #E0EAFC 0%, #CFDEF3 100%)' },
+      { emoji: '🌸', name: 'Cherry Blossom', bg: 'linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%)' },
+      { emoji: '🍂', name: 'Autumn Leaves', bg: 'linear-gradient(135deg, #FA8BFF 0%, #2BD2FF 50%, #2BFF88 100%)' },
+      { emoji: '🌵', name: 'Desert Dunes', bg: 'linear-gradient(135deg, #F4C430 0%, #FF8C00 100%)' },
+      { emoji: '🌈', name: 'Rainbow Sky', bg: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)' },
+      { emoji: '🔥', name: 'Fire Glow', bg: 'linear-gradient(135deg, #FC466B 0%, #3F5EFB 100%)' }
+    ];
+    
+    let currentWallpaper = 0;
+    let changeCount = 0;
+    let wallpapersUsed = new Set([0]);
+    let cycleInterval = null;
+    
+    function renderWallpapers() {
+      const grid = document.getElementById('wallpaperGrid');
+      grid.innerHTML = '';
+      
+      wallpapers.forEach((wp, index) => {
+        const div = document.createElement('div');
+        div.className = 'wallpaper-option' + (index === currentWallpaper ? ' active' : '');
+        div.style.background = wp.bg;
+        div.textContent = wp.emoji;
+        div.onclick = () => setWallpaper(index);
+        grid.appendChild(div);
+      });
+    }
+    
+    function setWallpaper(index) {
+      currentWallpaper = index;
+      wallpapersUsed.add(index);
+      changeCount++;
+      
+      const wp = wallpapers[index];
+      const screen = document.getElementById('desktopScreen');
+      
+      screen.style.background = wp.bg;
+      screen.innerHTML = `${wp.emoji}<div class="wallpaper-name">${wp.name}</div>`;
+      
+      renderWallpapers();
+      updateStats();
+      
+      // Stop auto cycle when manually selected
+      if (cycleInterval) {
+        clearInterval(cycleInterval);
+        cycleInterval = null;
+      }
+    }
+    
+    function randomWallpaper() {
+      const randomIndex = Math.floor(Math.random() * wallpapers.length);
+      setWallpaper(randomIndex);
+    }
+    
+    function autoCycle() {
+      if (cycleInterval) {
+        clearInterval(cycleInterval);
+        cycleInterval = null;
+        return;
+      }
+      
+      cycleInterval = setInterval(() => {
+        const nextIndex = (currentWallpaper + 1) % wallpapers.length;
+        setWallpaper(nextIndex);
+      }, 2000);
+    }
+    
+    function updateStats() {
+      document.getElementById('changes').textContent = changeCount;
+      document.getElementById('wallpapers').textContent = wallpapersUsed.size;
+    }
+    
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') {
+        const nextIndex = (currentWallpaper + 1) % wallpapers.length;
+        setWallpaper(nextIndex);
+      } else if (e.key === 'ArrowLeft') {
+        const prevIndex = (currentWallpaper - 1 + wallpapers.length) % wallpapers.length;
+        setWallpaper(prevIndex);
+      }
+    });
+    
+    // Load saved stats
+    const saved = localStorage.getItem('backgroundChangerStats');
+    if (saved) {
+      const stats = JSON.parse(saved);
+      changeCount = stats.changes || 0;
+      if (stats.wallpapers) {
+        wallpapersUsed = new Set(stats.wallpapers);
+      }
+    }
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      if (cycleInterval) {
+        clearInterval(cycleInterval);
+      }
+      localStorage.setItem('backgroundChangerStats', JSON.stringify({
+        changes: changeCount,
+        wallpapers: Array.from(wallpapersUsed)
+      }));
+    });
+    
+    renderWallpapers();
+    setWallpaper(0);
+    updateStats();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Caps Lock Toggle - UPPERCASE ANXIETY | DontWork.work</title>
+  <meta name="description" content="Toggle Caps Lock endlessly. IS IT ON? IS IT OFF? BETTER CHECK AGAIN!">
+  <meta name="keywords" content="caps lock, toggle game, caps lock anxiety, keyboard game, uppercase">
+  
+  <meta property="og:title" content="Caps Lock Toggle - IS IT ON?">
+  <meta property="og:description" content="TOGGLE CAPS LOCK FOREVER. NEVER BE SURE!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/caps-lock-toggle.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Caps Lock Toggle">
+  <meta name="twitter:description" content="Toggle Caps Lock endlessly!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #FF512F 0%, #DD2476 100%);
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+    
+    body.caps-on {
+      background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
+    }
+    
+    .container {
+      max-width: 700px;
+      width: 100%;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      margin-bottom: 10px;
+      transition: all 0.3s;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 40px;
+      transition: all 0.3s;
+    }
+    
+    .keyboard-area {
+      background: rgba(255,255,255,0.15);
+      border-radius: 25px;
+      padding: 50px 40px;
+      margin-bottom: 30px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    
+    .caps-key {
+      background: rgba(255,255,255,0.3);
+      border: 4px solid rgba(255,255,255,0.5);
+      border-radius: 15px;
+      padding: 40px;
+      margin-bottom: 30px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    
+    .caps-key:hover {
+      transform: scale(1.05);
+      background: rgba(255,255,255,0.4);
+    }
+    
+    .caps-key:active {
+      transform: scale(0.95);
+    }
+    
+    .caps-key.on {
+      background: rgba(76, 175, 80, 0.4);
+      border-color: #4CAF50;
+      box-shadow: 0 0 30px rgba(76, 175, 80, 0.5);
+    }
+    
+    .key-label {
+      font-size: 3rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+      margin-bottom: 10px;
+    }
+    
+    .key-status {
+      font-size: 1.5rem;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+    
+    .test-typing {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 30px;
+    }
+    
+    .typing-label {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #666;
+      margin-bottom: 15px;
+      text-align: left;
+    }
+    
+    .typing-input {
+      width: 100%;
+      padding: 15px;
+      font-size: 1.5rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      text-align: center;
+      font-weight: 700;
+    }
+    
+    .typing-input:focus {
+      outline: none;
+      border-color: #FF512F;
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.2);
+      padding: 20px 30px;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1 id="title">Caps Lock Toggle</h1>
+    <p class="subtitle" id="subtitle">Is it on? Is it off? Better check.</p>
+    
+    <div class="keyboard-area">
+      <div class="caps-key" id="capsKey" onclick="toggleCaps()">
+        <div class="key-label">CAPS LOCK</div>
+        <div class="key-status" id="capsStatus">OFF</div>
+      </div>
+      
+      <div class="test-typing">
+        <div class="typing-label">TEST IT OUT:</div>
+        <input type="text" class="typing-input" id="typingInput" placeholder="Start typing...">
+      </div>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="toggles">0</div>
+        <div class="stat-label">Times Toggled</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="onTime">0s</div>
+        <div class="stat-label">Time ON</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="offTime">0s</div>
+        <div class="stat-label">Time OFF</div>
+      </div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    let capsLockOn = false;
+    let toggleCount = 0;
+    let timeOn = 0;
+    let timeOff = 0;
+    let lastToggle = Date.now();
+    
+    function toggleCaps() {
+      // Track time in previous state
+      const now = Date.now();
+      const elapsed = Math.floor((now - lastToggle) / 1000);
+      
+      if (capsLockOn) {
+        timeOn += elapsed;
+      } else {
+        timeOff += elapsed;
+      }
+      
+      capsLockOn = !capsLockOn;
+      toggleCount++;
+      lastToggle = now;
+      
+      updateUI();
+      updateStats();
+    }
+    
+    function updateUI() {
+      const body = document.body;
+      const title = document.getElementById('title');
+      const subtitle = document.getElementById('subtitle');
+      const capsKey = document.getElementById('capsKey');
+      const status = document.getElementById('capsStatus');
+      
+      if (capsLockOn) {
+        body.classList.add('caps-on');
+        capsKey.classList.add('on');
+        status.textContent = 'ON';
+        title.textContent = 'CAPS LOCK TOGGLE';
+        subtitle.textContent = 'IS IT ON? IS IT OFF? BETTER CHECK.';
+      } else {
+        body.classList.remove('caps-on');
+        capsKey.classList.remove('on');
+        status.textContent = 'OFF';
+        title.textContent = 'Caps Lock Toggle';
+        subtitle.textContent = 'Is it on? Is it off? Better check.';
+      }
+    }
+    
+    function updateStats() {
+      document.getElementById('toggles').textContent = toggleCount;
+      document.getElementById('onTime').textContent = timeOn + 's';
+      document.getElementById('offTime').textContent = timeOff + 's';
+    }
+    
+    // Track actual Caps Lock key
+    document.addEventListener('keydown', (e) => {
+      if (e.getModifierState('CapsLock') !== capsLockOn) {
+        toggleCaps();
+      }
+    });
+    
+    // Load saved stats
+    const saved = localStorage.getItem('capsLockStats');
+    if (saved) {
+      const stats = JSON.parse(saved);
+      toggleCount = stats.toggles || 0;
+      timeOn = stats.timeOn || 0;
+      timeOff = stats.timeOff || 0;
+    }
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      // Add current session time
+      const now = Date.now();
+      const elapsed = Math.floor((now - lastToggle) / 1000);
+      
+      if (capsLockOn) {
+        timeOn += elapsed;
+      } else {
+        timeOff += elapsed;
+      }
+      
+      localStorage.setItem('capsLockStats', JSON.stringify({
+        toggles: toggleCount,
+        timeOn: timeOn,
+        timeOff: timeOff
+      }));
+    });
+    
+    updateStats();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

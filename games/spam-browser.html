@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Spam Folder Browser - Endless Junk Mail | DontWork.work</title>
+  <meta name="description" content="Browse spam emails endlessly. Delete them all. More keep coming. Forever!">
+  <meta name="keywords" content="spam folder, junk email, email game, spam browser, delete spam">
+  
+  <meta property="og:title" content="Spam Folder Browser - Endless Junk">
+  <meta property="og:description" content="Browse and delete spam forever. They never stop!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/spam-browser.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Spam Folder Browser">
+  <meta name="twitter:description" content="Endless spam emails. Delete forever!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #E74C3C 0%, #C0392B 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+    
+    .email-client {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    }
+    
+    .email-header {
+      background: #f5f5f5;
+      padding: 20px;
+      border-bottom: 1px solid #e0e0e0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .folder-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #333;
+    }
+    
+    .spam-count {
+      background: #E74C3C;
+      color: white;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    
+    .email-list {
+      max-height: 500px;
+      overflow-y: auto;
+    }
+    
+    .email {
+      padding: 20px;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      background: white;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    
+    .email:hover {
+      background: #f9f9f9;
+    }
+    
+    .email.deleting {
+      animation: slideOut 0.3s forwards;
+    }
+    
+    @keyframes slideOut {
+      to {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+    }
+    
+    .checkbox {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #ddd;
+      border-radius: 4px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    
+    .email-content {
+      flex: 1;
+      text-align: left;
+    }
+    
+    .email-from {
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 5px;
+      font-size: 0.95rem;
+    }
+    
+    .email-subject {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 3px;
+    }
+    
+    .email-preview {
+      color: #999;
+      font-size: 0.85rem;
+    }
+    
+    .delete-btn-inline {
+      background: #E74C3C;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: all 0.3s;
+      flex-shrink: 0;
+    }
+    
+    .delete-btn-inline:hover {
+      background: #C0392B;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+    
+    .btn {
+      padding: 15px 35px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .delete-all-btn {
+      background: #E74C3C;
+      color: white;
+    }
+    
+    .refresh-btn {
+      background: rgba(255,255,255,0.3);
+      color: white;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.2);
+      padding: 20px 30px;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>🗑️ Spam Folder Browser</h1>
+    <p class="subtitle">Delete them all. More keep coming.</p>
+    
+    <div class="email-client">
+      <div class="email-header">
+        <div class="folder-title">📥 Spam</div>
+        <div class="spam-count" id="spamCount">0</div>
+      </div>
+      
+      <div class="email-list" id="emailList"></div>
+    </div>
+    
+    <div class="controls">
+      <button class="btn delete-all-btn" onclick="deleteAll()">🗑️ Delete All</button>
+      <button class="btn refresh-btn" onclick="refreshSpam()">🔄 Check for Spam</button>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="deleted">0</div>
+        <div class="stat-label">Spam Deleted</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="current">0</div>
+        <div class="stat-label">Current Inbox</div>
+      </div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    const spamTemplates = [
+      { from: 'Nigerian Prince', subject: 'Urgent Business Proposal', preview: 'I need your help transferring $47 million...' },
+      { from: 'Hot Singles Near You', subject: 'They want to meet YOU!', preview: 'Click here to see who is interested...' },
+      { from: 'Pharmacy Online', subject: 'Cheap Meds No Prescription', preview: 'Get everything you need delivered...' },
+      { from: 'Prize Winner!', subject: 'You\'ve Won $1,000,000', preview: 'Claim your prize now by clicking...' },
+      { from: 'Apple Support', subject: 'Your account has been locked', preview: 'Verify your identity immediately...' },
+      { from: 'IRS Official', subject: 'URGENT: Tax Payment Required', preview: 'You owe $15,000. Pay now or face...' },
+      { from: 'Work From Home!', subject: 'Make $5000/week from home', preview: 'This one simple trick will change...' },
+      { from: 'Free iPhone', subject: 'Congratulations! You won!', preview: 'Click to claim your free iPhone 15...' },
+      { from: 'Lonely Widow', subject: 'I need your help', preview: 'My late husband left me $8 million...' },
+      { from: 'Weight Loss Miracle', subject: 'Lose 50 lbs in 2 weeks!', preview: 'Doctors hate this one weird trick...' },
+      { from: 'Amazon Alert', subject: 'Your package is delayed', preview: 'Click here to update shipping info...' },
+      { from: 'PayPal Security', subject: 'Suspicious activity detected', preview: 'Confirm your account immediately...' },
+      { from: 'Inheritance Claim', subject: 'You are the beneficiary', preview: 'A distant relative left you millions...' },
+      { from: 'Crypto Investment', subject: 'Bitcoin going to $500k', preview: 'Invest now before it\'s too late...' },
+      { from: 'Free Vacation', subject: 'You\'ve won a cruise!', preview: 'Just pay a small processing fee...' }
+    ];
+    
+    let emails = [];
+    let deletedCount = 0;
+    
+    function createSpam() {
+      const template = spamTemplates[Math.floor(Math.random() * spamTemplates.length)];
+      return {
+        id: Date.now() + Math.random(),
+        ...template
+      };
+    }
+    
+    function renderEmails() {
+      const list = document.getElementById('emailList');
+      list.innerHTML = '';
+      
+      emails.forEach(email => {
+        const div = document.createElement('div');
+        div.className = 'email';
+        div.id = 'email-' + email.id;
+        div.innerHTML = `
+          <div class="checkbox"></div>
+          <div class="email-content">
+            <div class="email-from">${email.from}</div>
+            <div class="email-subject">${email.subject}</div>
+            <div class="email-preview">${email.preview}</div>
+          </div>
+          <button class="delete-btn-inline" onclick="deleteEmail('${email.id}', event)">Delete</button>
+        `;
+        list.appendChild(div);
+      });
+      
+      updateCount();
+    }
+    
+    function deleteEmail(id, event) {
+      event.stopPropagation();
+      const element = document.getElementById('email-' + id);
+      element.classList.add('deleting');
+      
+      setTimeout(() => {
+        emails = emails.filter(e => e.id != id);
+        deletedCount++;
+        renderEmails();
+      }, 300);
+    }
+    
+    function deleteAll() {
+      const allEmails = [...emails];
+      allEmails.forEach((email, index) => {
+        setTimeout(() => {
+          const element = document.getElementById('email-' + email.id);
+          if (element) {
+            element.classList.add('deleting');
+          }
+        }, index * 50);
+      });
+      
+      setTimeout(() => {
+        deletedCount += emails.length;
+        emails = [];
+        renderEmails();
+        
+        // New spam arrives
+        setTimeout(addNewSpam, 1000);
+      }, allEmails.length * 50 + 300);
+    }
+    
+    function refreshSpam() {
+      addNewSpam();
+    }
+    
+    function addNewSpam() {
+      const count = Math.floor(Math.random() * 4) + 3; // 3-6 new spam
+      for (let i = 0; i < count; i++) {
+        emails.push(createSpam());
+      }
+      renderEmails();
+    }
+    
+    function updateCount() {
+      document.getElementById('spamCount').textContent = emails.length;
+      document.getElementById('deleted').textContent = deletedCount;
+      document.getElementById('current').textContent = emails.length;
+    }
+    
+    // Auto-add spam periodically
+    setInterval(() => {
+      if (emails.length < 20) {
+        emails.push(createSpam());
+        renderEmails();
+      }
+    }, 6000);
+    
+    // Initialize with spam
+    addNewSpam();
+    
+    // Load saved stats
+    const saved = localStorage.getItem('spamDeleted');
+    if (saved) deletedCount = parseInt(saved);
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('spamDeleted', deletedCount);
+    });
+    
+    updateCount();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

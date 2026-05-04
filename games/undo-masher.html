@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Undo Button Masher - Ctrl+Z Forever | DontWork.work</title>
+  <meta name="description" content="Undo and redo endlessly. Change your mind. Change it back. Never commit!">
+  <meta name="keywords" content="undo redo, ctrl z, undo game, indecision simulator, undo button">
+  
+  <meta property="og:title" content="Undo Button Masher - Change Your Mind">
+  <meta property="og:description" content="Undo. Redo. Undo again. Pure indecision!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/undo-masher.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Undo Button Masher">
+  <meta name="twitter:description" content="Undo/redo simulator. Indecision at its finest!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #7F7FD5 0%, #86A8E7 50%, #91EAE4 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+    
+    .editor-area {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    
+    .canvas {
+      background: #fafafa;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      min-height: 300px;
+      padding: 30px;
+      margin-bottom: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .shape {
+      position: absolute;
+      transition: all 0.3s;
+      cursor: move;
+      font-size: 4rem;
+    }
+    
+    .action-log {
+      background: #f5f5f5;
+      border-radius: 10px;
+      padding: 20px;
+      max-height: 150px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+    }
+    
+    .log-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    
+    .log-item {
+      font-size: 0.85rem;
+      color: #999;
+      margin-bottom: 5px;
+    }
+    
+    .log-item.undo {
+      color: #E74C3C;
+    }
+    
+    .log-item.redo {
+      color: #3498DB;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    
+    .btn {
+      padding: 18px 40px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .undo-btn {
+      background: #E74C3C;
+      color: white;
+    }
+    
+    .redo-btn {
+      background: #3498DB;
+      color: white;
+    }
+    
+    .add-btn {
+      background: #2ECC71;
+      color: white;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+    
+    .btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .indecision-meter {
+      background: rgba(255,255,255,0.2);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .indecision-label {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+    
+    .indecision-bar-container {
+      background: rgba(0,0,0,0.2);
+      height: 40px;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    
+    .indecision-bar {
+      background: linear-gradient(90deg, #2ECC71 0%, #F39C12 50%, #E74C3C 100%);
+      height: 100%;
+      width: 0%;
+      transition: width 0.5s;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.2);
+      padding: 20px 30px;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>↩️ Undo Button Masher</h1>
+    <p class="subtitle">Change your mind. Change it back. Never commit.</p>
+    
+    <div class="indecision-meter">
+      <div class="indecision-label">INDECISION LEVEL: <span id="indecisionText">LOW</span></div>
+      <div class="indecision-bar-container">
+        <div class="indecision-bar" id="indecisionBar">0%</div>
+      </div>
+    </div>
+    
+    <div class="editor-area">
+      <div class="canvas" id="canvas"></div>
+      
+      <div class="action-log">
+        <div class="log-title">ACTION HISTORY:</div>
+        <div id="logList"></div>
+      </div>
+      
+      <div class="controls">
+        <button class="btn undo-btn" id="undoBtn" onclick="undo()" disabled>↩️ Undo</button>
+        <button class="btn redo-btn" id="redoBtn" onclick="redo()" disabled>↪️ Redo</button>
+        <button class="btn add-btn" onclick="addShape()">➕ Add Shape</button>
+      </div>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="undoCount">0</div>
+        <div class="stat-label">Undos</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="redoCount">0</div>
+        <div class="stat-label">Redos</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="ratio">0%</div>
+        <div class="stat-label">Indecision Ratio</div>
+      </div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    const shapes = ['🔴', '🟢', '🔵', '🟡', '🟣', '🟠', '⭐', '💎', '🎨', '🎯'];
+    
+    let history = [];
+    let historyIndex = -1;
+    let undoCount = 0;
+    let redoCount = 0;
+    let indecisionLevel = 0;
+    let actionLog = [];
+    
+    function addShape() {
+      const canvas = document.getElementById('canvas');
+      const shape = shapes[Math.floor(Math.random() * shapes.length)];
+      const x = Math.random() * (canvas.clientWidth - 60);
+      const y = Math.random() * (canvas.clientHeight - 60);
+      
+      const newState = [...getCurrentState(), { shape, x, y, id: Date.now() }];
+      addToHistory(newState);
+      renderCanvas();
+      logAction('Added shape');
+    }
+    
+    function undo() {
+      if (historyIndex > 0) {
+        historyIndex--;
+        undoCount++;
+        indecisionLevel = Math.min(100, indecisionLevel + 5);
+        renderCanvas();
+        updateButtons();
+        updateStats();
+        logAction('⬅️ Undid action', 'undo');
+      }
+    }
+    
+    function redo() {
+      if (historyIndex < history.length - 1) {
+        historyIndex++;
+        redoCount++;
+        indecisionLevel = Math.min(100, indecisionLevel + 5);
+        renderCanvas();
+        updateButtons();
+        updateStats();
+        logAction('➡️ Redid action', 'redo');
+      }
+    }
+    
+    function getCurrentState() {
+      return historyIndex >= 0 ? history[historyIndex] : [];
+    }
+    
+    function addToHistory(state) {
+      history = history.slice(0, historyIndex + 1);
+      history.push(state);
+      historyIndex = history.length - 1;
+      updateButtons();
+    }
+    
+    function renderCanvas() {
+      const canvas = document.getElementById('canvas');
+      canvas.innerHTML = '';
+      
+      const state = getCurrentState();
+      state.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'shape';
+        div.textContent = item.shape;
+        div.style.left = item.x + 'px';
+        div.style.top = item.y + 'px';
+        canvas.appendChild(div);
+      });
+    }
+    
+    function updateButtons() {
+      document.getElementById('undoBtn').disabled = historyIndex <= 0;
+      document.getElementById('redoBtn').disabled = historyIndex >= history.length - 1;
+    }
+    
+    function logAction(action, type = '') {
+      const now = new Date();
+      const time = now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0');
+      actionLog.unshift({ time, action, type });
+      
+      if (actionLog.length > 20) {
+        actionLog = actionLog.slice(0, 20);
+      }
+      
+      const list = document.getElementById('logList');
+      list.innerHTML = '';
+      actionLog.forEach(log => {
+        const div = document.createElement('div');
+        div.className = 'log-item ' + log.type;
+        div.textContent = `${log.time} - ${log.action}`;
+        list.appendChild(div);
+      });
+      
+      updateIndecision();
+    }
+    
+    function updateIndecision() {
+      const bar = document.getElementById('indecisionBar');
+      const text = document.getElementById('indecisionText');
+      
+      bar.style.width = indecisionLevel + '%';
+      bar.textContent = Math.floor(indecisionLevel) + '%';
+      
+      if (indecisionLevel < 30) text.textContent = 'LOW';
+      else if (indecisionLevel < 60) text.textContent = 'MODERATE';
+      else if (indecisionLevel < 80) text.textContent = 'HIGH';
+      else text.textContent = 'EXTREME';
+    }
+    
+    function updateStats() {
+      document.getElementById('undoCount').textContent = undoCount;
+      document.getElementById('redoCount').textContent = redoCount;
+      
+      const total = undoCount + redoCount;
+      const ratio = total > 0 ? Math.floor((undoCount / total) * 100) : 0;
+      document.getElementById('ratio').textContent = ratio + '%';
+    }
+    
+    // Decrease indecision slowly
+    setInterval(() => {
+      indecisionLevel = Math.max(0, indecisionLevel - 0.3);
+      updateIndecision();
+    }, 1000);
+    
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
+        e.preventDefault();
+        undo();
+      } else if ((e.ctrlKey || e.metaKey) && e.key === 'y') {
+        e.preventDefault();
+        redo();
+      }
+    });
+    
+    // Load saved stats
+    const saved = localStorage.getItem('undoMasherStats');
+    if (saved) {
+      const stats = JSON.parse(saved);
+      undoCount = stats.undo || 0;
+      redoCount = stats.redo || 0;
+    }
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('undoMasherStats', JSON.stringify({
+        undo: undoCount,
+        redo: redoCount
+      }));
+    });
+    
+    // Initialize with empty canvas
+    addToHistory([]);
+    updateStats();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Volume Adjuster - Find Perfect Volume | DontWork.work</title>
+  <meta name="description" content="Find the perfect volume. Too loud. Too quiet. Never quite right. Adjust forever!">
+  <meta name="keywords" content="volume control, audio game, volume adjuster, perfect volume, sound simulator">
+  
+  <meta property="og:title" content="Volume Adjuster - Never Quite Right">
+  <meta property="og:description" content="Adjust volume forever. Perfect level doesn't exist!">
+  <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/volume-adjuster.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Volume Adjuster">
+  <meta name="twitter:description" content="Too loud. Too quiet. Never perfect!">
+  <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #134E5E 0%, #71B280 100%);
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .container {
+      max-width: 600px;
+      width: 100%;
+      text-align: center;
+      color: white;
+    }
+    
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 40px;
+    }
+    
+    .volume-interface {
+      background: rgba(255,255,255,0.15);
+      border-radius: 25px;
+      padding: 50px 40px;
+      margin-bottom: 30px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    
+    .volume-icon {
+      font-size: 8rem;
+      margin-bottom: 30px;
+      transition: all 0.3s;
+    }
+    
+    .volume-level {
+      font-size: 3rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+      margin-bottom: 30px;
+    }
+    
+    .slider-container {
+      margin-bottom: 30px;
+    }
+    
+    .volume-slider {
+      width: 100%;
+      height: 12px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.2);
+      outline: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+    }
+    
+    .volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: white;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+    
+    .volume-slider::-moz-range-thumb {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: white;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+    
+    .feedback {
+      background: rgba(0,0,0,0.3);
+      border-radius: 12px;
+      padding: 20px;
+      font-size: 1.1rem;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    
+    .quick-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    
+    .quick-btn {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    
+    .quick-btn:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+    
+    .adjustment-history {
+      background: rgba(0,0,0,0.2);
+      border-radius: 12px;
+      padding: 15px;
+      max-height: 150px;
+      overflow-y: auto;
+      margin-top: 20px;
+    }
+    
+    .history-title {
+      font-size: 0.9rem;
+      opacity: 0.7;
+      margin-bottom: 10px;
+    }
+    
+    .history-item {
+      font-size: 0.85rem;
+      opacity: 0.6;
+      margin-bottom: 5px;
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.2);
+      padding: 20px 30px;
+      border-radius: 12px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Fraunces', serif;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+    
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- AD PLACEHOLDER - Top -->
+  
+  <div class="container">
+    <h1>🔊 Volume Adjuster</h1>
+    <p class="subtitle">The perfect volume doesn't exist.</p>
+    
+    <div class="volume-interface">
+      <div class="volume-icon" id="volumeIcon">🔊</div>
+      <div class="volume-level" id="volumeLevel">50%</div>
+      
+      <div class="slider-container">
+        <input type="range" min="0" max="100" value="50" class="volume-slider" id="volumeSlider">
+      </div>
+      
+      <div class="feedback" id="feedback">
+        Just right? Probably not.
+      </div>
+      
+      <div class="quick-buttons">
+        <button class="quick-btn" onclick="adjustVolume(-1)">-1</button>
+        <button class="quick-btn" onclick="adjustVolume(-5)">-5</button>
+        <button class="quick-btn" onclick="adjustVolume(5)">+5</button>
+        <button class="quick-btn" onclick="adjustVolume(1)">+1</button>
+      </div>
+      
+      <div class="adjustment-history">
+        <div class="history-title">RECENT ADJUSTMENTS:</div>
+        <div id="historyList"></div>
+      </div>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number" id="adjustments">0</div>
+        <div class="stat-label">Adjustments</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="range">0</div>
+        <div class="stat-label">Range Explored</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="mostUsed">50</div>
+        <div class="stat-label">Most Used Level</div>
+      </div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+  
+  <!-- AD PLACEHOLDER - Bottom -->
+  
+  <script>
+    const feedbackMessages = {
+      0: "Silent. Completely silent. Too quiet!",
+      1-10: "Can barely hear it. Way too quiet.",
+      11-20: "Still too quiet. Turn it up!",
+      21-30: "Getting there... but still too quiet.",
+      31-40: "Almost audible. A bit more?",
+      41-45: "Close... maybe a tiny bit louder?",
+      46-50: "Hmm. Not quite right. Too quiet?",
+      51-55: "Wait, is this too loud now?",
+      56-60: "Feels a bit loud. Or maybe not?",
+      61-70: "Definitely getting loud. Too loud?",
+      71-80: "This is loud. Probably too loud.",
+      81-90: "Way too loud. Turn it down!",
+      91-100: "SCREAMING LEVELS. WAY TOO LOUD!"
+    };
+    
+    let currentVolume = 50;
+    let adjustmentCount = 0;
+    let volumeHistory = [];
+    let volumeUsage = {};
+    let minVolumeUsed = 50;
+    let maxVolumeUsed = 50;
+    
+    const slider = document.getElementById('volumeSlider');
+    
+    function updateVolume(value) {
+      currentVolume = parseInt(value);
+      adjustmentCount++;
+      
+      // Track usage
+      volumeUsage[currentVolume] = (volumeUsage[currentVolume] || 0) + 1;
+      minVolumeUsed = Math.min(minVolumeUsed, currentVolume);
+      maxVolumeUsed = Math.max(maxVolumeUsed, currentVolume);
+      
+      // Update UI
+      document.getElementById('volumeLevel').textContent = currentVolume + '%';
+      
+      // Update icon
+      const icon = document.getElementById('volumeIcon');
+      if (currentVolume === 0) icon.textContent = '🔇';
+      else if (currentVolume < 30) icon.textContent = '🔈';
+      else if (currentVolume < 70) icon.textContent = '🔉';
+      else icon.textContent = '🔊';
+      
+      // Update feedback
+      updateFeedback();
+      
+      // Add to history
+      addToHistory(currentVolume);
+      
+      updateStats();
+    }
+    
+    function updateFeedback() {
+      const feedback = document.getElementById('feedback');
+      
+      if (currentVolume === 0) {
+        feedback.textContent = feedbackMessages[0];
+      } else if (currentVolume <= 10) {
+        feedback.textContent = feedbackMessages['1-10'];
+      } else if (currentVolume <= 20) {
+        feedback.textContent = feedbackMessages['11-20'];
+      } else if (currentVolume <= 30) {
+        feedback.textContent = feedbackMessages['21-30'];
+      } else if (currentVolume <= 40) {
+        feedback.textContent = feedbackMessages['31-40'];
+      } else if (currentVolume <= 45) {
+        feedback.textContent = feedbackMessages['41-45'];
+      } else if (currentVolume <= 50) {
+        feedback.textContent = feedbackMessages['46-50'];
+      } else if (currentVolume <= 55) {
+        feedback.textContent = feedbackMessages['51-55'];
+      } else if (currentVolume <= 60) {
+        feedback.textContent = feedbackMessages['56-60'];
+      } else if (currentVolume <= 70) {
+        feedback.textContent = feedbackMessages['61-70'];
+      } else if (currentVolume <= 80) {
+        feedback.textContent = feedbackMessages['71-80'];
+      } else if (currentVolume <= 90) {
+        feedback.textContent = feedbackMessages['81-90'];
+      } else {
+        feedback.textContent = feedbackMessages['91-100'];
+      }
+    }
+    
+    function adjustVolume(amount) {
+      const newVolume = Math.max(0, Math.min(100, currentVolume + amount));
+      slider.value = newVolume;
+      updateVolume(newVolume);
+    }
+    
+    function addToHistory(volume) {
+      const now = new Date();
+      const time = now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0');
+      volumeHistory.unshift(`${time} - Changed to ${volume}%`);
+      
+      // Keep only last 10
+      if (volumeHistory.length > 10) {
+        volumeHistory = volumeHistory.slice(0, 10);
+      }
+      
+      const list = document.getElementById('historyList');
+      list.innerHTML = '';
+      volumeHistory.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'history-item';
+        div.textContent = item;
+        list.appendChild(div);
+      });
+    }
+    
+    function updateStats() {
+      document.getElementById('adjustments').textContent = adjustmentCount;
+      document.getElementById('range').textContent = (maxVolumeUsed - minVolumeUsed) + '%';
+      
+      // Find most used level
+      let mostUsed = 50;
+      let maxUsage = 0;
+      for (let level in volumeUsage) {
+        if (volumeUsage[level] > maxUsage) {
+          maxUsage = volumeUsage[level];
+          mostUsed = level;
+        }
+      }
+      document.getElementById('mostUsed').textContent = mostUsed + '%';
+    }
+    
+    // Slider event
+    slider.addEventListener('input', (e) => {
+      updateVolume(e.target.value);
+    });
+    
+    // Keyboard controls
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        adjustVolume(1);
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        adjustVolume(-1);
+      }
+    });
+    
+    // Load saved stats
+    const saved = localStorage.getItem('volumeAdjusterStats');
+    if (saved) {
+      const stats = JSON.parse(saved);
+      adjustmentCount = stats.adjustments || 0;
+      minVolumeUsed = stats.minVolume || 50;
+      maxVolumeUsed = stats.maxVolume || 50;
+      volumeUsage = stats.usage || {};
+    }
+    
+    // Save on unload
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('volumeAdjusterStats', JSON.stringify({
+        adjustments: adjustmentCount,
+        minVolume: minVolumeUsed,
+        maxVolume: maxVolumeUsed,
+        usage: volumeUsage
+      }));
+    });
+    
+    updateFeedback();
+    updateStats();
+  </script>
+  
+  <script src="/js/panic-button.js"></script>
+</body>
+</html>

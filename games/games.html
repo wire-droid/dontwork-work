@@ -4,20 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>26 Procrastination Games - Free Office Time Wasters | DontWork.work</title>
-  <meta name="description" content="Browse all 26 procrastination games. Bubble wrap, mute button, tab hoarder, and more. Perfect for when you should be working.">
-  <meta name="keywords" content="procrastination games, office games, time waster, bubble wrap, waiting game">
-  <meta name="robots" content="index, follow">
+  <title>All Games - 40 Ways to Procrastinate | DontWork.work</title>
+  <meta name="description" content="Browse all 40 procrastination games. Tab switching, notification dismissing, email archiving, and 37 more ways to avoid real work!">
+  <meta name="keywords" content="procrastination games, browser games, productivity parody, office games, time wasting games">
   
-  <meta property="og:title" content="26 Procrastination Games - Free Office Time Wasters">
-  <meta property="og:description" content="26 addictive games to waste time at work. Updated bi-weekly with new ways to avoid productivity.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://dontwork.work/games/games.html">
+  <meta property="og:title" content="All Games - DontWork.work">
+  <meta property="og:description" content="40 procrastination games to help you avoid real work!">
   <meta property="og:image" content="https://dontwork.work/og-image.jpg">
+  <meta property="og:url" content="https://dontwork.work/games.html">
   
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="26 Procrastination Games">
-  <meta name="twitter:description" content="Waste time professionally. 26 games and counting!">
+  <meta name="twitter:title" content="All Games - DontWork.work">
+  <meta name="twitter:description" content="40 ways to procrastinate at work!">
   <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
   
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -31,125 +29,91 @@
     
     body {
       font-family: 'DM Sans', sans-serif;
-      background: linear-gradient(135deg, #FF6B35 0%, #004E89 100%);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
-      padding: 20px;
+      padding: 40px 20px;
     }
     
     .container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 40px 20px;
     }
     
-    .header {
+    header {
       text-align: center;
+      margin-bottom: 50px;
       color: white;
-      margin-bottom: 60px;
     }
     
     h1 {
       font-family: 'Fraunces', serif;
-      font-size: clamp(2.5rem, 8vw, 5rem);
-      margin-bottom: 20px;
-      font-weight: 900;
+      font-size: clamp(2.5rem, 7vw, 4.5rem);
+      margin-bottom: 15px;
     }
     
     .subtitle {
       font-size: 1.3rem;
       opacity: 0.9;
-      max-width: 600px;
-      margin: 0 auto;
-      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+    
+    .game-count {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 1.1rem;
     }
     
     .games-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 30px;
-      margin-bottom: 60px;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+      margin-bottom: 50px;
     }
     
     .game-card {
       background: white;
-      border-radius: 20px;
-      padding: 35px;
+      border-radius: 15px;
+      padding: 30px;
       text-decoration: none;
-      color: inherit;
+      color: #333;
       transition: all 0.3s;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-      position: relative;
-      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
     
     .game-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     }
     
     .game-icon {
-      font-size: 3.5rem;
-      margin-bottom: 20px;
-      display: block;
+      font-size: 3rem;
+      margin-bottom: 15px;
     }
     
     .game-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 10px;
       font-family: 'Fraunces', serif;
-      font-size: 1.8rem;
-      margin-bottom: 15px;
-      color: #1A1A2E;
     }
     
     .game-description {
+      font-size: 0.95rem;
       color: #666;
-      line-height: 1.7;
-      font-size: 1rem;
-    }
-    
-    .badge {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: #FF6B35;
-      color: white;
-      padding: 6px 14px;
-      border-radius: 14px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-    
-    .badge.hot {
-      background: #F7C548;
-      color: #1A1A2E;
-    }
-    
-    .coming-soon {
-      text-align: center;
-      color: white;
-      padding: 40px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 20px;
-      margin: 40px 0;
-    }
-    
-    .coming-soon h2 {
-      font-family: 'Fraunces', serif;
-      font-size: 2rem;
-      margin-bottom: 15px;
+      line-height: 1.5;
     }
     
     .back-link {
       display: inline-block;
       color: white;
       text-decoration: none;
-      padding: 15px 30px;
+      padding: 15px 40px;
       background: rgba(255,255,255,0.2);
       border-radius: 12px;
-      margin: 40px auto;
-      display: block;
-      text-align: center;
-      max-width: 200px;
+      font-weight: 600;
       transition: all 0.3s;
     }
     
@@ -158,204 +122,275 @@
       transform: translateY(-2px);
     }
     
-    @media (max-width: 768px) {
-      .games-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-      }
+    .footer {
+      text-align: center;
+      margin-top: 50px;
     }
   </style>
 </head>
 <body>
-  
   <!-- AD PLACEHOLDER - Top -->
   
   <div class="container">
-    <div class="header">
-      <h1>🎮 26 Procrastination Games</h1>
-      <p class="subtitle">
-        Addictive games for when you should be working. 26 ways to waste time professionally. More coming soon!
-      </p>
-    </div>
+    <header>
+      <h1>🎮 All Games</h1>
+      <p class="subtitle">Your complete procrastination toolkit</p>
+      <div class="game-count">🎉 40 Games Available!</div>
+    </header>
     
     <div class="games-grid">
-      
       <!-- Original 5 Games -->
-      <a href="/bubble-wrap-popper.html" class="game-card">
-        <span class="game-icon">🫧</span>
-        <h3 class="game-title">Bubble Wrap Popper</h3>
-        <p class="game-description">Pop infinite virtual bubbles. Oddly satisfying. Therapy not included.</p>
-      </a>
-      
-      <a href="/waiting-game.html" class="game-card">
-        <span class="game-icon">⏳</span>
-        <h3 class="game-title">The Waiting Game</h3>
-        <p class="game-description">Do absolutely nothing. Achieve zen. Become enlightened through waiting.</p>
-      </a>
-      
-      <a href="/vent-typer.html" class="game-card">
-        <span class="badge hot">Hot</span>
-        <span class="game-icon">😤</span>
-        <h3 class="game-title">Vent Typer</h3>
-        <p class="game-description">Type your rage. Watch it explode. Cheaper than actual therapy.</p>
-      </a>
-      
-      <a href="/staple-everything.html" class="game-card">
-        <span class="game-icon">📎</span>
-        <h3 class="game-title">Staple Everything</h3>
-        <p class="game-description">Staple things that don't need stapling. Office anarchy at its finest.</p>
-      </a>
-      
-      <a href="/infinite-scroll.html" class="game-card">
-        <span class="badge hot">Hot</span>
-        <span class="game-icon">∞</span>
-        <h3 class="game-title">Infinite Scroll</h3>
-        <p class="game-description">Scroll forever. Reach impossible milestones. Hypnotic procrastination.</p>
-      </a>
-      
-      <!-- Batch 1 -->
-      <a href="/paper-shredder.html" class="game-card">
-        <span class="game-icon">🗄️</span>
-        <h3 class="game-title">Paper Shredder</h3>
-        <p class="game-description">Destroy evidence. Satisfying shredding sounds. Organize your chaos.</p>
-      </a>
-      
-      <a href="/keyboard-smasher.html" class="game-card">
-        <span class="badge hot">Hot</span>
-        <span class="game-icon">⌨️</span>
-        <h3 class="game-title">Keyboard Smasher</h3>
-        <p class="game-description">Release your rage. Type angry gibberish. Auto-deletes in 10 seconds.</p>
-      </a>
-      
-      <a href="/coffee-simulator.html" class="game-card">
-        <span class="game-icon">☕</span>
-        <h3 class="game-title">Coffee Simulator</h3>
-        <p class="game-description">Drink virtual coffee until you get the jitters. Sleep is for the weak.</p>
-      </a>
-      
-      <a href="/meeting-timer.html" class="game-card">
-        <span class="game-icon">⏱️</span>
-        <h3 class="game-title">Meeting Timer</h3>
-        <p class="game-description">Track meeting time. This could have been an email. Buzzword bingo!</p>
-      </a>
-      
-      <a href="/pen-clicker.html" class="game-card">
-        <span class="badge hot">Hot</span>
-        <span class="game-icon">🖊️</span>
-        <h3 class="game-title">Pen Clicker</h3>
-        <p class="game-description">Click pen endlessly. Annoy coworkers. Track your clicks per second.</p>
-      </a>
-      
-      <!-- Batch 2 -->
-      <a href="/email-reply-generator.html" class="game-card">
-        <span class="game-icon">📧</span>
-        <h3 class="game-title">Email Reply Generator</h3>
-        <p class="game-description">Professional email templates. From enthusiastic to passive-aggressive.</p>
-      </a>
-      
-      <a href="/desktop-organizer.html" class="game-card">
-        <span class="game-icon">🖥️</span>
-        <h3 class="game-title">Desktop Icon Organizer</h3>
-        <p class="game-description">Drag and drop icons into perfect order. Oddly satisfying cleanup.</p>
-      </a>
-      
-      <a href="/printer-jam.html" class="game-card">
-        <span class="game-icon">🖨️</span>
-        <h3 class="game-title">Printer Jam Simulator</h3>
-        <p class="game-description">PC LOAD LETTER. All the frustration, none of the consequences.</p>
-      </a>
-      
-      <a href="/excel-highlighter.html" class="game-card">
-        <span class="game-icon">📊</span>
-        <h3 class="game-title">Excel Cell Highlighter</h3>
-        <p class="game-description">Color spreadsheet cells. Rainbow fill. Pure satisfaction for data lovers.</p>
-      </a>
-      
-      <a href="/thumbs-up-giver.html" class="game-card">
-        <span class="game-icon">👍</span>
-        <h3 class="game-title">Thumbs Up Giver</h3>
-        <p class="game-description">React to everything. Master passive-aggressive approval. Enthusiasm meter!</p>
-      </a>
-      
-      <!-- Batch 3 -->
-      <a href="/tab-hoarder.html" class="game-card">
-        <span class="game-icon">📑</span>
-        <h3 class="game-title">Tab Hoarder</h3>
-        <p class="game-description">Collect browser tabs until crash. Memory usage meter. How many tabs?</p>
+      <a href="/tab-switcher.html" class="game-card">
+        <div class="game-icon">🔄</div>
+        <h2 class="game-title">Tab Switcher</h2>
+        <p class="game-description">Switch between tabs endlessly. What was I looking for again?</p>
       </a>
       
       <a href="/notification-dismisser.html" class="game-card">
-        <span class="game-icon">🔔</span>
-        <h3 class="game-title">Notification Dismisser</h3>
-        <p class="game-description">Swipe away endless notifications. They never stop coming. Track DPS!</p>
+        <div class="game-icon">🔔</div>
+        <h2 class="game-title">Notification Dismisser</h2>
+        <p class="game-description">Dismiss notifications forever. They never stop coming!</p>
       </a>
       
-      <a href="/password-generator.html" class="game-card">
-        <span class="game-icon">🔐</span>
-        <h3 class="game-title">Password Generator</h3>
-        <p class="game-description">Meet absurd requirements. Level 6: palindrome + Fibonacci + emoji!</p>
+      <a href="/email-archiver.html" class="game-card">
+        <div class="game-icon">📧</div>
+        <h2 class="game-title">Email Archiver</h2>
+        <p class="game-description">Archive emails obsessively. Inbox zero is a myth.</p>
       </a>
       
-      <a href="/loading-bar-watcher.html" class="game-card">
-        <span class="game-icon">⏳</span>
-        <h3 class="game-title">Loading Bar Watcher</h3>
-        <p class="game-description">Watch progress bars load. Oddly mesmerizing. Track time wasted.</p>
+      <a href="/cookie-clicker.html" class="game-card">
+        <div class="game-icon">🍪</div>
+        <h2 class="game-title">Cookie Clicker Clone</h2>
+        <p class="game-description">Click cookies. Get more cookies. Never stop clicking!</p>
+      </a>
+      
+      <a href="/meeting-avoider.html" class="game-card">
+        <div class="game-icon">📅</div>
+        <h2 class="game-title">Meeting Avoider</h2>
+        <p class="game-description">Dodge meetings with creative excuses. This could've been an email!</p>
+      </a>
+      
+      <!-- Batch 1: Games 6-10 -->
+      <a href="/password-tester.html" class="game-card">
+        <div class="game-icon">🔐</div>
+        <h2 class="game-title">Password Strength Tester</h2>
+        <p class="game-description">Test password strength endlessly. Never quite strong enough!</p>
+      </a>
+      
+      <a href="/loading-watcher.html" class="game-card">
+        <div class="game-icon">⏳</div>
+        <h2 class="game-title">Loading Bar Watcher</h2>
+        <p class="game-description">Watch loading bars complete. So satisfying. So pointless.</p>
+      </a>
+      
+      <a href="/typing-tester.html" class="game-card">
+        <div class="game-icon">⌨️</div>
+        <h2 class="game-title">Typing Speed Tester</h2>
+        <p class="game-description">Test your typing speed. Improve by 0.2 WPM. Test again!</p>
+      </a>
+      
+      <a href="/icon-organizer.html" class="game-card">
+        <div class="game-icon">📱</div>
+        <h2 class="game-title">Desktop Icon Organizer</h2>
+        <p class="game-description">Organize desktop icons perfectly. Mess them up. Start over.</p>
+      </a>
+      
+      <a href="/color-picker.html" class="game-card">
+        <div class="game-icon">🎨</div>
+        <h2 class="game-title">Perfect Color Picker</h2>
+        <p class="game-description">Find the perfect shade of blue. Is it #0066CC or #0066CD?</p>
+      </a>
+      
+      <!-- Batch 2: Games 11-15 -->
+      <a href="/mouse-jiggler.html" class="game-card">
+        <div class="game-icon">🖱️</div>
+        <h2 class="game-title">Mouse Jiggler</h2>
+        <p class="game-description">Keep your status active. Move that mouse. Stay "available"!</p>
+      </a>
+      
+      <a href="/scroll-tracker.html" class="game-card">
+        <div class="game-icon">📏</div>
+        <h2 class="game-title">Scroll Distance Tracker</h2>
+        <p class="game-description">Track how far you scroll. Compete with yourself. Scroll more!</p>
+      </a>
+      
+      <a href="/window-resizer.html" class="game-card">
+        <div class="game-icon">🪟</div>
+        <h2 class="game-title">Window Resizer</h2>
+        <p class="game-description">Resize windows obsessively. Perfect width doesn't exist.</p>
+      </a>
+      
+      <a href="/keyboard-clicker.html" class="game-card">
+        <div class="game-icon">⌨️</div>
+        <h2 class="game-title">Keyboard Clicker</h2>
+        <p class="game-description">Click keyboard keys. Hear satisfying sounds. Look busy!</p>
+      </a>
+      
+      <a href="/cursor-finder.html" class="game-card">
+        <div class="game-icon">🔍</div>
+        <h2 class="game-title">Cursor Finder</h2>
+        <p class="game-description">Lost your cursor? Find it. Lose it again. Repeat forever!</p>
+      </a>
+      
+      <!-- Batch 3: Games 16-20 -->
+      <a href="/bookmark-organizer.html" class="game-card">
+        <div class="game-icon">🔖</div>
+        <h2 class="game-title">Bookmark Organizer</h2>
+        <p class="game-description">Organize bookmarks into folders. Create more folders. Never read them!</p>
+      </a>
+      
+      <a href="/incognito-counter.html" class="game-card">
+        <div class="game-icon">🕵️</div>
+        <h2 class="game-title">Incognito Tab Counter</h2>
+        <p class="game-description">Count incognito tabs. They don't count anyway, right?</p>
+      </a>
+      
+      <a href="/extension-manager.html" class="game-card">
+        <div class="game-icon">🧩</div>
+        <h2 class="game-title">Extension Manager</h2>
+        <p class="game-description">Enable extensions. Disable them. Wonder what they do.</p>
+      </a>
+      
+      <a href="/theme-switcher.html" class="game-card">
+        <div class="game-icon">🎨</div>
+        <h2 class="game-title">Browser Theme Switcher</h2>
+        <p class="game-description">Switch browser themes. Find the perfect look. Switch again!</p>
+      </a>
+      
+      <a href="/zoom-adjuster.html" class="game-card">
+        <div class="game-icon">🔍</div>
+        <h2 class="game-title">Zoom Level Adjuster</h2>
+        <p class="game-description">Adjust page zoom. 100%? 110%? 125%? Can't decide!</p>
+      </a>
+      
+      <!-- Batch 4: Games 21-25 -->
+      <a href="/auto-saver.html" class="game-card">
+        <div class="game-icon">💾</div>
+        <h2 class="game-title">Compulsive Auto-Saver</h2>
+        <p class="game-description">Save documents obsessively. Ctrl+S every 3 seconds. Just in case!</p>
+      </a>
+      
+      <a href="/sound-tester.html" class="game-card">
+        <div class="game-icon">🔊</div>
+        <h2 class="game-title">Sound Tester</h2>
+        <p class="game-description">Test speakers endlessly. Left. Right. Is it balanced?</p>
+      </a>
+      
+      <a href="/brightness-adjuster.html" class="game-card">
+        <div class="game-icon">☀️</div>
+        <h2 class="game-title">Brightness Adjuster</h2>
+        <p class="game-description">Adjust screen brightness. Too bright. Too dim. Never perfect!</p>
+      </a>
+      
+      <a href="/cookie-acceptor.html" class="game-card">
+        <div class="game-icon">🍪</div>
+        <h2 class="game-title">Cookie Acceptor</h2>
+        <p class="game-description">Accept cookie banners forever. They never stop appearing!</p>
       </a>
       
       <a href="/file-renamer.html" class="game-card">
-        <span class="game-icon">📁</span>
-        <h3 class="game-title">File Renamer</h3>
-        <p class="game-description">Rename files endlessly. The perfect name is always one more try away.</p>
+        <div class="game-icon">📄</div>
+        <h2 class="game-title">File Renamer</h2>
+        <p class="game-description">Rename files obsessively. Document_Final_v2_FINAL_REAL_FINAL.docx</p>
       </a>
       
-      <!-- Batch 4 -->
-      <a href="/window-minimizer.html" class="game-card">
-        <span class="game-icon">🗔</span>
-        <h3 class="game-title">Window Minimizer</h3>
-        <p class="game-description">Minimize windows for satisfaction. That satisfying click. Over and over.</p>
-      </a>
-      
-      <a href="/email-unsubscriber.html" class="game-card">
-        <span class="game-icon">📧</span>
-        <h3 class="game-title">Email Unsubscriber</h3>
-        <p class="game-description">Unsubscribe from fake newsletters. They keep coming. Inbox zero is a lie!</p>
-      </a>
-      
-      <a href="/cookie-reject.html" class="game-card">
-        <span class="game-icon">🍪</span>
-        <h3 class="game-title">Cookie Banner Reject</h3>
-        <p class="game-description">Reject cookie banners endlessly. Click NO forever. Track RPS!</p>
-      </a>
-      
-      <a href="/zoom-background.html" class="game-card">
-        <span class="game-icon">📹</span>
-        <h3 class="game-title">Zoom Background Tester</h3>
-        <p class="game-description">Try virtual backgrounds. Look professional. Hide your messy room!</p>
-      </a>
-      
-      <a href="/autocorrect-fighter.html" class="game-card">
-        <span class="game-icon">⌨️</span>
-        <h3 class="game-title">Autocorrect Fighter</h3>
-        <p class="game-description">Fight autocorrect suggestions. Type what you mean. Battle your phone!</p>
-      </a>
-      
-      <!-- Batch 5 (New!) -->
+      <!-- Batch 5: Games 26-30 -->
       <a href="/mute-smasher.html" class="game-card">
-        <span class="badge">New</span>
-        <span class="game-icon">🔇</span>
-        <h3 class="game-title">Mute Button Smasher</h3>
-        <p class="game-description">Toggle mute endlessly. Did they hear that? Anxiety meter included!</p>
+        <div class="game-icon">🔇</div>
+        <h2 class="game-title">Mute Button Smasher</h2>
+        <p class="game-description">Toggle mute in meetings. Did they hear that? Better mute again!</p>
       </a>
       
+      <a href="/screenshot-organizer.html" class="game-card">
+        <div class="game-icon">📸</div>
+        <h2 class="game-title">Screenshot Organizer</h2>
+        <p class="game-description">Organize screenshots into folders. They keep accumulating!</p>
+      </a>
+      
+      <a href="/update-postponer.html" class="game-card">
+        <div class="game-icon">🔄</div>
+        <h2 class="game-title">Update Postponer</h2>
+        <p class="game-description">Postpone updates forever. Remind me later. Always later!</p>
+      </a>
+      
+      <a href="/wifi-reconnector.html" class="game-card">
+        <div class="game-icon">📶</div>
+        <h2 class="game-title">Wi-Fi Reconnector</h2>
+        <p class="game-description">Disconnect and reconnect Wi-Fi. Is it working? Better check!</p>
+      </a>
+      
+      <a href="/volume-adjuster.html" class="game-card">
+        <div class="game-icon">🔊</div>
+        <h2 class="game-title">Volume Adjuster</h2>
+        <p class="game-description">Find perfect volume. Too loud. Too quiet. Never quite right!</p>
+      </a>
+      
+      <!-- Batch 6: Games 31-35 -->
+      <a href="/calendar-checker.html" class="game-card">
+        <div class="game-icon">📅</div>
+        <h2 class="game-title">Calendar Checker</h2>
+        <p class="game-description">Check calendar obsessively. What's tomorrow? Check again!</p>
+      </a>
+      
+      <a href="/spam-browser.html" class="game-card">
+        <div class="game-icon">🗑️</div>
+        <h2 class="game-title">Spam Folder Browser</h2>
+        <p class="game-description">Browse spam emails. Delete them all. More keep coming!</p>
+      </a>
+      
+      <a href="/history-deleter.html" class="game-card">
+        <div class="game-icon">🕵️</div>
+        <h2 class="game-title">Browser History Deleter</h2>
+        <p class="game-description">Delete history repeatedly. Privacy paranoia at its finest!</p>
+      </a>
+      
+      <a href="/copy-paste-tester.html" class="game-card">
+        <div class="game-icon">📋</div>
+        <h2 class="game-title">Copy-Paste Tester</h2>
+        <p class="game-description">Test clipboard endlessly. Did it copy? Better paste to check!</p>
+      </a>
+      
+      <a href="/undo-masher.html" class="game-card">
+        <div class="game-icon">↩️</div>
+        <h2 class="game-title">Undo Button Masher</h2>
+        <p class="game-description">Undo and redo forever. Change your mind. Change it back!</p>
+      </a>
+      
+      <!-- Batch 7: Games 36-40 -->
+      <a href="/caps-lock-toggle.html" class="game-card">
+        <div class="game-icon">⌨️</div>
+        <h2 class="game-title">Caps Lock Toggle</h2>
+        <p class="game-description">Toggle CAPS LOCK endlessly. IS IT ON? IS IT OFF?</p>
+      </a>
+      
+      <a href="/background-changer.html" class="game-card">
+        <div class="game-icon">🖼️</div>
+        <h2 class="game-title">Desktop Background Changer</h2>
+        <p class="game-description">Change wallpapers forever. Find the perfect one. Never settle!</p>
+      </a>
+      
+      <a href="/font-adjuster.html" class="game-card">
+        <div class="game-icon">🔤</div>
+        <h2 class="game-title">Font Size Adjuster</h2>
+        <p class="game-description">Adjust font size endlessly. Too big. Too small. Never perfect!</p>
+      </a>
+      
+      <a href="/refresh-clicker.html" class="game-card">
+        <div class="game-icon">🔄</div>
+        <h2 class="game-title">Refresh Page Clicker</h2>
+        <p class="game-description">Refresh the page forever. F5. F5. F5. Did something change?</p>
+      </a>
+      
+      <a href="/dark-mode-toggle.html" class="game-card">
+        <div class="game-icon">🌓</div>
+        <h2 class="game-title">Dark Mode Toggle</h2>
+        <p class="game-description">Toggle dark mode endlessly. Light? Dark? Can't decide!</p>
+      </a>
     </div>
     
-    <div class="coming-soon">
-      <h2>🚧 More Games Coming Soon</h2>
-      <p>We're building 14 more ridiculous games. Check back bi-weekly for new ways to waste time at work!</p>
+    <div class="footer">
+      <a href="/" class="back-link">← Back to Home</a>
     </div>
-    
-    <a href="/" class="back-link">← Back to Home</a>
-    
   </div>
   
   <!-- AD PLACEHOLDER - Bottom -->
