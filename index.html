@@ -1,43 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+
   <!-- SEO Meta Tags -->
   <title>DontWork.Work - Professional Procrastination Tools & Games</title>
-  <meta name="description" content="Take a break from work with free procrastination tools, addictive games, random decision makers, and the legendary panic button. Perfect for when you should be working.">
-  <meta name="keywords" content="procrastination, time waster, office games, panic button, break room tools, don't work, take a break, productivity escape">
+  <meta name="description"
+    content="Take a break from work with free procrastination tools, addictive games, random decision makers, and the legendary panic button. Perfect for when you should be working.">
+  <meta name="keywords"
+    content="procrastination, time waster, office games, panic button, break room tools, don't work, take a break, productivity escape">
   <meta name="author" content="DontWork.Work">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://dontwork.work/">
-  
+
   <!-- Open Graph / Social Media Meta Tags -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://dontwork.work/">
   <meta property="og:title" content="DontWork.Work - Professional Procrastination Tools">
-  <meta property="og:description" content="Free games, decision makers, and the legendary panic button for when your boss walks by. Take a break. The real work can wait.">
+  <meta property="og:description"
+    content="Free games, decision makers, and the legendary panic button for when your boss walks by. Take a break. The real work can wait.">
   <meta property="og:image" content="https://dontwork.work/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="DontWork.Work">
-  
+
   <!-- Twitter Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://dontwork.work/">
   <meta name="twitter:title" content="DontWork.Work - Professional Procrastination Tools">
-  <meta name="twitter:description" content="Free games, decision makers, and the legendary panic button. Your boss can't see this tab.">
+  <meta name="twitter:description"
+    content="Free games, decision makers, and the legendary panic button. Your boss can't see this tab.">
   <meta name="twitter:image" content="https://dontwork.work/twitter-card.jpg">
-  
+
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  
+
   <!-- Fonts - Distinctive choices, avoiding generic AI defaults -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap"
+    rel="stylesheet">
+
   <!-- Schema.org Structured Data for SEO -->
   <script type="application/ld+json">
   {
@@ -53,57 +60,66 @@
     }
   }
   </script>
-  
+
   <style>
     /* ===== CSS VARIABLES (Design System) ===== */
     :root {
       /* Color Palette - Warm, slightly rebellious (not corporate blue) */
-      --color-primary: #FF6B35;        /* Warm orange-red (energy, rebellion) */
-      --color-secondary: #004E89;      /* Deep blue (stability, trust) */
-      --color-accent: #F7C548;         /* Sunny yellow (optimism) */
-      --color-dark: #1A1A2E;           /* Almost black (depth) */
-      --color-light: #FAFAFA;          /* Off-white (softness) */
-      --color-success: #2ECC71;        /* Green */
-      --color-warning: #F39C12;        /* Orange */
-      
+      --color-primary: #FF6B35;
+      /* Warm orange-red (energy, rebellion) */
+      --color-secondary: #004E89;
+      /* Deep blue (stability, trust) */
+      --color-accent: #F7C548;
+      /* Sunny yellow (optimism) */
+      --color-dark: #1A1A2E;
+      /* Almost black (depth) */
+      --color-light: #FAFAFA;
+      /* Off-white (softness) */
+      --color-success: #2ECC71;
+      /* Green */
+      --color-warning: #F39C12;
+      /* Orange */
+
       /* Typography */
-      --font-display: 'Fraunces', serif;   /* Distinctive serif for headings */
-      --font-body: 'DM Sans', sans-serif;  /* Clean but characterful */
-      
+      --font-display: 'Fraunces', serif;
+      /* Distinctive serif for headings */
+      --font-body: 'DM Sans', sans-serif;
+      /* Clean but characterful */
+
       /* Spacing Scale */
       --space-xs: 0.5rem;
       --space-sm: 1rem;
       --space-md: 1.5rem;
       --space-lg: 2.5rem;
       --space-xl: 4rem;
-      
+
       /* Border Radius */
       --radius-sm: 4px;
       --radius-md: 8px;
       --radius-lg: 16px;
-      
+
       /* Shadows */
       --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
       --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
       --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.16);
-      
+
       /* Transitions */
       --transition-fast: 150ms ease;
       --transition-base: 250ms ease;
       --transition-slow: 400ms ease;
     }
-    
+
     /* ===== GLOBAL RESET & BASE STYLES ===== */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-    
+
     html {
       scroll-behavior: smooth;
     }
-    
+
     body {
       font-family: var(--font-body);
       background: var(--color-light);
@@ -111,7 +127,7 @@
       line-height: 1.6;
       overflow-x: hidden;
     }
-    
+
     /* ===== ANIMATED BACKGROUND ===== */
     .background-effect {
       position: fixed;
@@ -120,26 +136,36 @@
       width: 100%;
       height: 100%;
       z-index: -1;
-      background: 
+      background:
         radial-gradient(circle at 20% 80%, rgba(255, 107, 53, 0.08) 0%, transparent 50%),
         radial-gradient(circle at 80% 20%, rgba(0, 78, 137, 0.08) 0%, transparent 50%),
         radial-gradient(circle at 50% 50%, rgba(247, 197, 72, 0.06) 0%, transparent 50%);
       animation: backgroundFloat 20s ease-in-out infinite;
     }
-    
+
     @keyframes backgroundFloat {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      33% { transform: translate(50px, -30px) scale(1.05); }
-      66% { transform: translate(-30px, 40px) scale(0.95); }
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      33% {
+        transform: translate(50px, -30px) scale(1.05);
+      }
+
+      66% {
+        transform: translate(-30px, 40px) scale(0.95);
+      }
     }
-    
+
     /* ===== HEADER ===== */
     .header {
       padding: var(--space-lg) var(--space-md);
       text-align: center;
       position: relative;
     }
-    
+
     .logo {
       font-family: var(--font-display);
       font-size: clamp(2.5rem, 8vw, 5rem);
@@ -152,7 +178,7 @@
       margin-bottom: var(--space-sm);
       animation: slideDown 0.8s ease-out;
     }
-    
+
     .tagline {
       font-size: clamp(1rem, 2.5vw, 1.5rem);
       color: var(--color-dark);
@@ -161,7 +187,7 @@
       margin-bottom: var(--space-md);
       animation: fadeIn 1s ease-out 0.3s both;
     }
-    
+
     .cta-subtitle {
       font-size: clamp(0.9rem, 2vw, 1.1rem);
       color: var(--color-dark);
@@ -169,42 +195,49 @@
       font-style: italic;
       animation: fadeIn 1s ease-out 0.5s both;
     }
-    
+
     /* ===== ANIMATIONS ===== */
     @keyframes slideDown {
       from {
         opacity: 0;
         transform: translateY(-30px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
       }
     }
-    
+
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
     }
-    
+
     @keyframes scaleIn {
       from {
         opacity: 0;
         transform: scale(0.9);
       }
+
       to {
         opacity: 1;
         transform: scale(1);
       }
     }
-    
+
     /* ===== TOOL GRID ===== */
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: var(--space-lg) var(--space-md);
     }
-    
+
     .section-title {
       font-family: var(--font-display);
       font-size: clamp(1.8rem, 4vw, 2.5rem);
@@ -213,14 +246,14 @@
       margin-bottom: var(--space-md);
       text-align: center;
     }
-    
+
     .tool-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: var(--space-md);
       margin-bottom: var(--space-xl);
     }
-    
+
     .tool-card {
       background: white;
       border-radius: var(--radius-lg);
@@ -235,17 +268,40 @@
       overflow: hidden;
       animation: scaleIn 0.5s ease-out both;
     }
-    
+
     /* Stagger animation delays */
-    .tool-card:nth-child(1) { animation-delay: 0.1s; }
-    .tool-card:nth-child(2) { animation-delay: 0.15s; }
-    .tool-card:nth-child(3) { animation-delay: 0.2s; }
-    .tool-card:nth-child(4) { animation-delay: 0.25s; }
-    .tool-card:nth-child(5) { animation-delay: 0.3s; }
-    .tool-card:nth-child(6) { animation-delay: 0.35s; }
-    .tool-card:nth-child(7) { animation-delay: 0.4s; }
-    .tool-card:nth-child(8) { animation-delay: 0.45s; }
-    
+    .tool-card:nth-child(1) {
+      animation-delay: 0.1s;
+    }
+
+    .tool-card:nth-child(2) {
+      animation-delay: 0.15s;
+    }
+
+    .tool-card:nth-child(3) {
+      animation-delay: 0.2s;
+    }
+
+    .tool-card:nth-child(4) {
+      animation-delay: 0.25s;
+    }
+
+    .tool-card:nth-child(5) {
+      animation-delay: 0.3s;
+    }
+
+    .tool-card:nth-child(6) {
+      animation-delay: 0.35s;
+    }
+
+    .tool-card:nth-child(7) {
+      animation-delay: 0.4s;
+    }
+
+    .tool-card:nth-child(8) {
+      animation-delay: 0.45s;
+    }
+
     .tool-card::before {
       content: '';
       position: absolute;
@@ -253,25 +309,25 @@
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
       transition: left 0.5s;
     }
-    
+
     .tool-card:hover::before {
       left: 100%;
     }
-    
+
     .tool-card:hover {
       transform: translateY(-8px);
       box-shadow: var(--shadow-lg);
     }
-    
+
     .tool-icon {
       font-size: 3rem;
       margin-bottom: var(--space-sm);
       display: block;
     }
-    
+
     .tool-title {
       font-family: var(--font-display);
       font-size: 1.5rem;
@@ -279,14 +335,14 @@
       margin-bottom: var(--space-xs);
       color: var(--color-dark);
     }
-    
+
     .tool-description {
       font-size: 0.95rem;
       color: var(--color-dark);
       opacity: 0.7;
       line-height: 1.5;
     }
-    
+
     .tool-badge {
       display: inline-block;
       padding: 4px 12px;
@@ -299,10 +355,17 @@
       letter-spacing: 0.5px;
       margin-top: var(--space-xs);
     }
-    
-    .tool-badge.new { background: var(--color-success); color: white; }
-    .tool-badge.hot { background: var(--color-primary); color: white; }
-    
+
+    .tool-badge.new {
+      background: var(--color-success);
+      color: white;
+    }
+
+    .tool-badge.hot {
+      background: var(--color-primary);
+      color: white;
+    }
+
     /* ===== RANDOM AFFILIATE BUTTON ===== */
     .random-affiliate {
       text-align: center;
@@ -312,19 +375,19 @@
       border-radius: var(--radius-lg);
       color: white;
     }
-    
+
     .random-affiliate h2 {
       font-family: var(--font-display);
       font-size: 2rem;
       margin-bottom: var(--space-sm);
     }
-    
+
     .random-affiliate p {
       font-size: 1.1rem;
       opacity: 0.9;
       margin-bottom: var(--space-md);
     }
-    
+
     .random-btn {
       display: inline-block;
       padding: var(--space-md) var(--space-lg);
@@ -339,12 +402,12 @@
       box-shadow: var(--shadow-md);
       transition: all var(--transition-base);
     }
-    
+
     .random-btn:hover {
       transform: scale(1.05);
       box-shadow: var(--shadow-lg);
     }
-    
+
     /* ===== FOOTER ===== */
     .footer {
       background: var(--color-dark);
@@ -353,55 +416,55 @@
       text-align: center;
       margin-top: var(--space-xl);
     }
-    
+
     .footer p {
       opacity: 0.7;
       font-size: 0.9rem;
       line-height: 1.8;
     }
-    
+
     .footer a {
       color: var(--color-accent);
       text-decoration: none;
       transition: opacity var(--transition-fast);
     }
-    
+
     .footer a:hover {
       opacity: 0.8;
       text-decoration: underline;
     }
-    
+
     .disclaimer {
       margin-top: var(--space-md);
       padding-top: var(--space-md);
-      border-top: 1px solid rgba(255,255,255,0.1);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
       font-size: 0.8rem;
       opacity: 0.5;
       font-style: italic;
     }
-    
+
     /* ===== RESPONSIVE DESIGN ===== */
     @media (max-width: 768px) {
       .tool-grid {
         grid-template-columns: 1fr;
         gap: var(--space-sm);
       }
-      
+
       .container {
         padding: var(--space-md) var(--space-sm);
       }
-      
+
       .header {
         padding: var(--space-md) var(--space-sm);
       }
     }
-    
+
     /* ===== ACCESSIBILITY ===== */
     .tool-card:focus {
       outline: 3px solid var(--color-primary);
       outline-offset: 2px;
     }
-    
+
     @media (prefers-reduced-motion: reduce) {
       * {
         animation-duration: 0.01ms !important;
@@ -410,267 +473,277 @@
       }
     }
   </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2447566926634537"
+    crossorigin="anonymous"></script>
 </head>
+
 <body>
   <!-- Animated Background Effect -->
   <div class="background-effect"></div>
-  
+
   <!-- Header -->
   <header class="header">
     <h1 class="logo">DONTWORK.WORK</h1>
     <p class="tagline">Your boss can't see this tab</p>
     <p class="cta-subtitle">Professional procrastination tools since 2026</p>
   </header>
-  
+
   <!-- Main Content -->
   <main class="container">
-    
+
     <!-- Games Section -->
     <section>
       <h2 class="section-title">🎮 Games</h2>
       <div class="tool-grid">
-        
+
         <a href="/bubble-wrap-popper.html" class="tool-card">
           <span class="tool-icon">🫧</span>
           <h3 class="tool-title">Bubble Wrap Popper</h3>
           <p class="tool-description">Pop infinite virtual bubbles. Oddly satisfying. Therapy not included.</p>
         </a>
-        
+
         <a href="/waiting-game.html" class="tool-card">
           <span class="tool-icon">⏳</span>
           <h3 class="tool-title">The Waiting Game</h3>
           <p class="tool-description">Do absolutely nothing. Achieve zen. Become enlightened through waiting.</p>
         </a>
-        
+
         <a href="/vent-typer.html" class="tool-card">
           <span class="tool-icon">😤</span>
           <h3 class="tool-title">Vent Typer</h3>
           <p class="tool-description">Type your rage. Watch it explode. Cheaper than actual therapy.</p>
           <span class="tool-badge hot">Hot</span>
         </a>
-        
+
         <a href="/staple-everything.html" class="tool-card">
           <span class="tool-icon">📎</span>
           <h3 class="tool-title">Staple Everything</h3>
           <p class="tool-description">Staple things that don't need stapling. Office anarchy at its finest.</p>
         </a>
-        
+
         <a href="/infinite-scroll.html" class="tool-card">
           <span class="tool-icon">∞</span>
           <h3 class="tool-title">Infinite Scroll</h3>
           <p class="tool-description">Scroll forever. Reach impossible milestones. Hypnotic procrastination.</p>
           <span class="tool-badge hot">Hot</span>
         </a>
-        
+
         <a href="/paper-shredder.html" class="tool-card">
           <span class="tool-icon">🗄️</span>
           <h3 class="tool-title">Paper Shredder</h3>
           <p class="tool-description">Destroy evidence. I mean... organize files. Satisfying shredding sounds.</p>
         </a>
-        
+
         <a href="/keyboard-smasher.html" class="tool-card">
           <span class="tool-icon">⌨️</span>
           <h3 class="tool-title">Keyboard Smasher</h3>
           <p class="tool-description">Release your rage. Type angry gibberish. Auto-deletes in 10 seconds.</p>
           <span class="tool-badge hot">Hot</span>
         </a>
-        
+
         <a href="/coffee-simulator.html" class="tool-card">
           <span class="tool-icon">☕</span>
           <h3 class="tool-title">Coffee Simulator</h3>
           <p class="tool-description">Drink virtual coffee until you get the jitters. Sleep is for the weak.</p>
         </a>
-        
+
         <a href="/meeting-timer.html" class="tool-card">
           <span class="tool-icon">⏱️</span>
           <h3 class="tool-title">Meeting Timer</h3>
           <p class="tool-description">Track meeting time. This could have been an email. Includes buzzword bingo!</p>
         </a>
-        
+
         <a href="/pen-clicker.html" class="tool-card">
           <span class="tool-icon">🖊️</span>
           <h3 class="tool-title">Pen Clicker</h3>
           <p class="tool-description">Click pen endlessly. Annoy coworkers. Track your clicks per second.</p>
           <span class="tool-badge hot">Hot</span>
         </a>
-        
+
         <a href="/email-reply-generator.html" class="tool-card">
           <span class="tool-icon">📧</span>
           <h3 class="tool-title">Email Reply Generator</h3>
-          <p class="tool-description">Professional email templates. From enthusiastic to passive-aggressive in one click.</p>
+          <p class="tool-description">Professional email templates. From enthusiastic to passive-aggressive in one
+            click.</p>
           <span class="tool-badge new">New</span>
         </a>
-        
+
         <a href="/desktop-organizer.html" class="tool-card">
           <span class="tool-icon">🖥️</span>
           <h3 class="tool-title">Desktop Icon Organizer</h3>
           <p class="tool-description">Drag and drop icons into perfect order. Oddly satisfying digital cleanup.</p>
           <span class="tool-badge new">New</span>
         </a>
-        
+
         <a href="/printer-jam.html" class="tool-card">
           <span class="tool-icon">🖨️</span>
           <h3 class="tool-title">Printer Jam Simulator</h3>
           <p class="tool-description">PC LOAD LETTER. All the printer frustration, none of the consequences.</p>
           <span class="tool-badge new">New</span>
         </a>
-        
+
         <a href="/excel-highlighter.html" class="tool-card">
           <span class="tool-icon">📊</span>
           <h3 class="tool-title">Excel Cell Highlighter</h3>
-          <p class="tool-description">Color spreadsheet cells. Rainbow fill. Pure satisfaction for spreadsheet lovers.</p>
+          <p class="tool-description">Color spreadsheet cells. Rainbow fill. Pure satisfaction for spreadsheet lovers.
+          </p>
           <span class="tool-badge new">New</span>
         </a>
-        
+
         <a href="/thumbs-up-giver.html" class="tool-card">
           <span class="tool-icon">👍</span>
           <h3 class="tool-title">Thumbs Up Giver</h3>
-          <p class="tool-description">React to everything with varying enthusiasm. Master passive-aggressive approval.</p>
+          <p class="tool-description">React to everything with varying enthusiasm. Master passive-aggressive approval.
+          </p>
           <span class="tool-badge new">New</span>
         </a>
-        
+
         <a href="/linkedin-generator.html" class="tool-card">
           <span class="tool-icon">💼</span>
           <h3 class="tool-title">LinkedIn Humble Brag Generator</h3>
           <p class="tool-description">Generate cringeworthy LinkedIn posts. Humbled and honored to announce...</p>
           <span class="tool-badge new">New</span>
         </a>
-        
+
         <a href="/buzzword-bingo.html" class="tool-card">
           <span class="tool-icon">📊</span>
           <h3 class="tool-title">Corporate Buzzword Bingo</h3>
           <p class="tool-description">Synergy! Circle back! Get BINGO during meetings!</p>
           <span class="tool-badge new">New</span>
         </a>
-        
+
         <a href="/email-translator.html" class="tool-card">
           <span class="tool-icon">💬</span>
           <h3 class="tool-title">Email Translator</h3>
           <p class="tool-description">Per my last email = CAN'T YOU READ?! Decode corporate speak!</p>
           <span class="tool-badge new">New</span>
         </a>
-        
+
         <a href="/meeting-calculator.html" class="tool-card">
           <span class="tool-icon">💰</span>
           <h3 class="tool-title">Meeting Cost Calculator</h3>
           <p class="tool-description">This 30-minute meeting cost $1,247 in salaries!</p>
           <span class="tool-badge new">New</span>
         </a>
-        
+
         <a href="/ooo-generator.html" class="tool-card">
           <span class="tool-icon">🏖️</span>
           <h3 class="tool-title">Out of Office Generator</h3>
           <p class="tool-description">From professional to brutally honest vacation messages!</p>
           <span class="tool-badge new">New</span>
         </a>
-        
-        <a href="/games/games.html" class="tool-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+
+        <a href="/games/games.html" class="tool-card"
+          style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
           <span class="tool-icon">🎯</span>
           <h3 class="tool-title" style="color: white;">View All Games</h3>
-          <p class="tool-description" style="color: rgba(255,255,255,0.9);">Browse the complete game directory. Updated bi-weekly with new games!</p>
+          <p class="tool-description" style="color: rgba(255,255,255,0.9);">Browse the complete game directory. Updated
+            bi-weekly with new games!</p>
         </a>
-        
+
       </div>
     </section>
-    
+
     <!-- Decision Makers Section -->
     <section>
       <h2 class="section-title">🎲 Decision Makers</h2>
       <div class="tool-grid">
-        
+
         <a href="/tools/should-i.html" class="tool-card">
           <span class="tool-icon">🤔</span>
           <h3 class="tool-title">Should I?</h3>
           <p class="tool-description">Magic 8-Ball for life decisions. "Should I text my ex?" Probably not.</p>
           <span class="tool-badge new">New</span>
         </a>
-        
+
         <a href="/tools/what-to-eat.html" class="tool-card">
           <span class="tool-icon">🍔</span>
           <h3 class="tool-title">What Should I Eat?</h3>
           <p class="tool-description">Random lunch suggestions. 80% of the time: "Nothing, you're just bored."</p>
           <span class="tool-badge new">New</span>
         </a>
-        
+
         <a href="/tools/am-i-drunk.html" class="tool-card">
           <span class="tool-icon">🍺</span>
           <h3 class="tool-title">Am I Drunk?</h3>
           <p class="tool-description">Tap speed + reaction time test. Totally scientific. Definitely not.</p>
           <span class="tool-badge new">New</span>
         </a>
-        
+
         <a href="/tools/call-in-sick.html" class="tool-card">
           <span class="tool-icon">🤥</span>
           <h3 class="tool-title">Call In Sick</h3>
           <p class="tool-description">Random excuses with believability ratings. "Attacked by geese" scores 12%.</p>
           <span class="tool-badge hot">Hot</span>
         </a>
-        
+
         <a href="/tools/life-dice.html" class="tool-card">
           <span class="tool-icon">🎲</span>
           <h3 class="tool-title">Life Decision Dice</h3>
           <p class="tool-description">Major decisions via dice roll. When logic fails, roll the dice.</p>
           <span class="tool-badge new">New</span>
         </a>
-        
+
         <a href="/tools/career-oracle.html" class="tool-card">
           <span class="tool-icon">🔮</span>
           <h3 class="tool-title">Career Path Oracle</h3>
           <p class="tool-description">Absurd career suggestions. "Professional Dog Walker" actually sounds great.</p>
           <span class="tool-badge new">New</span>
         </a>
-        
+
         <a href="/tools/should-i-buy.html" class="tool-card">
           <span class="tool-icon">💸</span>
           <h3 class="tool-title">Should I Buy This?</h3>
           <p class="tool-description">Purchase enabler. Always says yes. Your wallet will hate us.</p>
           <span class="tool-badge hot">Hot</span>
         </a>
-        
+
         <a href="/tools/too-early-late.html" class="tool-card">
           <span class="tool-icon">⏰</span>
           <h3 class="tool-title">Is It Too Early/Late?</h3>
           <p class="tool-description">Judging your timing since 2026. "Too early to drink?" Depends on your job.</p>
           <span class="tool-badge new">New</span>
         </a>
-        
+
         <a href="/tools/whose-fault.html" class="tool-card">
           <span class="tool-icon">🎯</span>
           <h3 class="tool-title">Whose Fault Is This?</h3>
           <p class="tool-description">Professional blame shifting. Spoiler: Usually Mercury retrograde.</p>
           <span class="tool-badge new">New</span>
         </a>
-        
+
         <a href="/tools/go-to-work.html" class="tool-card">
           <span class="tool-icon">📅</span>
           <h3 class="tool-title">Should I Go to Work?</h3>
           <p class="tool-description">Finding reasons not to since 2026. Answer is usually no.</p>
           <span class="tool-badge hot">Hot</span>
         </a>
-        
+
         <a href="/tools/need-this.html" class="tool-card">
           <span class="tool-icon">🤷</span>
           <h3 class="tool-title">Do I Need This?</h3>
           <p class="tool-description">Contrarian advisor. Wrong on purpose. Sometimes accidentally right.</p>
           <span class="tool-badge new">New</span>
         </a>
-        
+
         <a href="/tools/life-coach.html" class="tool-card">
           <span class="tool-icon">🎪</span>
           <h3 class="tool-title">Random Life Coach</h3>
           <p class="tool-description">Terrible advice delivered confidently. Confidence over competence.</p>
           <span class="tool-badge new">New</span>
         </a>
-        
-        <a href="/tools/decisions.html" class="tool-card" style="background: linear-gradient(135deg, #FF6B35 0%, #F7C548 100%); color: white;">
+
+        <a href="/tools/decisions.html" class="tool-card"
+          style="background: linear-gradient(135deg, #FF6B35 0%, #F7C548 100%); color: white;">
           <span class="tool-icon">🎯</span>
           <h3 class="tool-title" style="color: white;">View All Decision Makers</h3>
-          <p class="tool-description" style="color: rgba(255,255,255,0.9);">Browse all 12 decision makers. Make terrible choices efficiently!</p>
+          <p class="tool-description" style="color: rgba(255,255,255,0.9);">Browse all 12 decision makers. Make terrible
+            choices efficiently!</p>
         </a>
-        
+
       </div>
     </section>
-    
+
     <!-- Random Affiliate Button -->
     <div class="random-affiliate">
       <h2>You Probably Need This</h2>
@@ -679,9 +752,9 @@
         Show Me Random Products 🎁
       </button>
     </div>
-    
+
   </main>
-  
+
   <!-- Footer -->
   <footer class="footer">
     <p>
@@ -692,15 +765,15 @@
     <p class="disclaimer">
       "DontWork.work" and all associated content © 2026. All rights reserved.<br>
       We earn from qualifying purchases when you buy stuff you definitely didn't need.<br>
-      <a href="/privacy.html">Privacy Policy</a> | 
-      <a href="/terms.html">Terms of Service</a> | 
+      <a href="/privacy.html">Privacy Policy</a> |
+      <a href="/terms.html">Terms of Service</a> |
       <a href="/contact.html">Contact Us</a>
     </p>
   </footer>
-  
+
   <!-- Panic Button Script (Loaded on every page) -->
   <script src="/js/panic-button.js"></script>
-  
+
   <!-- Random Affiliate Logic -->
   <script>
     // Temporary: Link to shop coming soon page until categories are built
@@ -708,9 +781,10 @@
       window.location.href = '/shop/shop.html';
     }
   </script>
-  
+
   <!-- Analytics (Privacy-friendly) - Replace with your Plausible/Simple Analytics code -->
   <!-- <script defer data-domain="dontwork.work" src="https://plausible.io/js/script.js"></script> -->
-  
+
 </body>
+
 </html>
